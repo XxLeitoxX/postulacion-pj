@@ -19,14 +19,14 @@
                 <h2> <strong>Continuar </strong>Proceso <br>de solicitud</h2>
                 <p>Tengo un proceso iniciado y me gustaría retomarlo o quiero ver el estado de mi postulación</p>
                 <form action="#" id="loginform">
-                  <div class="input" :class="[isActive]">
+                  <div class="input" :class="$store.state.active">
                     <label>RUT DE LA EMPRESA</label>
-                    <input type="text" name="loginrut" @focus="inputFocus()" @blur="inputBlur()" v-model="rut">
+                    <input type="text" name="loginrut" @focus="$store.commit('focus')" @blur="$store.commit('blur')" v-model="rut">
                     <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
                   </div>
-                  <div class="input" :class="[isActive]">
+                  <div class="input" :class="$store.state.activeRequest">
                     <label>NÚMERO DE SOLICITUD</label>
-                    <input type="text" name="loginsolicitud" @focus="inputFocus()" @blur="inputBlur()" v-model="numeroSolicitud"><span aria-label="Este número fue enviado al correo electrónico de la persona que inició el proceso" data-microtip-position="right" role="tooltip">?</span>
+                    <input type="text" name="loginsolicitud" @focus="$store.commit('focusRequest')" @blur="$store.commit('blurRequest')" v-model="numeroSolicitud"><span aria-label="Este número fue enviado al correo electrónico de la persona que inició el proceso" data-microtip-position="right" role="tooltip">?</span>
                   </div>
                   <button class="btn-blue" id="loginSubmit">Continuar proceso<i class="fa fa-angle-right"></i></button>
                 </form><router-link to="/recovery-form" class="recovery">Recuperar código de seguimiento</router-link>
@@ -44,6 +44,7 @@ export default {
   data () {
     return {
       isActive: '',
+      isActiveSolicitud: '',
       rut: '',
       numeroSolicitud: ''
     }
@@ -58,6 +59,16 @@ export default {
     inputBlur() {
 
       this.isActive = '';
+    },
+
+    inputFocusTest() {
+      
+      this.isActiveSolicitud = 'active';
+    },
+
+    inputBlurTest() {
+
+      this.isActiveSolicitud = '';
     },
     
 

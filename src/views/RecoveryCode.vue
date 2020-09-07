@@ -10,9 +10,9 @@
                   <h2>RECUPERAR CÓDIGO DE SEGUIMIENTO</h2>
                   <p>Ingrese el RUT de la empresa registrada en el sistema para obtener el codigo de seguimiento asociado.</p>
                   <form action="#" id="loginform">
-                    <div class="input">
+                    <div class="input" :class="$store.state.activeRecovery">
                       <label>RUT DE LA EMPRESA</label>
-                      <input type="text" name="loginrut">
+                      <input type="text" name="loginrut" @focus="$store.commit('focusRecovery')" @blur="$store.commit('blurRecovery')">
                       <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
                     </div>
                     <button class="btn-red" id="loginSubmit">SOLICITAR CÓDIGO<i class="fa fa-angle-right"></i></button>
