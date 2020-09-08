@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
   	active: '',
   	activeRequest: '',
-  	activeRecovery: ''
+	activeRecovery: '',
+	  
   },
   mutations: {
   	focus(state) {
@@ -36,11 +37,14 @@ export default new Vuex.Store({
   	blurRecovery(state) {
   		state.activeRecovery = ''
   	},
-
+	
 
   },
   actions: {
   },
   modules: {
+
   }
+
+  
 })
