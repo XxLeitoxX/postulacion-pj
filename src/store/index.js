@@ -11,31 +11,15 @@ export default new Vuex.Store({
 	  
   },
   mutations: {
-  	focus(state) {
-  		state.active = 'active'
-  		//console.log("test");
+  	focus(state, refs) {
+  		refs.className = "input active"
+  		console.log(refs);
   	},
 
-  	blur(state) {
-  		state.active = ''
-  	},
-
-  	focusRequest(state) {
-  		state.activeRequest = 'active'
-  		//console.log("test");
-  	},
-
-  	blurRequest(state) {
-  		state.activeRequest = ''
-  	},
-
-  	focusRecovery(state) {
-  		state.activeRecovery = 'active'
-  		//console.log("test");
-  	},
-
-  	blurRecovery(state) {
-  		state.activeRecovery = ''
+  	blur(state, refs) {
+  		refs.className = "input"
+  		console.log(refs);
+  		//state.active = ''
   	},
 	
 
