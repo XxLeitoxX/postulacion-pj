@@ -8,25 +8,25 @@
             <div class="col-md-6 col-lg-5 offset-lg-2">
               <h2>DATOS BÁSICOS DE LA SOLICITUD</h2>
               <form action="#" id="step02">
-                <div class="input">
+                <div class="input" ref="datos_basicos">
                   <label>RUT de la empresa</label>
-                  <input type="text" name="rutst02" v-model="rut" @keyup="validation()" />
+                  <input type="text" name="rutst02" @focus="$store.commit('focus', $refs.datos_basicos)" @blur="$store.commit('blur', $refs.datos_basicos)" v-model="rut" @keyup="validation()" />
                   <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                   <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
                 </div>
-                <div class="input">
+                <div class="input" ref="email">
                   <label>Correo electrónico</label>
-                  <input type="text" name="emailst02" v-model="email" @keyup="validation()" />
+                  <input type="text" name="emailst02" @focus="$store.commit('focus', $refs.email)" @blur="$store.commit('blur', $refs.email)" v-model="email" @keyup="validation()" />
                   <div id="email2st02-error" class="formerror" v-if="!emailIsValid">Ingrese un email válido</div>
                 </div>
-                <div class="input">
+                <div class="input" ref="email_confirmation">
                   <label>Confirme su correo electrónico</label>
-                  <input type="text" name="email2st02" v-model="emailConfirm" @keyup="validation()" />
+                  <input type="text" name="email2st02" @focus="$store.commit('focus', $refs.email_confirmation)" @blur="$store.commit('blur', $refs.email_confirmation)" v-model="emailConfirm" @keyup="validation()" />
                   <div id="email2st02-error" class="formerror" v-if="!emailConfirmIsValid">Ingrese un email válido</div>
                 </div>
-                <div class="input">
+                <div class="input" ref="phone_number">
                   <label>Teléfono</label>
-                  <input type="text" name="phonest02" v-model="tel" @keyup="validation()" />
+                  <input type="text" name="phonest02" @focus="$store.commit('focus', $refs.phone_number)" @blur="$store.commit('blur', $refs.phone_number)" v-model="tel" @keyup="validation()" />
                   <div id="phonest02-error" class="formerror" v-if="!telIsValid">Ingrese un número válido</div>
                 </div>
                 <div class="input">
