@@ -8,6 +8,7 @@ export default new Vuex.Store({
   	active: '',
   	activeRequest: '',
 	activeRecovery: '',
+	camaras: []
 	  
   },
   mutations: {
@@ -38,9 +39,20 @@ export default new Vuex.Store({
   		state.activeRecovery = ''
   	},
 	
+	loadCamaras(state, camarasAction) {
+		state.camaras = camarasAction
+	}
 
   },
+
   actions: {
+
+	  getCamaras: async function({commit}) {
+		const data = await fetch('https://listarcamaras.free.beeceptor.com/listarCamaras');
+		const camaras = await data.json();
+		commit('loadCamaras', camaras);
+	  }
+
   },
   modules: {
 
