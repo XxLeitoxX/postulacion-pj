@@ -10,33 +10,89 @@
               <form action="#" id="step02">
                 <div class="input" ref="datos_basicos">
                   <label>RUT de la empresa</label>
-                  <input type="text" name="rutst02" @focus="$store.commit('focus', $refs.datos_basicos)" @blur="$store.commit('blur', $refs.datos_basicos)" v-model="rut" @keyup="validation()" />
+                  <input
+                    type="text"
+                    name="rutst02"
+                    @focus="$store.commit('focus', $refs.datos_basicos)"
+                    @blur="$store.commit('blur', $refs.datos_basicos)"
+                    v-model="rut"
+                    @keyup="validation()"
+                  />
                   <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                   <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
                 </div>
                 <div class="input" ref="email">
                   <label>Correo electrónico</label>
-                  <input type="text" name="emailst02" @focus="$store.commit('focus', $refs.email)" @blur="$store.commit('blur', $refs.email)" v-model="email" @keyup="validation()" />
-                  <div id="email2st02-error" class="formerror" v-if="!emailIsValid">Ingrese un email válido</div>
+                  <input
+                    type="text"
+                    name="emailst02"
+                    @focus="$store.commit('focus', $refs.email)"
+                    @blur="$store.commit('blur', $refs.email)"
+                    v-model="email"
+                    @keyup="validation()"
+                  />
+                  <div
+                    id="email2st02-error"
+                    class="formerror"
+                    v-if="!emailIsValid"
+                  >Ingrese un email válido</div>
                 </div>
                 <div class="input" ref="email_confirmation">
                   <label>Confirme su correo electrónico</label>
-                  <input type="text" name="email2st02" @focus="$store.commit('focus', $refs.email_confirmation)" @blur="$store.commit('blur', $refs.email_confirmation)" v-model="emailConfirm" @keyup="validation()" />
-                  <div id="email2st02-error" class="formerror" v-if="!emailConfirmIsValid">Ingrese un email válido</div>
-                  <div id="email2st02-error" class="formerror" v-if="!emailEquals">El email debe ser igual</div>
+                  <input
+                    type="text"
+                    name="email2st02"
+                    @focus="$store.commit('focus', $refs.email_confirmation)"
+                    @blur="$store.commit('blur', $refs.email_confirmation)"
+                    v-model="emailConfirm"
+                    @keyup="validation()"
+                  />
+                  <div
+                    id="email2st02-error"
+                    class="formerror"
+                    v-if="!emailConfirmIsValid"
+                  >Ingrese un email válido</div>
+                  <div
+                    id="email2st02-error"
+                    class="formerror"
+                    v-if="!emailEquals"
+                  >El email debe ser igual</div>
                 </div>
                 <div class="input" ref="phone_number">
                   <label>Teléfono</label>
-                  <input type="text" name="phonest02" @focus="$store.commit('focus', $refs.phone_number)" @blur="$store.commit('blur', $refs.phone_number)" v-model="tel" @keyup="validation()" />
-                  <div id="phonest02-error" class="formerror" v-if="!telIsValid">Ingrese un número válido</div>
+                  <input
+                    type="text"
+                    name="phonest02"
+                    @focus="$store.commit('focus', $refs.phone_number)"
+                    @blur="$store.commit('blur', $refs.phone_number)"
+                    v-model="tel"
+                    @keyup="validation()"
+                  />
+                  <div
+                    id="phonest02-error"
+                    class="formerror"
+                    v-if="!telIsValid"
+                  >Ingrese un número válido</div>
                 </div>
                 <div class="input">
                   <div class="input-select">
-                    <select name="camararegional01_st02" v-model="camaraSelect"  @change="onChangeCamara">
-                      <option value="">Cámara Regional a la que postula</option>
-                      <option v-for="(camara, key) in camaras" :value="camara.camRegId" :key="key">{{ camara.camRegGls }}</option>
+                    <select
+                      name="camararegional01_st02"
+                      v-model="camaraSelect"
+                      @change="onChangeCamara"
+                    >
+                      <option value>Cámara Regional a la que postula</option>
+                      <option
+                        v-for="(camara, key) in camaras"
+                        :value="camara.camRegId"
+                        :key="key"
+                      >{{ camara.camRegGls }}</option>
                     </select>
-                    <div id="camararegional01_st02-error" class="formerror" v-if="!camaraIsValid">Ingrese una opcion válida</div>
+                    <div
+                      id="camararegional01_st02-error"
+                      class="formerror"
+                      v-if="!camaraIsValid"
+                    >Ingrese una opcion válida</div>
                   </div>
                   <span
                     aria-label="Tenemos presencia en todo Chile a través de 18 cámaras regionales"
@@ -50,13 +106,21 @@
                 >Indique la naturaleza de la institución o persona que postula para ser socio de la Cámara Chilena de la Construcción</P>
                 <div class="input">
                   <div class="input-select">
-                    <select name="camararegional_st02" v-model="tipSelect" @change="onChangeTipoPostulacion">
-                      <option value="">Tipo de postulación</option>
+                    <select
+                      name="camararegional_st02"
+                      v-model="tipSelect"
+                      @change="onChangeTipoPostulacion"
+                    >
+                      <option value>Tipo de postulación</option>
                       <option value="1">Persona Jurídca</option>
                       <option value="2">Persona Natural</option>
                       <option value="3">Empresario Individual</option>
                     </select>
-                    <div id="camararegional01_st02-error" class="formerror" v-if="!tipoSocIsValid">Ingrese una opcion válida</div>
+                    <div
+                      id="camararegional01_st02-error"
+                      class="formerror"
+                      v-if="!tipoSocIsValid"
+                    >Ingrese una opcion válida</div>
                   </div>
                 </div>
                 <div class="input hidden">
@@ -70,11 +134,17 @@
                   class="btn-red small u-mt60"
                   id="submitStep02"
                   type="button"
-                  @click="checkForm()"
+                  @click="sendSolicitudPostulacion()"
                 >
                   ENVIAR
                   <i class="fa fa-angle-right"></i>
                 </button>
+
+                <!--<button
+                  type="button"
+                  class="btn-red small u-mt60"
+                  @click="generateNumSolicitud(1,5)"
+                >numero solicitud</button> -->
               </form>
             </div>
             <div class="col-md-4 col-lg-3 offset-lg-1">
@@ -153,10 +223,14 @@
 </template>
 
 <script>
-
 import Cabecera from "./../components/Cabecera.vue";
-import { validaRut, telValidate, emailValidate } from "./../validation/validation";
-import { mapState, mapActions } from 'vuex';
+import {
+  validaRut,
+  telValidate,
+  emailValidate,
+} from "./../validation/validation";
+import { mapState, mapActions } from "vuex";
+import VueRouter from "vue-router";
 
 export default {
   name: "DatosBasicos",
@@ -178,126 +252,157 @@ export default {
       emailEquals: true,
       camaraIsValid: true,
       tipoSocIsValid: true,
-      arreglo: [],
       numSolicitud: 0,
       formIsValid: false,
-      focused: false
+      focused: false,
+      solicitudPostulacion: [{}],
+      urlBase: this.$store.state.URL,
+      urlMail: ''
     };
   },
   methods: {
-    
-    campos() {
-      console.log("aqui van los campos");
-      this.arreglo.push(
-        this.rut,
-        this.email,
-        this.emailConfirm,
-        this.tel,
-        this.camaraSelect,
-        this.tipSelect
-      );
-      console.log(this.arreglo);
-    },
-
     validation() {
       if (this.rut !== "") {
         validaRut(this.rut)
           ? (this.rutIsValid = true)
-          : (this.rutIsValid = false);
+          : ((this.rutIsValid = false), (this.formIsValid = false));
       }
 
       if (this.tel !== "") {
         telValidate(this.tel)
           ? (this.telIsValid = true)
-          : (this.telIsValid = false);
+          : ((this.telIsValid = false), (this.formIsValid = false));
       }
 
       if (this.email !== "") {
         emailValidate(this.email)
           ? (this.emailIsValid = true)
-          : (this.emailIsValid = false);
+          : ((this.emailIsValid = false), (this.formIsValid = false));
       }
 
       if (this.emailConfirm !== "") {
         emailValidate(this.emailConfirm)
           ? (this.emailConfirmIsValid = true)
-          : (this.emailConfirmIsValid = false);
+          : ((this.emailConfirmIsValid = false), (this.formIsValid = false));
       }
     },
 
     checkForm() {
-
-      if (this.rut == '') {
-          this.rutIsValid = false;
-          this.formIsValid = false;  
-      }
-      
-      if (this.email == '') {
-          this.emailIsValid = false;
-          this.formIsValid = false;  
+      if (this.rut == "") {
+        this.rutIsValid = false;
+        this.formIsValid = false;
       }
 
-      if (this.emailConfirm == '') {
-          this.emailConfirmIsValid = false;
-          this.formIsValid = false;  
+      if (this.email == "") {
+        this.emailIsValid = false;
+        this.formIsValid = false;
+      }
+
+      if (this.emailConfirm == "") {
+        this.emailConfirmIsValid = false;
+        this.formIsValid = false;
       }
 
       if (this.email !== this.emailConfirm) {
-
-          this.emailEquals = false;
-          this.formIsValid = false; 
+        this.emailEquals = false;
+        this.formIsValid = false;
       }
 
-      if (this.tel == '') {
-          this.telIsValid = false;
-          this.formIsValid = false;  
+      if (this.tel == "") {
+        this.telIsValid = false;
+        this.formIsValid = false;
       }
-  
+
       this.onChangeCamara();
       this.onChangeTipoPostulacion();
-
     },
 
     onChangeCamara() {
-      
-      if (this.camaraSelect == '') {
-          this.camaraIsValid = false;
-          this.formIsValid = false;  
+      if (this.camaraSelect == "") {
+        this.camaraIsValid = false;
+        this.formIsValid = false;
       } else {
-          this.camaraIsValid = true;
-          this.formIsValid = true;  
+        this.camaraIsValid = true;
+        this.formIsValid = true;
       }
-
     },
 
     onChangeTipoPostulacion() {
-      
-      if (this.tipSelect == '') {
-          this.tipoSocIsValid = false;
-          this.formIsValid = false;  
+      if (this.tipSelect == "") {
+        this.tipoSocIsValid = false;
+        this.formIsValid = false;
       } else {
-          this.tipoSocIsValid = true;
-          this.formIsValid = true; 
+        this.tipoSocIsValid = true;
+        this.formIsValid = true;
       }
-
     },
 
     generateNumSolicitud(min, max) {
-
-        let numPosibilidades = max - min;
-        let randomNum = Math.random() * (numPosibilidades + 1);
-        randomNum = Math.floor(randomNum);
-        this.numSolicitud = min + randomNum;
-        console.log(this.numSolicitud);
+      let numPosibilidades = max - min;
+      let randomNum = Math.random() * (numPosibilidades + 1);
+      randomNum = Math.floor(randomNum);
+      let ramdomNumSum = min + randomNum;
+      this.numSolicitud = ramdomNumSum;
+      //this.verificateNumSolicitud(ramdomNumSum);
     },
 
+    /*verificateNumSolicitud(num) {
+      while (num !== this.numSolicitud) {
+        this.numSolicitud = num;
+        console.log(this.numSolicitud);
+      }
+    },*/
 
-    ...mapActions(['getCamaras'])
+    sendSolicitudPostulacion() {
+      this.validation();
+      this.checkForm();
 
+      if (this.formIsValid !== false) {
+        this.generateNumSolicitud(1000, 9999);
+        this.generateUrl();
+        this.saveSolicitudPostulacion();
+        this.$router.push({ name: "SendSolicitud" });
+      } else {
+        alert("Coloque datos validos");
+      }
+
+      this.generateUrl();
+    },
+
+    saveSolicitudPostulacion() {
+      this.solicitudPostulacion.push({
+        rut: this.rut,
+        email: this.emailConfirm,
+        tel: this.tel,
+        camara: this.camaraSelect,
+        tipoPos: this.tipSelect,
+        numSolicitud: this.numSolicitud,
+        url: this.urlMail
+      });
+      console.log(this.solicitudPostulacion);
+    },
+    
+    generateUrl() {
+      this.urlMail = `${this.urlBase}/prueba/${this.numSolicitud}`; 
+    },
+    /*
+      generar link
+
+      const ID_LENGTH = 36
+      const START_LETTERS_ASCII = 97 // Use 64 for uppercase
+      const ALPHABET_LENGTH = 26
+
+      const uniqueID = () => [...new Array(ID_LENGTH)]
+      .map(() => String.fromCharCode(START_LETTERS_ASCII + Math.random() * ALPHABET_LENGTH))
+      .join('')
+      uniqueID()
+    */
+
+    ...mapActions(["getCamaras"]),
   },
 
   computed: {
-    ...mapState(['camaras'])
+    ...mapState(["camaras"]),
   },
 
   created: function () {
@@ -305,3 +410,5 @@ export default {
   },
 };
 </script>
+
+

@@ -8,18 +8,19 @@ export default new Vuex.Store({
   	active: '',
   	activeRequest: '',
 	activeRecovery: '',
-	camaras: []
+	camaras: [],
+	URL: 'http://localhost:8080', 
 	  
   },
   mutations: {
   	focus(state, refs) {
   		refs.className = "input active"
-  		console.log(refs);
+  		//console.log(refs);
   	},
 
   	blur(state, refs) {
   		refs.className = "input"
-  		console.log(refs);
+  		//console.log(refs);
   		//state.active = ''
   	},
 	
