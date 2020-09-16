@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import DatosBasicos from '../views/DatosBasicos.vue';
 import RecoveryCode from '../views/RecoveryCode.vue';
+import StepOne from '@/views/steps/StepOne.vue';
 
 Vue.use(VueRouter)
 
@@ -29,7 +30,13 @@ Vue.use(VueRouter)
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
+  {
+    path: '/first-step',
+    name: 'StepOne',
+    //component: StepNumbers
+    component: () => import(/* webpackChunkName: "about" */ '@/component/StepNumbers.vue')
+  },
 ]
 
 const router = new VueRouter({
