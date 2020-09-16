@@ -19,7 +19,7 @@
 
 
 function telValidate(tel) {
-    let isphone = /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/.test(tel);
+	let isphone = /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/.test(tel);
     return isphone;
 }
 

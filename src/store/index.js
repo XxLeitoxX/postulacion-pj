@@ -8,16 +8,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
   	active: '',
-  	rutIsValid: true
+  	activeRequest: '',
+	activeRecovery: '',
+	camaras: [],
+	URL: 'http://localhost:8080', 
+	rutIsValid: true
+
 	  
   },
   mutations: {
   	focus(state, refs) {
   		refs.className = "input active"
   		//console.log(refs);
-  		console.log("test");
-  	},
-
+	},
+	  
   	blur(state, refs) {
   		if (refs[1] == "") {
 
@@ -51,9 +55,20 @@ export default new Vuex.Store({
       }
     },
 	
+	loadCamaras(state, camarasAction) {
+		state.camaras = camarasAction
+	}
 
   },
+
   actions: {
+
+	  getCamaras: async function({commit}) {
+		const data = await fetch('https://listarcamaras.free.beeceptor.com/listarCamaras');
+		const camaras = await data.json();
+		commit('loadCamaras', camaras);
+	  }
+
   },
   modules: {
 
