@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { mapState } from 'vuex'
 import { validaRut, telValidate, emailValidate } from "./../validation/validation";
 
 Vue.use(Vuex)
@@ -11,8 +10,10 @@ export default new Vuex.Store({
   	activeRequest: '',
 	activeRecovery: '',
 	camaras: [],
-	URL: 'http://localhost:8080', 
-	rutIsValid: true
+	URL: 'http://postulacion.isc.cl/', 
+	rutIsValid: true,
+	telIsValid: true,
+	emailGlobal: ''
 
 	  
   },
@@ -35,21 +36,19 @@ export default new Vuex.Store({
   	},
 
   	validation(state, rut, tel, email, emailConfirm) {
-
+		//console.log(rut);
       if (rut !== '') {
-        console.log(rut);
-        console.log(state.rutIsValid);
         validaRut(rut) ? state.rutIsValid = true : state.rutIsValid = false; 
       }
-
-      if (this.tel !== '') {
-        telValidate(this.tel) ? this.telIsValid = true : this.telIsValid = false;
+	  //console.log(tel);
+      if (tel !== '') {
+        telValidate(tel) ? state.telIsValid = true : state.telIsValid = false;
       }
-
+	  //console.log(email);
       if (this.email !== '') {
         emailValidate(this.email) ? this.emailIsValid = true : this.emailIsValid = false;
       }
-
+	  //console.log(emailConfirm);
       if (this.emailConfirm !== '') {
          emailValidate(this.emailConfirm) ? this.emailConfirmIsValid = true : this.emailConfirmIsValid = false;
       }
@@ -57,6 +56,10 @@ export default new Vuex.Store({
 	
 	loadCamaras(state, camarasAction) {
 		state.camaras = camarasAction
+	},
+
+	emailForSendSolicitud(state, email) {
+		state.emailGlobal = email
 	}
 
   },
@@ -64,7 +67,7 @@ export default new Vuex.Store({
   actions: {
 
 	  getCamaras: async function({commit}) {
-		const data = await fetch('https://listarcamaras.free.beeceptor.com/listarCamaras');
+		const data = await fetch('http://postulacion.isc.cl/listarCamaras');
 		const camaras = await data.json();
 		commit('loadCamaras', camaras);
 	  }
