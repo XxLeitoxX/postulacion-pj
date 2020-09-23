@@ -10,7 +10,8 @@ export default new Vuex.Store({
   	activeRequest: '',
 	activeRecovery: '',
 	camaras: [],
-	URL: 'http://postulacion.isc.cl/', 
+	tipoSocs: [],
+	URL: 'http://postulacion.isc.cl', 
 	rutIsValid: true,
 	telIsValid: true,
 	emailGlobal: ''
@@ -58,6 +59,10 @@ export default new Vuex.Store({
 		state.camaras = camarasAction
 	},
 
+	loadTipoSocs(state, tipoSocsAction) {
+		state.tipoSocs = tipoSocsAction
+	},
+
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
 	}
@@ -66,10 +71,16 @@ export default new Vuex.Store({
 
   actions: {
 
-	  getCamaras: async function({commit}) {
-		const data = await fetch('http://postulacion.isc.cl/listarCamaras');
+	  getCamaras: async function({commit, state}) {
+		const data = await fetch(state.URL + '/listarCamaras');
 		const camaras = await data.json();
 		commit('loadCamaras', camaras);
+	  },
+
+	  getTipoSociedad: async function({commit, state}) {
+		const data = await fetch(state.URL + '/listarTipoSoc');
+		const tipoSocs = await data.json();
+		commit('loadTipoSocs', tipoSocs);
 	  }
 
   },

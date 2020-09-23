@@ -130,10 +130,8 @@
                 <div class="input" v-if="showTipSociety">
                   <div class="input-select">
                     <select name="tiposociedad_st02"  v-model="tipSelectSoc">
-                      <option value="#">Tipo de sociedad</option>
-                      <option value="1">Colectivas Comerciales</option>
-                      <option value="2">En Comandita</option>
-                      <option value="3">Responsabilidad Limitada</option>
+                      <option value>Tipo de sociedad</option>
+                      <option v-for="(tipo, key) in tipoSocs" :value="tipo.siglas" :key="key">{{ tipo.descripcion }}</option>
                     </select>
                     <div
                       id="camararegional01_st02-error"
@@ -317,13 +315,13 @@ export default {
         this.formIsValid = false;
       }
 
-     /* if (this.camaraSelect == "") {
+      if (this.camaraSelect == "") {
         this.camaraIsValid = false;
         this.formIsValid = false;
       } else if (this.rutIsValid && this.telIsValid && this.emailIsValid && this.emailConfirmIsValid) {
         this.camaraIsValid = true;
         this.formIsValid = true;
-      }*/
+      }
 
       if (this.tipSelect == "") {
         this.tipoSolIsValid = false;
@@ -406,7 +404,7 @@ export default {
 
       console.log(data);
 
-      axios.post('https://jsonplaceholder.typicode.com/todos/', data).then((response) => {
+      axios.post(this.urlBase+'/solicitudDePostulacion', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
@@ -418,18 +416,19 @@ export default {
       this.urlMail = `${this.urlBase}/prueba/${this.numSolicitud}`; 
     },
 
-    ...mapActions(['getCamaras']),
+    ...mapActions(['getCamaras', 'getTipoSociedad']),
     ...mapMutations(['focus', 'blur', 'emailForSendSolicitud'])
     //...mapMutations(['focus', 'blur', 'validation'])
   },
 
   computed: {
     //...mapState(["camaras", "rutIsValid", 'telIsValid', 'emailGlobal']),
-    ...mapState(['camaras']),
+    ...mapState(['camaras', 'tipoSocs']),
   },
 
   created: function () {
     this.getCamaras();
+    this.getTipoSociedad();
     
   },
 };
