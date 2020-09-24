@@ -12,7 +12,7 @@ export default new Vuex.Store({
 	camaras: [],
 	tipoSocs: [],
 	URL: 'http://postulacion.isc.cl',
-	URLEmail: 'http://postulacionweb.isc.cl/', 
+	URLEmail: 'http://postulacionweb.isc.cl', 
 	rutIsValid: true,
 	telIsValid: true,
 	emailGlobal: ''

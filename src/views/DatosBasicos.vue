@@ -271,7 +271,7 @@ export default {
       focused: false,
       solicitudPostulacion: [{}],
       urlBase: this.$store.state.URL,
-      urlBaseMail: this.$store.state.URLMail,
+      urlBaseMail: this.$store.state.URLEmail,
       urlMail: '',
       showTipSociety: false
     };
@@ -400,7 +400,6 @@ export default {
     sendSolicitudPostulacion() {
       this.validation();
       if (this.validation() !== false) {
-        //this.generateNumSolicitud(1000, 9999);
         this.generateUrl();
         this.saveSolicitudPostulacion();
         this.postPostulacion();
@@ -409,7 +408,6 @@ export default {
       } else {
         alert("Coloque datos validos");
       }
-      this.generateUrl();
     },
 
     saveSolicitudPostulacion() {
@@ -454,7 +452,6 @@ export default {
   created: function () {
     this.getCamaras();
     this.getTipoSociedad();
-    
   },
 };
 </script>
