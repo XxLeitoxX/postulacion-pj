@@ -33,10 +33,10 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ // '../views/About.vue')
   //},
   {
-    path: '/first-step',
+    path: '/paso1/:id',
     name: 'StepOne',
     //component: StepNumbers
-    component: () => import(/* webpackChunkName: "about" */ '@/component/StepNumbers.vue')
+    component: () => import('@/views/steps/StepOne.vue')
   },
   {
     path: '/datos-basicos-validacion',

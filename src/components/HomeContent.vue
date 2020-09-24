@@ -21,9 +21,9 @@
                 <form action="#" id="loginform">
                   <div class="input" ref="rut">
                     <label>RUT DE LA EMPRESA</label>
-                    <input type="text" name="loginrut" ref="rutInput" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutInput.value])" v-model="rut" @keyup="validation($refs.rutInput.value)" />
+                    <input type="text" name="loginrut" ref="rutInput" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutInput.value])" v-model="rut" @keyup="rutValidation($refs.rutInput.value)" />
                     <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
-                    <div id="loginrut-error" class="errorlogin" v-if="!$store.state.rutIsValid">Ingrese un rut Válido</div>
+                    <div id="loginrut-error" class="errorlogin" v-if="!rutIsValid">Ingrese un rut Válido</div>
                   </div>
                   <div class="input" ref="solicitud">
                     <label>NÚMERO DE SOLICITUD</label>
@@ -48,7 +48,7 @@ export default {
     return {
       rut: '',
       numeroSolicitud: '',
-      rutIsValid: true
+      //rutIsValid: true
     }
   },
   methods: {
@@ -61,7 +61,11 @@ export default {
       console.log("test");
     },
     
-    ...mapMutations(['focus', 'blur', 'validation']),
+    ...mapMutations(['focus', 'blur', 'rutValidation']),
+  },
+
+  computed: {
+    ...mapState(['rutIsValid']),
   },
 
 
