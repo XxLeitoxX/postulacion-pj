@@ -31,21 +31,22 @@
 
                         <!-- <datepicker :format="customFormatter" ref="datePick" @focus="focus($refs.date)" @blur="blur([$refs.date, $refs.datePick.value])" :value="state.date" :language="es"></datepicker> -->
 
-                        <date-picker name="date" v-model="date" :config="options" class="datepickerVue"
+                        <!-- <date-picker name="date" v-model="date" :config="options" class="datepickerVue"
                           ref="constDate"
 
                           @focus="focus($refs.date)" 
                           @blur="blur([$refs.date, $refs.constDate.value])">
-                          </date-picker>
+                          </date-picker> -->
                       </div>
-                      <div class="input">
+                      <div class="input" ref="giro">
                         <label>Giro</label>
-                        <input type="text" name="giro_st03">
+                        <input type="text" name="giro_st03" ref="giroActive" @focus="focus($refs.giro)" @blur="blur([$refs.giro, $refs.giroActive.value])">
                       </div>
                       <div class="input">
                         <div class="input-select">
-                          <select name="actividad_st03">
+                          <select name="actividad_st03" v-model="activity">
                             <option value="default">Actividad</option>
+                            <option v-for="(activity, key) in activities" :value="activity.ActividadId" :key="key">{{ activity.actividad }}</option>
                           </select>
                         </div>
                       </div>
@@ -176,13 +177,16 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
     },
     data () {
       return {
+        activity: '',
+        activities: [],
         date: null,
         options: {
           format: 'DD/MM/YYYY',
           useCurrent: false,
           showClear: true,
           showClose: true,
-          toolbarPlacement: 'bottom'
+          toolbarPlacement: 'bottom',
+          
         }
       }
     },
@@ -190,9 +194,6 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
     methods: {
       ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick']),
       ...mapActions(['getCamarasTest']),
-      customFormatter(date) {
-        return moment(date).format('MMMM Do YYYY, h:mm:ss a');
-      }
     },
 
     computed: {
