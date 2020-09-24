@@ -11,7 +11,8 @@ export default new Vuex.Store({
 	activeRecovery: '',
 	camaras: [],
 	tipoSocs: [],
-	URL: 'http://postulacion.isc.cl', 
+	URL: 'http://postulacion.isc.cl',
+	URLEmail: 'http://postulacionweb.isc.cl/', 
 	rutIsValid: true,
 	telIsValid: true,
 	emailGlobal: ''

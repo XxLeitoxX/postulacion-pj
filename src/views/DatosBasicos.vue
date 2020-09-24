@@ -17,7 +17,7 @@
                     @focus="focus($refs.rutInput)"
                     @blur="blur([$refs.rutInput, $refs.rutInputValue.value])"
                     v-model="rut"
-                  @keyup="validation()"
+                  @keyup="checkInput()"
                   />
                   <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                   <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
@@ -31,7 +31,7 @@
                     @focus="focus($refs.emailInput)"
                     @blur="blur([$refs.emailInput, $refs.emailInputValue.value])"
                     v-model="email"
-                    @keyup="validation()"
+                    @keyup="checkInput()"
                   />
                   <div
                     id="email2st02-error"
@@ -48,7 +48,7 @@
                     @focus="focus($refs.email_confirmation)"
                     @blur="blur([$refs.email_confirmation, $refs.emailConfirmValue.value])"
                     v-model="emailConfirm"
-                    @keyup="validation()"
+                    @keyup="checkInput()"
                   />
                   <div
                     id="email2st02-error"
@@ -70,7 +70,7 @@
                     @focus="focus($refs.phone_number)"
                     @blur="blur([$refs.phone_number, $refs.phoneInputValue.value])"
                     v-model="tel"
-                    @keyup="validation()"
+                    @keyup="checkInput()"
                   />
                   <div
                     id="phonest02-error"
@@ -83,7 +83,7 @@
                     <select
                       name="camararegional01_st02"
                       v-model="camaraSelect"
-                      
+                      @change="onChangeCamara"
                     >
                       <option value>Cámara Regional a la que postula</option>
                       <option
@@ -129,7 +129,7 @@
                 </div>
                 <div class="input" v-if="showTipSociety">
                   <div class="input-select">
-                    <select name="tiposociedad_st02"  v-model="tipSelectSoc">
+                    <select name="tiposociedad_st02" @change="onChangeTipoSoc" v-model="tipSelectSoc">
                       <option value>Tipo de sociedad</option>
                       <option v-for="(tipo, key) in tipoSocs" :value="tipo.siglas" :key="key">{{ tipo.descripcion }}</option>
                     </select>
@@ -267,11 +267,11 @@ export default {
       camaraIsValid: true,
       tipoSocIsValid: true,
       tipoSolIsValid: true,
-      numSolicitud: 0,
       formIsValid: false,
       focused: false,
       solicitudPostulacion: [{}],
       urlBase: this.$store.state.URL,
+      urlBaseMail: this.$store.state.URLMail,
       urlMail: '',
       showTipSociety: false
     };
@@ -343,6 +343,33 @@ export default {
       return this.formIsValid;
     },
 
+    checkInput() {
+      if (this.rut !== "") {
+        validaRut(this.rut)
+          ? (this.rutIsValid = true)
+          : ((this.rutIsValid = false), (this.formIsValid = false));
+      }
+      
+      if (this.email !== "") {
+        emailValidate(this.email)
+          ? (this.emailIsValid = true)
+          : ((this.emailIsValid = false), (this.formIsValid = false));
+      }
+
+      if (this.emailConfirm !== "") {
+        emailValidate(this.emailConfirm)
+          ? (this.emailConfirmIsValid = true)
+          : ((this.emailConfirmIsValid = false), (this.formIsValid = false));
+      }
+
+      if (this.tel !== "") {
+        telValidate(this.tel)
+          ? (this.telIsValid = true)
+          : ((this.telIsValid = false), (this.formIsValid = false));
+      }
+
+    },
+
 
     onChangeTipoPostulacion() {
       if (this.tipSelect !== "") {
@@ -357,18 +384,19 @@ export default {
    
     },
 
+    onChangeCamara() {
+      if (this.camaraSelect !== "") {
+        this.camaraIsValid = true;
+      } 
+    },
+
+    onChangeTipoSoc() {
+      if (this.tipSelectSoc !== "") {
+        this.tipoSocIsValid = true;
+      } 
+    },
    
-    /*generateNumSolicitud(min, max) {
-      let numPosibilidades = max - min;
-      let randomNum = Math.random() * (numPosibilidades + 1);
-      randomNum = Math.floor(randomNum);
-      let ramdomNumSum = min + randomNum;
-      this.numSolicitud = ramdomNumSum;
-      //this.verificateNumSolicitud(ramdomNumSum);
-    },*/
-
-    
-
+   
     sendSolicitudPostulacion() {
       this.validation();
       if (this.validation() !== false) {
@@ -401,19 +429,16 @@ export default {
 
       let objSolicitud = this.solicitudPostulacion;
       let data = JSON.stringify(objSolicitud);
-
       console.log(data);
-
       axios.post(this.urlBase+'/solicitudDePostulacion', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-
 	  },
     
     generateUrl() {
-      this.urlMail = `${this.urlBase}/prueba/${this.numSolicitud}`; 
+      this.urlMail = `${this.urlBaseMail}/prueba/`; 
     },
 
     ...mapActions(['getCamaras', 'getTipoSociedad']),
