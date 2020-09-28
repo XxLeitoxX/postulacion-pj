@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul v-if="tempAttachments.length > 0">
-      <li v-for="tempAttachment in tempAttachments" :key="tempAttachment._id">
+      <li class="listStyle" v-for="tempAttachment in tempAttachments" :key="tempAttachment._id">
         <div class="file-details">
           <div class="file-name display-flex align-center">
             <p class="" ref="attachmentTitle">{{ tempAttachment.title }}</p>
@@ -44,7 +44,7 @@ ul {
   list-style: none;
   padding: 0px;
 }
-li {
+.listStyle {
   border: 1px solid;
   margin-bottom: 8px;
   border-radius: 8px;

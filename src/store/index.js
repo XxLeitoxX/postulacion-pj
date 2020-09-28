@@ -11,8 +11,13 @@ export default new Vuex.Store({
   	activeRequest: '',
 	activeRecovery: '',
 	camaras: [],
+	regions: [],
+	provinces: [],
+	communes: [],
+	activities: [],
+	categories: [],
 	URL: 'http://localhost:8080',
-	ISC: 'https://listarcamaras.free.beeceptor.com',
+	ISC: 'http://postulacionweb.isc.cl',
 	rutIsValid: true,
 	telIsValid: true,
 	emailIsValid: true,
@@ -57,7 +62,7 @@ export default new Vuex.Store({
   		//console.log(refs);
   	},
 
-  	rutValidation(state, rut, phone, email, emailConfirm) {
+  	rutValidation(state, rut) {
 
 		if (rut !== '') {
 			console.log(rut);
@@ -103,12 +108,41 @@ export default new Vuex.Store({
 		commit('loadCamaras', camaras);
 	  },
 
-	  /*getCamarasTest: async function({state, commit}) {
-		const data = await fetch(state.ISC + '/listarCamaras');
+	  getRegion: async function({commit}) {
+		const data = await fetch(state.ISC + '/listarRegion');
+		const regions = await data.json();
+		commit('loadRegion', regions);
+	  },
+
+	  getProvince: async function({commit}) {
+		const data = await fetch(state.ISC + '/listarProvincias');
+		const provinces = await data.json();
+		commit('loadProvince', provinces);
+	  },
+
+	  getCommune: async function({commit}) {
+		const data = await fetch(state.ISC + '/listarComuna');
+		const communes = await data.json();
+		commit('loadCommune', communes);
+	  },
+
+	  companyBackgroundUpload: async function({state, commit}) {
+		/*const data = await fetch(state.URL + '/uploadfile');
 		console.log(data);
 		const camaras = await data.json();
-		commit('loadCamaras', camaras);
-	  },*/
+		commit('loadCamaras', camaras);*/
+
+
+		const requestOptions = {
+		    method: "POST",
+		    headers: { "Content-Type": "application/json" },
+		    body: JSON.stringify({ title: "Vue POST Request Example" })
+		};
+		const response = await fetch(state.ISC + '/uploadfile', requestOptions);
+		const data = await response.json();
+		console.log(data);
+		//this.postId = data.id;
+	  },
 
   },
   modules: {

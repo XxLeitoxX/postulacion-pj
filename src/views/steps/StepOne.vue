@@ -16,6 +16,7 @@
                         <label>RUT de la empresa</label>
                         <input type="text" name="rutempresa_st03" ref="rutCompany" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutCompany.value])" @keyup="rutValidation($refs.rutCompany.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
+                        <div id="loginrut-error" class="errorlogin" v-if="!rutIsValid">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="fantasy">
                         <label>Nombre de Fantasía de la Empresa <i>(Opcional)</i></label>
@@ -44,8 +45,8 @@
                       </div>
                       <div class="input">
                         <div class="input-select">
-                          <select name="actividad_st03" v-model="activity">
-                            <option value="default">Actividad</option>
+                          <select name="actividad_st03">
+                            <option value="default">Seleccione una Actividad</option>
                             <option v-for="(activity, key) in activities" :value="activity.ActividadId" :key="key">{{ activity.actividad }}</option>
                           </select>
                         </div>
@@ -113,36 +114,54 @@
                         <h2>Dirección comercial</h2>
                         <div class="input">
                           <div class="input-select">
-                            <select name="regioncomercial_st03">
-                              <option value="default">Región</option>
+                            <select name="regioncomercial_st03" v-model="selectedRegion"
+                              @change="getProvince" value="sadffs">
+                              <option value="default" disabled>Selecciona una Región</option>
+                              <option 
+                                v-for="(region, key) in regions" :value="region.regionId" :key="key">
+                                {{ region.region }}
+                              </option>
                             </select>
                           </div>
                         </div>
                         <div class="input">
                           <div class="input-select">
-                            <select name="provinciacomercial_st03">
+                            <select name="provinciacomercial_st03" v-model="selectedProvince"
+                              @change="getCommune">
                               <option value="default">Provincia</option>
+                              <option 
+                                v-for="(province, key) in provinces" 
+                                :value="province.provinciaId" 
+                                :key="key">
+                                {{ province.provincia }}
+                              </option>
                             </select>
                           </div>
                         </div>
                         <div class="input">
                           <div class="input-select">
-                            <select name="comunacomercial_st03">
+                            <select name="comunacomercial_st03" v-model="selectedCommune">
                               <option value="default">Comuna</option>
+                              <option 
+                                v-for="(commune, key) in communes" 
+                                :value="communes.comunaId" 
+                                :key="key">
+                                {{ communes.comuna }}
+                              </option>
                             </select>
                           </div>
                         </div>
-                        <div class="input">
+                        <div class="input" ref="street">
                           <label>Calle</label>
-                          <input type="text" name="callecomercial_st03">
+                          <input type="text" name="callecomercial_st03" ref="streetInput" @focus="focus($refs.street)" @blur="blur([$refs.street, $refs.streetInput.value])">
                         </div>
-                        <div class="input">
+                        <div class="input" ref="number">
                           <label>Número</label>
-                          <input type="text" name="numerocomercial_st03">
+                          <input type="text" name="numerocomercial_st03" ref="numberInput" @focus="focus($refs.number)" @blur="blur([$refs.number, $refs.numberInput.value])">
                         </div>
-                        <div class="input">
+                        <div class="input" ref="office">
                           <label>Oficina</label>
-                          <input type="text" name="oficinacomercial_st03">
+                          <input type="text" name="oficinacomercial_st03" ref="officeInput" @focus="focus($refs.office)" @blur="blur([$refs.office, $refs.officeInput.value])">
                         </div>
                       </form>
                     </div>
@@ -157,9 +176,9 @@
                     <div class="col-md-12 col-lg-6 offset-lg-2">
                       <form action="#" id="step03_3">
                         <h2>Redes digitales de la empresa</h2>
-                        <div class="input">
+                        <div class="input" ref="website">
                           <label>Sitio web</label>
-                          <input type="text" name="sitioweb_st03">
+                          <input type="text" name="sitioweb_st03" ref="websiteInput" @focus="focus($refs.website)" @blur="blur([$refs.website, $refs.websiteInput.value])">
                         </div>
                         <button class="btn-red u-mt50 big" id="submitStep03">Guardar y continuar<i class="fa fa-angle-right"></i></button>
                       </form>
@@ -207,9 +226,10 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     data () {
       return {
         activity: '',
-        activities: [],
         category: '',
-        categories: [],
+        selectedRegion: '',
+        selectedProvince: '',
+        selectedCommune: '',
 
         //DatePicker data
         date: null,
@@ -250,7 +270,7 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
 
     methods: {
       ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick']),
-      ...mapActions(['getCamarasTest']),
+      ...mapActions(['getRegion', 'getProvince', 'getCommune', 'companyBackgroundUpload']),
       // function called for every file dropped or selected
       fileAdded(file) {
         console.log("File Dropped => ", file);
@@ -298,7 +318,8 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     },
 
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid']),
+      ...mapState(['collapse', 'rutIsValid', 'telIsValid', 'emailIsValid', 
+        'activities', 'categories', 'regions', 'provinces', 'communes']),
       getTempAttachments() {
         return this.tempAttachments;
       },
