@@ -3,7 +3,7 @@
       <Cabecera></Cabecera>
       <main role="main">
         <StepNumbers></StepNumbers>
-        <div class="c-form-steps">
+        <div class="c-form-steps background">
           <div class="c-form-steps__sections" data-step="01">
             <div class="container">
               <div class="c-form-steps__content step-data">
@@ -31,12 +31,12 @@
 
                         <!-- <datepicker :format="customFormatter" ref="datePick" @focus="focus($refs.date)" @blur="blur([$refs.date, $refs.datePick.value])" :value="state.date" :language="es"></datepicker> -->
 
-                        <!-- <date-picker name="date" v-model="date" :config="options" class="datepickerVue"
+                        <date-picker name="date" v-model="date" :config="options" class="datepickerVue"
                           ref="constDate"
 
                           @focus="focus($refs.date)" 
                           @blur="blur([$refs.date, $refs.constDate.value])">
-                          </date-picker> -->
+                          </date-picker>
                       </div>
                       <div class="input" ref="giro">
                         <label>Giro</label>
@@ -53,7 +53,8 @@
                       <div class="input">
                         <div class="input-select">
                           <select name="categoria_st03">
-                            <option value="default">Categoría</option>
+                            <option value="default">Seleccione una Categoría</option>
+                            <option v-for="(category, key) in categories" :value="category.categoriaId" :key="key">{{ category.categoria }}</option>
                           </select>
                         </div>
                       </div>
@@ -73,7 +74,7 @@
                 </div>
               </div>
             </div>
-            <div class="c-form-drag whitebg small" ref="collapse">
+            <div class="c-form-drag whitebg small font" ref="collapse">
               <div class="container"><a class="section-minimizar" ref="collapseMin" @click="collapseClick([$refs.collapse, $refs.collapseMin])">{{collapse}}<span></span></a>
                 <div class="row">
                   <div class="col-md-12 col-lg-6 offset-lg-2">
@@ -83,12 +84,27 @@
                       <li>Memoria o CV de la empresa</li>
                       <li>Dependientes de la selección de "Tipo de Sociedad" en fila 14</li>
                     </ul>
-                    <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form>
+                    <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
+                    <vue-dropzone
+                      ref="myVueDropzone"
+                      :useCustomSlot="true"
+                      id="dropzone"
+                      @vdropzone-upload-progress="uploadProgress"
+                      :options="dropzoneOptions"
+                      @vdropzone-file-added="fileAdded"
+                      @vdropzone-sending-multiple="sendingFiles"
+                      @vdropzone-success-multiple="success"
+                      @removeUpload="removeThisFile"
+                      ></vue-dropzone>
+                      <AttachmentList
+                        :tempAttachments="getTempAttachments"
+                        :attachments="getAttachments"
+                      />
                   </div>
                 </div>
               </div>
             </div>
-            <div class="c-form-steps small" ref="commercialAddress">
+            <div class="c-form-steps small font" ref="commercialAddress">
               <div class="container"><a class="section-minimizar" ref="commercialMin" @click="collapseClick([$refs.commercialAddress, $refs.commercialMin])">{{collapse}}<span></span></a>
                 <div class="c-form-steps__content step-data">
                   <div class="row">
@@ -159,26 +175,43 @@
   </template>
 
 <script>
+//Components import
 import Cabecera from '@/components/Cabecera.vue'
 import StepNumbers from '../../components/StepNumbers.vue'
+
+//Store import
 import { mapState, mapMutations, mapActions } from 'vuex'
 //import Datepicker from 'vuejs-datepicker';
 //import moment from 'moment'
 //import {es} from 'vuejs-datepicker/dist/locale'
+
+//Vue Datepicker
 import datePicker from 'vue-bootstrap-datetimepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+
+//Vue Dropzone
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import AttachmentList from "@/components/dropzone/AttachmentList";
+
   export default {
     name: 'StepOne',
     components:{
       Cabecera,
       StepNumbers,
-      datePicker
+      datePicker,
+      vueDropzone: vue2Dropzone,
+      AttachmentList: AttachmentList
     },
     data () {
       return {
         activity: '',
         activities: [],
+        category: '',
+        categories: [],
+
+        //DatePicker data
         date: null,
         options: {
           format: 'DD/MM/YYYY',
@@ -186,7 +219,31 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
           showClear: true,
           showClose: true,
           toolbarPlacement: 'bottom',
-          
+        },
+
+        //Vue Dropzone data
+        tempAttachments: [],
+        attachments: [],
+        dropzoneOptions: {
+          // The Url Where Dropped or Selected files will be sent
+          url: `https://httpbin.org/post`,
+          // File Size allowed in MB
+          maxFilesize: 102400000,
+          // Authentication Headers like Access_Token of your application
+          headers: {
+            Authorization: `Access Token`
+          },
+          // The way you want to receive the files in the server
+          paramName: function(n) {
+            return "file[]";
+          },
+          dictDefaultMessage: "Upload Files Here xD",
+          includeStyling: false,
+          previewsContainer: false,
+          thumbnailWidth: 250,
+          thumbnailHeight: 140,
+          uploadMultiple: true,
+          parallelUploads: 20
         }
       }
     },
@@ -194,10 +251,60 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
     methods: {
       ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick']),
       ...mapActions(['getCamarasTest']),
+      // function called for every file dropped or selected
+      fileAdded(file) {
+        console.log("File Dropped => ", file);
+        // Construct your file object to render in the UI
+        let attachment = {};
+        attachment._id = file.upload.uuid;
+        attachment.title = file.name;
+        attachment.type = "file";
+        attachment.extension = "." + file.type.split("/")[1];
+        attachment.user = JSON.parse(localStorage.getItem("user"));
+        attachment.content = "File Upload by Select or Drop";
+        attachment.thumb = file.dataURL;
+        attachment.thumb_list = file.dataURL;
+        attachment.isLoading = true;
+        attachment.progress = null;
+        attachment.size = file.size;
+        this.tempAttachments = [...this.tempAttachments, attachment];
+      },
+      // a middle layer function where you can change the XHR request properties
+      sendingFiles(files, xhr, formData) {
+        console.log(
+          "if you want to change the upload time or add data to the formData you can do it here."
+        );
+        console.log("Files sending", files);
+      },
+      // function where we get the upload progress
+      uploadProgress(file, progress, bytesSent) {
+        console.log("File Upload Progress", progress);
+        this.tempAttachments.map(attachment => {
+          if (attachment.title === file.name) {
+            attachment.progress = `${Math.floor(progress)}`;
+          }
+        });
+      },
+      // called on successful upload of a file
+      success(file, response) {
+        console.log("File uploaded successfully");
+        console.log("Response is ->", response);
+      },
+
+      removeThisFile: function(thisFile){
+        this.$refs.MyDropzone.removeFile(thisFile)
+        console.log("File removed!")
+      }
     },
 
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid'])
+      ...mapState(['collapse', 'telIsValid', 'emailIsValid']),
+      getTempAttachments() {
+        return this.tempAttachments;
+      },
+      getAttachments() {
+        return this.attachments;
+      }
     },
 
     created (){
@@ -210,5 +317,10 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 </script>
 
 <style>
-  
+  .background {
+    background: #f0f0f0;
+  }
+  .font {
+    font-size: 100%;
+  }
 </style>
