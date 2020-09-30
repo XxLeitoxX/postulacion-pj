@@ -41,20 +41,22 @@
                       </div>
                       <div class="input" ref="giro">
                         <label>Giro</label>
-                        <input type="text" name="giro_st03" ref="giroActive" @focus="focus($refs.giro)" @blur="blur([$refs.giro, $refs.giroActive.value])">
+                        <input type="text" name="giro_st03" ref="giroInput" @focus="focus($refs.giro)" @blur="blur([$refs.giro, $refs.giroInput.value])">
                       </div>
                       <div class="input">
                         <div class="input-select">
-                          <select name="actividad_st03">
-                            <option value="default">Seleccione una Actividad</option>
+                          <select name="actividad_st03" 
+                            @input="$event = setActivity($event.target.value)" :value="selectedActivity">
+                            <option value="" selected disabled hidden>Seleccione una Actividad</option>
                             <option v-for="(activity, key) in activities" :value="activity.ActividadId" :key="key">{{ activity.actividad }}</option>
                           </select>
                         </div>
                       </div>
                       <div class="input">
                         <div class="input-select">
-                          <select name="categoria_st03">
-                            <option value="default">Seleccione una Categoría</option>
+                          <select name="categoria_st03" 
+                            @input="$event = setCategory($event.target.value)" :value="selectedCategory">
+                            <option value="" selected disabled hidden>Seleccione una Categoría</option>
                             <option v-for="(category, key) in categories" :value="category.categoriaId" :key="key">{{ category.categoria }}</option>
                           </select>
                         </div>
@@ -114,9 +116,10 @@
                         <h2>Dirección comercial</h2>
                         <div class="input">
                           <div class="input-select">
-                            <select name="regioncomercial_st03" v-model="selectedRegion"
-                              @change="getProvince" value="sadffs">
-                              <option value="default" disabled>Selecciona una Región</option>
+                            <select name="regioncomercial_st03" 
+                              @input="$event = setRegion($event.target.value)" :value="selectedRegion" 
+                              @change="getProvince()">
+                              <option value="" selected disabled hidden>Selecciona una Región</option>
                               <option 
                                 v-for="(region, key) in regions" :value="region.regionId" :key="key">
                                 {{ region.region }}
@@ -126,9 +129,10 @@
                         </div>
                         <div class="input">
                           <div class="input-select">
-                            <select name="provinciacomercial_st03" v-model="selectedProvince"
-                              @change="getCommune">
-                              <option value="default">Provincia</option>
+                            <select name="provinciacomercial_st03"
+                              @input="$event = setProvince($event.target.value)" :value="selectedProvince"
+                              @change="getCommune()">
+                              <option value="" selected disabled hidden>Selecciona una Provincia</option>
                               <option 
                                 v-for="(province, key) in provinces" 
                                 :value="province.provinciaId" 
@@ -140,13 +144,13 @@
                         </div>
                         <div class="input">
                           <div class="input-select">
-                            <select name="comunacomercial_st03" v-model="selectedCommune">
-                              <option value="default">Comuna</option>
+                            <select name="comunacomercial_st03" :value="selectedCommune">
+                              <option value="" selected disabled hidden>Selecciona una Comuna</option>
                               <option 
                                 v-for="(commune, key) in communes" 
-                                :value="communes.comunaId" 
+                                :value="commune.comunaId" 
                                 :key="key">
-                                {{ communes.comuna }}
+                                {{ commune.comuna }}
                               </option>
                             </select>
                           </div>
@@ -199,7 +203,7 @@ import Cabecera from '@/components/Cabecera.vue'
 import StepNumbers from '../../components/StepNumbers.vue'
 
 //Store import
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 //import Datepicker from 'vuejs-datepicker';
 //import moment from 'moment'
 //import {es} from 'vuejs-datepicker/dist/locale'
@@ -225,11 +229,6 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     },
     data () {
       return {
-        activity: '',
-        category: '',
-        selectedRegion: '',
-        selectedProvince: '',
-        selectedCommune: '',
 
         //DatePicker data
         date: null,
@@ -269,8 +268,11 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     },
 
     methods: {
-      ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick']),
-      ...mapActions(['getRegion', 'getProvince', 'getCommune', 'companyBackgroundUpload']),
+      ...mapGetters([ 'getterRegion', 'getterProvince', 'getterCommune', 'getterActivity', 'getterCategory' ]),
+      ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick', 'setRegion', 'setProvince', 'setCommune', 'setActivity', 'setCategory']),
+      ...mapActions(['getRegion', 'getProvince', 'getCommune', 'getActivity', 'getCategory', 
+        'companyBackgroundUpload']),
+
       // function called for every file dropped or selected
       fileAdded(file) {
         console.log("File Dropped => ", file);
@@ -309,6 +311,7 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
       success(file, response) {
         console.log("File uploaded successfully");
         console.log("Response is ->", response);
+        this.companyBackgroundUpload();
       },
 
       removeThisFile: function(thisFile){
@@ -318,18 +321,29 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     },
 
     computed: {
-      ...mapState(['collapse', 'rutIsValid', 'telIsValid', 'emailIsValid', 
+      ...mapState(['selectedRegion', 'selectedProvince', 'selectedCommune', 'selectedActivity', 
+        'selectedCategory', 'collapse', 'rutIsValid', 'telIsValid', 'emailIsValid', 
         'activities', 'categories', 'regions', 'provinces', 'communes']),
       getTempAttachments() {
         return this.tempAttachments;
       },
       getAttachments() {
         return this.attachments;
-      }
+      },
+      /*test: {
+        get() {
+          return this.getName();
+        },
+        set(newName) {
+          return this.SET_NAME(newName);
+        }
+      }*/
     },
 
     created (){
-      //this.getCamarasTest();
+      this.getRegion();
+      this.getActivity();
+      this.getCategory();
     }
   
 

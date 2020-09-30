@@ -12,17 +12,43 @@ export default new Vuex.Store({
 	activeRecovery: '',
 	camaras: [],
 	regions: [],
+	selectedRegion: '',
 	provinces: [],
+	selectedProvince: '',
 	communes: [],
+	selectedCommune: '',
 	activities: [],
+	selectedActivity: '',
 	categories: [],
-	URL: 'http://localhost:8080',
-	ISC: 'http://postulacionweb.isc.cl',
+	selectedCategory: '',
+	localhost: 'http://localhost:8080',
+	URL: 'http://postulacion.isc.cl',
 	rutIsValid: true,
 	telIsValid: true,
 	emailIsValid: true,
 	emailConfirmIsValid: true,
 	collapse: 'EXPANDIR',
+  },
+
+  getters: {
+    getterRegion(state) {
+      return state.selectedRegion;
+    },
+    getterProvince(state) {
+    	return state.selectedProvince;
+    },
+
+    getterCommune(state) {
+    	return state.selectedCommune;
+    },
+
+    getterActivity(state) {
+    	return state.selectedActivity;
+    },
+
+    getterCategory(state) {
+    	return state.selectedCategory;
+    },
   },
 
   mutations: {
@@ -94,9 +120,25 @@ export default new Vuex.Store({
 		state.camaras = camarasAction
 	},
 
-	loadCamarasTest(state, camarasAction) {
-		state.camaras = camarasAction
-	},
+	setRegion(state, newRegion) {
+      state.selectedRegion = newRegion;
+    },
+
+    setProvince(state, newProvince) {
+      state.selectedProvince = newProvince;
+    },
+
+    setCommune(state, newCommune) {
+      state.selectedCommune = newCommune;
+    },
+
+    setActivity(state, newActivity) {
+      state.selectedActivity = newActivity;
+    },
+
+    setCategory(state, newCategory) {
+      state.selectedCategory = newCategory;
+    },
 
   },
 
@@ -108,25 +150,45 @@ export default new Vuex.Store({
 		commit('loadCamaras', camaras);
 	  },
 
-	  getRegion: async function({commit}) {
-		const data = await fetch(state.ISC + '/listarRegion');
-		const regions = await data.json();
-		commit('loadRegion', regions);
+	  getActivity: async function({state}) {
+		const data = await fetch(state.URL + '/listarActividad');
+		//const region = await data.json();
+		state.activities = await data.json();
 	  },
 
-	  getProvince: async function({commit}) {
-		const data = await fetch(state.ISC + '/listarProvincias');
-		const provinces = await data.json();
-		commit('loadProvince', provinces);
+	  getCategory: async function({state}) {
+		const data = await fetch(state.URL + '/listarCategoria');
+		//const region = await data.json();
+		state.categories = await data.json();
+	  	console.log(state.categories);
 	  },
 
-	  getCommune: async function({commit}) {
-		const data = await fetch(state.ISC + '/listarComuna');
-		const communes = await data.json();
-		commit('loadCommune', communes);
+	  getRegion: async function({state}) {
+	  	const headers = { "Content-Type": "application/json" };
+		const data = await fetch(state.URL + '/listarRegion');
+		//const region = await data.json();
+		state.regions = await data.json();
 	  },
 
-	  companyBackgroundUpload: async function({state, commit}) {
+	  getProvince: async function({state}) {
+	  	console.log(state.selectedRegion);
+		const data = await fetch(state.URL + '/listarProvincias/' + state.selectedRegion);
+		//const province = await data.json();
+		state.provinces = await data.json();
+	  },
+
+	  getCommune: async function({state}) {
+	  	console.log(state.selectedProvince);
+		const data = await fetch(state.URL + '/listarComuna/' + state.selectedProvince);
+		state.communes = await data.json();
+	  	console.log(state.communes);
+	  },
+
+	  /*SET_NAME(context, newName) {
+	    context.commit("setName", newName);
+	  },*/
+
+	  companyBackgroundUpload: async function({state}) {
 		/*const data = await fetch(state.URL + '/uploadfile');
 		console.log(data);
 		const camaras = await data.json();
@@ -138,7 +200,7 @@ export default new Vuex.Store({
 		    headers: { "Content-Type": "application/json" },
 		    body: JSON.stringify({ title: "Vue POST Request Example" })
 		};
-		const response = await fetch(state.ISC + '/uploadfile', requestOptions);
+		const response = await fetch(state.URL + '/uploadfile', requestOptions);
 		const data = await response.json();
 		console.log(data);
 		//this.postId = data.id;
