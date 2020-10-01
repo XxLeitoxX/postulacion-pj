@@ -90,6 +90,7 @@
                     <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
                     <vue-dropzone
                       ref="myVueDropzone"
+                      :test="test($refs.myVueDropzone)"
                       :useCustomSlot="true"
                       id="dropzone"
                       @vdropzone-upload-progress="uploadProgress"
@@ -229,7 +230,7 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     },
     data () {
       return {
-
+        vueDropzoneFile: [],
         //DatePicker data
         date: null,
         options: {
@@ -268,14 +269,22 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
     },
 
     methods: {
-      ...mapGetters([ 'getterRegion', 'getterProvince', 'getterCommune', 'getterActivity', 'getterCategory' ]),
-      ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick', 'setRegion', 'setProvince', 'setCommune', 'setActivity', 'setCategory']),
+      ...mapGetters([ 'getterRegion', 'getterProvince', 'getterCommune', 'getterActivity', 'getterCategory',
+      'getterFile', 'getterVueDropzoneFile' ]),
+      ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick', 'setRegion', 'setProvince', 'setCommune', 'setActivity', 'setCategory',
+        'setVueDropzoneFile']),
       ...mapActions(['getRegion', 'getProvince', 'getCommune', 'getActivity', 'getCategory', 
         'companyBackgroundUpload']),
+      test (file) {
+        console.log("File desde test => ", file)
 
+      },
       // function called for every file dropped or selected
       fileAdded(file) {
         console.log("File Dropped => ", file);
+        this.dropzoneOptions.dictDefaultMessage = file;
+        console.log("File Dropped => ", this.dropzoneOptions.dictDefaultMessage);
+        this.setVueDropzoneFile(file);
         // Construct your file object to render in the UI
         let attachment = {};
         attachment._id = file.upload.uuid;
@@ -311,7 +320,9 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
       success(file, response) {
         console.log("File uploaded successfully");
         console.log("Response is ->", response);
+        console.log("file is ->", file);
         this.companyBackgroundUpload();
+        //this.test(response);
       },
 
       removeThisFile: function(thisFile){

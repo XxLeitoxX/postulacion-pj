@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { mapState } from 'vuex'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import { validaRut, telValidate, emailValidate } from "./../validation/validation";
 
 Vue.use(Vuex)
@@ -28,6 +30,7 @@ export default new Vuex.Store({
 	emailIsValid: true,
 	emailConfirmIsValid: true,
 	collapse: 'EXPANDIR',
+	vueDropzoneFile: []
   },
 
   getters: {
@@ -48,6 +51,12 @@ export default new Vuex.Store({
 
     getterCategory(state) {
     	return state.selectedCategory;
+    },
+    getterCategory(state) {
+    	return state.selectedCategory;
+    },
+    getterVueDropzoneFile(state) {
+    	return state.vueDropzoneFile;
     },
   },
 
@@ -140,6 +149,10 @@ export default new Vuex.Store({
       state.selectedCategory = newCategory;
     },
 
+    setVueDropzoneFile(state, newFile) {
+      state.vueDropzoneFile = newFile;
+    },
+
   },
 
   actions: {
@@ -194,16 +207,31 @@ export default new Vuex.Store({
 		const camaras = await data.json();
 		commit('loadCamaras', camaras);*/
 
-
-		const requestOptions = {
+		console.log(state.vueDropzoneFile);
+		/*const requestOptions = {
 		    method: "POST",
 		    headers: { "Content-Type": "application/json" },
-		    body: JSON.stringify({ title: "Vue POST Request Example" })
+		    body: JSON.stringify({ file: state.vueDropzoneFile })
 		};
 		const response = await fetch(state.URL + '/uploadfile', requestOptions);
 		const data = await response.json();
-		console.log(data);
+		console.log(data);*/
 		//this.postId = data.id;
+		let fd = new FormData();
+      	fd.append('file', this.state.vueDropzoneFile)
+		axios.post( state.URL+'/uploadfile',
+                fd,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
 	  },
 
   },
