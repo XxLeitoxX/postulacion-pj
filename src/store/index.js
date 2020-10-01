@@ -61,6 +61,21 @@ export default new Vuex.Store({
 	},
 
   	collapseClick(state, refs) {
+		
+		if (refs[0].className == 'c-form-steps whitebg small') {
+			refs[0].className = 'c-form-steps whitebg'
+  			refs[1].innerText = 'MINIMIZAR'
+		}else if(refs[0].className == 'c-form-steps whitebg') {
+			refs[0].className = 'c-form-steps whitebg small'
+			refs[1].innerText = 'EXPANDIR'
+		}
+		if (refs[0].className == 'c-form-steps greybg small') {
+			refs[0].className = 'c-form-steps greybg'
+  			refs[1].innerText = 'MINIMIZAR'
+		}else if(refs[0].className == 'c-form-steps greybg') {
+			refs[0].className = 'c-form-steps greybg small'
+			refs[1].innerText = 'EXPANDIR'
+		}
   		if (refs[0].className == 'c-form-drag whitebg small') {
   			refs[0].className = 'c-form-drag whitebg'
   			refs[1].innerText = 'MINIMIZAR'

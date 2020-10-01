@@ -39,6 +39,18 @@ Vue.use(VueRouter)
     component: () => import('@/views/steps/StepOne.vue')
   },
   {
+    path: '/paso3/:id',
+    name: 'StepTree',
+    //component: StepNumbers
+    component: () => import('@/views/steps/StepTree.vue')
+  },
+  {
+    path: '/paso4/:id',
+    name: 'StepFour',
+    //component: StepNumbers
+    component: () => import('@/views/steps/StepFour.vue')
+  },
+  {
     path: '/datos-basicos-validacion',
     name: 'SendSolicitud',
     component: () => import('../views/SendSolicitud.vue')
