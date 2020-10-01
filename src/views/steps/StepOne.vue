@@ -3,7 +3,7 @@
       <Cabecera></Cabecera>
       <main role="main">
         <StepNumbers></StepNumbers>
-        <div class="c-form-steps">
+        <div class="c-form-steps background">
           <div class="c-form-steps__sections" data-step="01">
             <div class="container">
               <div class="c-form-steps__content step-data">
@@ -16,6 +16,7 @@
                         <label>RUT de la empresa</label>
                         <input type="text" name="rutempresa_st03" ref="rutCompany" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutCompany.value])" @keyup="rutValidation($refs.rutCompany.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
+                        <div id="loginrut-error" class="errorlogin" v-if="!rutIsValid">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="fantasy">
                         <label>Nombre de Fantasía de la Empresa <i>(Opcional)</i></label>
@@ -38,21 +39,25 @@
                           @blur="blur([$refs.date, $refs.constDate.value])">
                           </date-picker>
                       </div>
-                      <div class="input">
+                      <div class="input" ref="giro">
                         <label>Giro</label>
-                        <input type="text" name="giro_st03">
+                        <input type="text" name="giro_st03" ref="giroInput" @focus="focus($refs.giro)" @blur="blur([$refs.giro, $refs.giroInput.value])">
                       </div>
                       <div class="input">
                         <div class="input-select">
-                          <select name="actividad_st03">
-                            <option value="default">Actividad</option>
+                          <select name="actividad_st03" 
+                            @input="$event = setActivity($event.target.value)" :value="selectedActivity">
+                            <option value="" selected disabled hidden>Seleccione una Actividad</option>
+                            <option v-for="(activity, key) in activities" :value="activity.ActividadId" :key="key">{{ activity.actividad }}</option>
                           </select>
                         </div>
                       </div>
                       <div class="input">
                         <div class="input-select">
-                          <select name="categoria_st03">
-                            <option value="default">Categoría</option>
+                          <select name="categoria_st03" 
+                            @input="$event = setCategory($event.target.value)" :value="selectedCategory">
+                            <option value="" selected disabled hidden>Seleccione una Categoría</option>
+                            <option v-for="(category, key) in categories" :value="category.categoriaId" :key="key">{{ category.categoria }}</option>
                           </select>
                         </div>
                       </div>
@@ -72,7 +77,7 @@
                 </div>
               </div>
             </div>
-            <div class="c-form-drag whitebg small" ref="collapse">
+            <div class="c-form-drag whitebg small font" ref="collapse">
               <div class="container"><a class="section-minimizar" ref="collapseMin" @click="collapseClick([$refs.collapse, $refs.collapseMin])">{{collapse}}<span></span></a>
                 <div class="row">
                   <div class="col-md-12 col-lg-6 offset-lg-2">
@@ -82,12 +87,28 @@
                       <li>Memoria o CV de la empresa</li>
                       <li>Dependientes de la selección de "Tipo de Sociedad" en fila 14</li>
                     </ul>
-                    <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form>
+                    <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
+                    <vue-dropzone
+                      ref="myVueDropzone"
+                      :test="test($refs.myVueDropzone)"
+                      :useCustomSlot="true"
+                      id="dropzone"
+                      @vdropzone-upload-progress="uploadProgress"
+                      :options="dropzoneOptions"
+                      @vdropzone-file-added="fileAdded"
+                      @vdropzone-sending-multiple="sendingFiles"
+                      @vdropzone-success-multiple="success"
+                      @removeUpload="removeThisFile"
+                      ></vue-dropzone>
+                      <AttachmentList
+                        :tempAttachments="getTempAttachments"
+                        :attachments="getAttachments"
+                      />
                   </div>
                 </div>
               </div>
             </div>
-            <div class="c-form-steps small" ref="commercialAddress">
+            <div class="c-form-steps small font" ref="commercialAddress">
               <div class="container"><a class="section-minimizar" ref="commercialMin" @click="collapseClick([$refs.commercialAddress, $refs.commercialMin])">{{collapse}}<span></span></a>
                 <div class="c-form-steps__content step-data">
                   <div class="row">
@@ -96,36 +117,56 @@
                         <h2>Dirección comercial</h2>
                         <div class="input">
                           <div class="input-select">
-                            <select name="regioncomercial_st03">
-                              <option value="default">Región</option>
+                            <select name="regioncomercial_st03" 
+                              @input="$event = setRegion($event.target.value)" :value="selectedRegion" 
+                              @change="getProvince()">
+                              <option value="" selected disabled hidden>Selecciona una Región</option>
+                              <option 
+                                v-for="(region, key) in regions" :value="region.regionId" :key="key">
+                                {{ region.region }}
+                              </option>
                             </select>
                           </div>
                         </div>
                         <div class="input">
                           <div class="input-select">
-                            <select name="provinciacomercial_st03">
-                              <option value="default">Provincia</option>
+                            <select name="provinciacomercial_st03"
+                              @input="$event = setProvince($event.target.value)" :value="selectedProvince"
+                              @change="getCommune()">
+                              <option value="" selected disabled hidden>Selecciona una Provincia</option>
+                              <option 
+                                v-for="(province, key) in provinces" 
+                                :value="province.provinciaId" 
+                                :key="key">
+                                {{ province.provincia }}
+                              </option>
                             </select>
                           </div>
                         </div>
                         <div class="input">
                           <div class="input-select">
-                            <select name="comunacomercial_st03">
-                              <option value="default">Comuna</option>
+                            <select name="comunacomercial_st03" :value="selectedCommune">
+                              <option value="" selected disabled hidden>Selecciona una Comuna</option>
+                              <option 
+                                v-for="(commune, key) in communes" 
+                                :value="commune.comunaId" 
+                                :key="key">
+                                {{ commune.comuna }}
+                              </option>
                             </select>
                           </div>
                         </div>
-                        <div class="input">
+                        <div class="input" ref="street">
                           <label>Calle</label>
-                          <input type="text" name="callecomercial_st03">
+                          <input type="text" name="callecomercial_st03" ref="streetInput" @focus="focus($refs.street)" @blur="blur([$refs.street, $refs.streetInput.value])">
                         </div>
-                        <div class="input">
+                        <div class="input" ref="number">
                           <label>Número</label>
-                          <input type="text" name="numerocomercial_st03">
+                          <input type="text" name="numerocomercial_st03" ref="numberInput" @focus="focus($refs.number)" @blur="blur([$refs.number, $refs.numberInput.value])">
                         </div>
-                        <div class="input">
+                        <div class="input" ref="office">
                           <label>Oficina</label>
-                          <input type="text" name="oficinacomercial_st03">
+                          <input type="text" name="oficinacomercial_st03" ref="officeInput" @focus="focus($refs.office)" @blur="blur([$refs.office, $refs.officeInput.value])">
                         </div>
                       </form>
                     </div>
@@ -140,9 +181,9 @@
                     <div class="col-md-12 col-lg-6 offset-lg-2">
                       <form action="#" id="step03_3">
                         <h2>Redes digitales de la empresa</h2>
-                        <div class="input">
+                        <div class="input" ref="website">
                           <label>Sitio web</label>
-                          <input type="text" name="sitioweb_st03">
+                          <input type="text" name="sitioweb_st03" ref="websiteInput" @focus="focus($refs.website)" @blur="blur([$refs.website, $refs.websiteInput.value])">
                         </div>
                         <button class="btn-red u-mt50 big" id="submitStep03">Guardar y continuar<i class="fa fa-angle-right"></i></button>
                       </form>
@@ -158,49 +199,162 @@
   </template>
 
 <script>
+//Components import
 import Cabecera from '@/components/Cabecera.vue'
 import StepNumbers from '../../components/StepNumbers.vue'
-import { mapState, mapMutations, mapActions } from 'vuex'
+
+//Store import
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 //import Datepicker from 'vuejs-datepicker';
 //import moment from 'moment'
 //import {es} from 'vuejs-datepicker/dist/locale'
+
+//Vue Datepicker
 import datePicker from 'vue-bootstrap-datetimepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+
+//Vue Dropzone
+import vue2Dropzone from 'vue2-dropzone';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import AttachmentList from "@/components/dropzone/AttachmentList";
+
   export default {
     name: 'StepOne',
     components:{
       Cabecera,
       StepNumbers,
-      datePicker
+      datePicker,
+      vueDropzone: vue2Dropzone,
+      AttachmentList: AttachmentList
     },
     data () {
       return {
+        vueDropzoneFile: [],
+        //DatePicker data
         date: null,
         options: {
           format: 'DD/MM/YYYY',
           useCurrent: false,
           showClear: true,
           showClose: true,
-          toolbarPlacement: 'bottom'
+          toolbarPlacement: 'bottom',
+        },
+
+        //Vue Dropzone data
+        tempAttachments: [],
+        attachments: [],
+        dropzoneOptions: {
+          // The Url Where Dropped or Selected files will be sent
+          url: `https://httpbin.org/post`,
+          // File Size allowed in MB
+          maxFilesize: 102400000,
+          // Authentication Headers like Access_Token of your application
+          headers: {
+            Authorization: `Access Token`
+          },
+          // The way you want to receive the files in the server
+          paramName: function(n) {
+            return "file[]";
+          },
+          dictDefaultMessage: "Upload Files Here xD",
+          includeStyling: false,
+          previewsContainer: false,
+          thumbnailWidth: 250,
+          thumbnailHeight: 140,
+          uploadMultiple: true,
+          parallelUploads: 20
         }
       }
     },
 
     methods: {
-      ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick']),
-      ...mapActions(['getCamarasTest']),
-      customFormatter(date) {
-        return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+      ...mapGetters([ 'getterRegion', 'getterProvince', 'getterCommune', 'getterActivity', 'getterCategory',
+      'getterFile', 'getterVueDropzoneFile' ]),
+      ...mapMutations(['focus', 'blur', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'collapseClick', 'setRegion', 'setProvince', 'setCommune', 'setActivity', 'setCategory',
+        'setVueDropzoneFile']),
+      ...mapActions(['getRegion', 'getProvince', 'getCommune', 'getActivity', 'getCategory', 
+        'companyBackgroundUpload']),
+      test (file) {
+        console.log("File desde test => ", file)
+
+      },
+      // function called for every file dropped or selected
+      fileAdded(file) {
+        console.log("File Dropped => ", file);
+        this.dropzoneOptions.dictDefaultMessage = file;
+        console.log("File Dropped => ", this.dropzoneOptions.dictDefaultMessage);
+        this.setVueDropzoneFile(file);
+        // Construct your file object to render in the UI
+        let attachment = {};
+        attachment._id = file.upload.uuid;
+        attachment.title = file.name;
+        attachment.type = "file";
+        attachment.extension = "." + file.type.split("/")[1];
+        attachment.user = JSON.parse(localStorage.getItem("user"));
+        attachment.content = "File Upload by Select or Drop";
+        attachment.thumb = file.dataURL;
+        attachment.thumb_list = file.dataURL;
+        attachment.isLoading = true;
+        attachment.progress = null;
+        attachment.size = file.size;
+        this.tempAttachments = [...this.tempAttachments, attachment];
+      },
+      // a middle layer function where you can change the XHR request properties
+      sendingFiles(files, xhr, formData) {
+        console.log(
+          "if you want to change the upload time or add data to the formData you can do it here."
+        );
+        console.log("Files sending", files);
+      },
+      // function where we get the upload progress
+      uploadProgress(file, progress, bytesSent) {
+        console.log("File Upload Progress", progress);
+        this.tempAttachments.map(attachment => {
+          if (attachment.title === file.name) {
+            attachment.progress = `${Math.floor(progress)}`;
+          }
+        });
+      },
+      // called on successful upload of a file
+      success(file, response) {
+        console.log("File uploaded successfully");
+        console.log("Response is ->", response);
+        console.log("file is ->", file);
+        this.companyBackgroundUpload();
+        //this.test(response);
+      },
+
+      removeThisFile: function(thisFile){
+        this.$refs.MyDropzone.removeFile(thisFile)
+        console.log("File removed!")
       }
     },
 
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid'])
+      ...mapState(['selectedRegion', 'selectedProvince', 'selectedCommune', 'selectedActivity', 
+        'selectedCategory', 'collapse', 'rutIsValid', 'telIsValid', 'emailIsValid', 
+        'activities', 'categories', 'regions', 'provinces', 'communes']),
+      getTempAttachments() {
+        return this.tempAttachments;
+      },
+      getAttachments() {
+        return this.attachments;
+      },
+      /*test: {
+        get() {
+          return this.getName();
+        },
+        set(newName) {
+          return this.SET_NAME(newName);
+        }
+      }*/
     },
 
     created (){
-      //this.getCamarasTest();
+      this.getRegion();
+      this.getActivity();
+      this.getCategory();
     }
   
 
@@ -209,5 +363,10 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 </script>
 
 <style>
-  
+  .background {
+    background: #f0f0f0;
+  }
+  .font {
+    font-size: 100%;
+  }
 </style>

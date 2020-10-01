@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { mapState } from 'vuex'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 import { validaRut, telValidate, emailValidate } from "./../validation/validation";
 
 Vue.use(Vuex)
@@ -13,12 +17,51 @@ export default new Vuex.Store({
 	tipoSocs: [],
 	URL: 'http://postulacion.isc.cl',
 	URLEmail: 'http://postulacionweb.isc.cl', 
+	regions: [],
+	selectedRegion: '',
+	provinces: [],
+	selectedProvince: '',
+	communes: [],
+	selectedCommune: '',
+	activities: [],
+	selectedActivity: '',
+	categories: [],
+	selectedCategory: '',
+	localhost: 'http://localhost:8080',
 	rutIsValid: true,
 	telIsValid: true,
 	emailGlobal: '',
 	emailIsValid: true,
 	emailConfirmIsValid: true,
 	collapse: 'EXPANDIR',
+	vueDropzoneFile: []
+  },
+
+  getters: {
+    getterRegion(state) {
+      return state.selectedRegion;
+    },
+    getterProvince(state) {
+    	return state.selectedProvince;
+    },
+
+    getterCommune(state) {
+    	return state.selectedCommune;
+    },
+
+    getterActivity(state) {
+    	return state.selectedActivity;
+    },
+
+    getterCategory(state) {
+    	return state.selectedCategory;
+    },
+    getterCategory(state) {
+    	return state.selectedCategory;
+    },
+    getterVueDropzoneFile(state) {
+    	return state.vueDropzoneFile;
+    },
   },
 
   mutations: {
@@ -79,21 +122,21 @@ export default new Vuex.Store({
   		if (refs[0].className == 'c-form-drag whitebg small') {
   			refs[0].className = 'c-form-drag whitebg'
   			refs[1].innerText = 'MINIMIZAR'
-  		}else if(refs[0].className == 'c-form-drag whitebg') {
-  			refs[0].className = 'c-form-drag whitebg small'
+  		}else if(refs[0].className == 'c-form-drag whitebg font') {
+  			refs[0].className = 'c-form-drag whitebg small font'
   			refs[1].innerText = 'EXPANDIR'
   		}
-  		if (refs[0].className == 'c-form-steps small'){
-  			refs[0].className = 'c-form-steps'
+  		if (refs[0].className == 'c-form-steps small font'){
+  			refs[0].className = 'c-form-steps font'
   			refs[1].innerText = 'MINIMIZAR'
-  		}else if(refs[0].className == 'c-form-steps') {
-  			refs[0].className = 'c-form-steps small'
+  		}else if(refs[0].className == 'c-form-steps font') {
+  			refs[0].className = 'c-form-steps small font'
   			refs[1].innerText = 'EXPANDIR'
   		}
   		//console.log(refs);
   	},
 
-  	rutValidation(state, rut, phone, email, emailConfirm) {
+  	rutValidation(state, rut) {
 
 		if (rut !== '') {
 			console.log(rut);
@@ -126,9 +169,35 @@ export default new Vuex.Store({
 		state.camaras = camarasAction
 	},
 
+
 	loadTipoSocs(state, tipoSocsAction) {
 		state.tipoSocs = tipoSocsAction
 	},
+
+	setRegion(state, newRegion) {
+      state.selectedRegion = newRegion;
+    },
+
+    setProvince(state, newProvince) {
+      state.selectedProvince = newProvince;
+    },
+
+    setCommune(state, newCommune) {
+      state.selectedCommune = newCommune;
+    },
+
+    setActivity(state, newActivity) {
+      state.selectedActivity = newActivity;
+    },
+
+    setCategory(state, newCategory) {
+      state.selectedCategory = newCategory;
+    },
+
+    setVueDropzoneFile(state, newFile) {
+      state.vueDropzoneFile = newFile;
+    },
+
 
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
@@ -148,7 +217,78 @@ export default new Vuex.Store({
 		const data = await fetch(state.URL + '/listarTipoSoc');
 		const tipoSocs = await data.json();
 		commit('loadTipoSocs', tipoSocs);
-	  }
+	  },
+
+	  getActivity: async function({state}) {
+		const data = await fetch(state.URL + '/listarActividad');
+		//const region = await data.json();
+		state.activities = await data.json();
+	  },
+
+	  getCategory: async function({state}) {
+		const data = await fetch(state.URL + '/listarCategoria');
+		//const region = await data.json();
+		state.categories = await data.json();
+	  	console.log(state.categories);
+	  },
+
+	  getRegion: async function({state}) {
+	  	const headers = { "Content-Type": "application/json" };
+		const data = await fetch(state.URL + '/listarRegion');
+		//const region = await data.json();
+		state.regions = await data.json();
+	  },
+
+	  getProvince: async function({state}) {
+	  	console.log(state.selectedRegion);
+		const data = await fetch(state.URL + '/listarProvincias/' + state.selectedRegion);
+		//const province = await data.json();
+		state.provinces = await data.json();
+	  },
+
+	  getCommune: async function({state}) {
+	  	console.log(state.selectedProvince);
+		const data = await fetch(state.URL + '/listarComuna/' + state.selectedProvince);
+		state.communes = await data.json();
+	  	console.log(state.communes);
+	  },
+
+	  /*SET_NAME(context, newName) {
+	    context.commit("setName", newName);
+	  },*/
+
+	  companyBackgroundUpload: async function({state}) {
+		/*const data = await fetch(state.URL + '/uploadfile');
+		console.log(data);
+		const camaras = await data.json();
+		commit('loadCamaras', camaras);*/
+
+		console.log(state.vueDropzoneFile);
+		/*const requestOptions = {
+		    method: "POST",
+		    headers: { "Content-Type": "application/json" },
+		    body: JSON.stringify({ file: state.vueDropzoneFile })
+		};
+		const response = await fetch(state.URL + '/uploadfile', requestOptions);
+		const data = await response.json();
+		console.log(data);*/
+		//this.postId = data.id;
+		let fd = new FormData();
+      	fd.append('file', this.state.vueDropzoneFile)
+		axios.post( state.URL+'/uploadfile',
+                fd,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+	  },
 
 
   },

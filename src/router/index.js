@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import DatosBasicos from '../views/DatosBasicos.vue';
 import RecoveryCode from '../views/RecoveryCode.vue';
 import StepOne from '@/views/steps/StepOne.vue';
+import StepTwo from '@/views/steps/StepTwo.vue';
 
 
 Vue.use(VueRouter)
@@ -39,6 +40,13 @@ Vue.use(VueRouter)
     component: () => import('@/views/steps/StepOne.vue')
   },
   {
+    path: '/paso2/:id',
+    name: 'StepTwo',
+    //component: StepNumbers
+    component: () => import('@/views/steps/StepTwo.vue')
+
+  },
+  {
     path: '/paso3/:id',
     name: 'StepTree',
     //component: StepNumbers
@@ -50,6 +58,7 @@ Vue.use(VueRouter)
     //component: StepNumbers
     component: () => import('@/views/steps/StepFour.vue')
   },
+  
   {
     path: '/datos-basicos-validacion',
     name: 'SendSolicitud',
