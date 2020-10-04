@@ -150,6 +150,7 @@ export default new Vuex.Store({
     },
 
     setVueDropzoneFile(state, newFile) {
+    	console.log(newFile);
       state.vueDropzoneFile = newFile;
     },
 
@@ -217,10 +218,22 @@ export default new Vuex.Store({
 		const data = await response.json();
 		console.log(data);*/
 		//this.postId = data.id;
-		let fd = new FormData();
-      	fd.append('file', this.state.vueDropzoneFile)
+
+		let formData = new FormData();
+		/*
+		  Iteate over any file sent over appending the files
+		  to the form data.
+		*/
+		for( var i = 0; i < state.vueDropzoneFile.length; i++ ){
+		  let file = state.vueDropzoneFile[i];
+
+		  formData.append('files[' + i + ']', file);
+		}
+
+		//let fd = new FormData();
+      	//fd.append('file', state.vueDropzoneFile)
 		axios.post( state.URL+'/uploadfile',
-                fd,
+                formData,
                 {
                 headers: {
                     'Content-Type': 'multipart/form-data'

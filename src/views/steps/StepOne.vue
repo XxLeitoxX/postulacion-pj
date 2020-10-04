@@ -90,7 +90,6 @@
                     <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
                     <vue-dropzone
                       ref="myVueDropzone"
-                      :test="test($refs.myVueDropzone)"
                       :useCustomSlot="true"
                       id="dropzone"
                       @vdropzone-upload-progress="uploadProgress"
@@ -98,7 +97,6 @@
                       @vdropzone-file-added="fileAdded"
                       @vdropzone-sending-multiple="sendingFiles"
                       @vdropzone-success-multiple="success"
-                      @removeUpload="removeThisFile"
                       ></vue-dropzone>
                       <AttachmentList
                         :tempAttachments="getTempAttachments"
@@ -275,16 +273,12 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
         'setVueDropzoneFile']),
       ...mapActions(['getRegion', 'getProvince', 'getCommune', 'getActivity', 'getCategory', 
         'companyBackgroundUpload']),
-      test (file) {
-        console.log("File desde test => ", file)
 
-      },
       // function called for every file dropped or selected
       fileAdded(file) {
         console.log("File Dropped => ", file);
         this.dropzoneOptions.dictDefaultMessage = file;
         console.log("File Dropped => ", this.dropzoneOptions.dictDefaultMessage);
-        this.setVueDropzoneFile(file);
         // Construct your file object to render in the UI
         let attachment = {};
         attachment._id = file.upload.uuid;
@@ -321,14 +315,11 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
         console.log("File uploaded successfully");
         console.log("Response is ->", response);
         console.log("file is ->", file);
+        this.setVueDropzoneFile(file);
         this.companyBackgroundUpload();
         //this.test(response);
       },
 
-      removeThisFile: function(thisFile){
-        this.$refs.MyDropzone.removeFile(thisFile)
-        console.log("File removed!")
-      }
     },
 
     computed: {
