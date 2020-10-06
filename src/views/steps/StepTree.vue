@@ -49,7 +49,7 @@
             </div>
           </div>
           <div class="c-form-drag whitebg small" ref="collapse">
-            <div class="container"><a class="section-minimizar" ref="collapseMin" @click="collapseClick([$refs.collapse, $refs.collapseMin])">{{collapse}}<span></span></a>
+            <div class="container"><a class="section-minimizar" ref="collapseMin" @click="collapseClickStep3([$refs.collapse, $refs.collapseMin])">{{collapse}}<span></span></a>
                 <div class="row">
                   <div class="col-md-12 col-lg-6 offset-lg-2">
                     <form action="#" id="step05_2">
@@ -121,8 +121,10 @@
 <script>
 import Cabecera from './../../components/Cabecera';
 import StepNumbers from './../../components/StepNumbers';
-import StepFour from './StepFour';
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+
 export default {
   name: 'StepTree',
   components: {
@@ -140,30 +142,61 @@ export default {
         telefonoParticipante: '',
         telefonoParticipante2: '',
         dataPatrocinantes: [{}],
-        mostrarStepFour: true
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation']),
+      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation']),
 
       save() {
-        this.dataPatrocinantes.push({
-        rutParticipante: this.rutParticipante,
-        nombreParticipante: this.nombreParticipante,
-        emailParticipante: this.emailParticipante,
-        telefonoParticipante: this.telefonoParticipante,
-        rutParticipante2: this.rutParticipante2,
-        nombreParticipante2: this.nombreParticipante2,
-        emailParticipante2: this.emailParticipante2,
-        telefonoParticipante2: this.telefonoParticipante2,
+        if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+            this.dataPatrocinantes.push({
+            rutParticipante: this.rutParticipante,
+            nombreParticipante: this.nombreParticipante,
+            emailParticipante: this.emailParticipante,
+            telefonoParticipante: this.telefonoParticipante,
+            rutParticipante2: this.rutParticipante2,
+            nombreParticipante2: this.nombreParticipante2,
+            emailParticipante2: this.emailParticipante2,
+            telefonoParticipante2: this.telefonoParticipante2,
       });
       console.log(this.dataPatrocinantes);
+      } else {
+        alert("Los datos tienen que ser válidos");
+      }
+      
+      },
 
+      validateInput() {
+        if (this.rutParticipante !== '' && this.nombreParticipante !== '' && this.emailParticipante !== '' 
+            && this.telefonoParticipante !== '' && this.rutParticipante2 !== '' && this.nombreParticipante2 !== ''
+            && this.emailParticipante2 !== '' && this.telefonoParticipante2 !== '') {
+          if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+            return true;
+          }
+        } else {
+          return false;
+        }
       },
 
       saveContinue() {
-        alert("Guarda y continua");
+        if (this.validateInput()) {
+          this.save();
+          this.postParticipante();
+        } else {
+          alert("Debe llenar todos los campos");
+        }
       },
+
+      postParticipante:  function() {
+      let objPatrocinante = this.dataPatrocinantes;
+      let data = JSON.stringify(objPatrocinante);
+      console.log(data);
+      axios.post(this.urlBase+'/postpatrocinantes', data).then((response) => {
+      console.log(response.data);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+	  },
 
       show () {
             this.$modal.show('help-modal-1');
@@ -176,7 +209,6 @@ export default {
     computed: {
       ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid'])
     },
-
     
 }
 </script>

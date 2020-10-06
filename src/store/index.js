@@ -127,13 +127,7 @@ export default new Vuex.Store({
 			refs[0].className = 'c-form-steps greybg small'
 			refs[1].innerText = 'EXPANDIR'
 		}
-  		/*if (refs[0].className == 'c-form-drag whitebg small') {
-  			refs[0].className = 'c-form-drag whitebg'
-  			refs[1].innerText = 'MINIMIZAR'
-  		}else if(refs[0].className == 'c-form-drag whitebg font') {
-  			refs[0].className = 'c-form-drag whitebg small font'
-  			refs[1].innerText = 'EXPANDIR'
-  		}*/
+  		
   		if (refs[0].className == 'c-form-steps small font'){
   			refs[0].className = 'c-form-steps font'
   			refs[1].innerText = 'MINIMIZAR'
@@ -142,7 +136,18 @@ export default new Vuex.Store({
   			refs[1].innerText = 'EXPANDIR'
   		}
   		//console.log(refs);
-  	},
+	  },
+	  
+	collapseClickStep3(state, refs) {
+
+		if (refs[0].className == 'c-form-drag whitebg small') {
+			refs[0].className = 'c-form-drag whitebg'
+			refs[1].innerText = 'MINIMIZAR'
+		}else if(refs[0].className == 'c-form-drag whitebg') {
+			refs[0].className = 'c-form-drag whitebg small'
+			refs[1].innerText = 'EXPANDIR'
+		}
+	},
 
   	rutValidation(state, rut) {
 

@@ -436,7 +436,7 @@ export default {
 	  },
     
     generateUrl() {
-      this.urlMail = `${this.urlBaseMail}/prueba/`; 
+      this.urlMail = `${this.urlBaseMail}/paso1/`; 
     },
 
     ...mapActions(['getCamaras', 'getTipoSociedad']),
