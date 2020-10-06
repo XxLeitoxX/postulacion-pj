@@ -142,6 +142,7 @@ export default {
         telefonoParticipante: '',
         telefonoParticipante2: '',
         dataPatrocinantes: [{}],
+        urlBase: this.$store.state.URL,
       }
     },
     methods:{
@@ -191,7 +192,7 @@ export default {
       let objPatrocinante = this.dataPatrocinantes;
       let data = JSON.stringify(objPatrocinante);
       console.log(data);
-      axios.post(this.urlBase+'/postpatrocinantes', data).then((response) => {
+      axios.post(this.urlBase + this.$route.path + '/postpatrocinantes', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
