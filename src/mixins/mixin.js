@@ -1,5 +1,19 @@
+import AttachmentList from "@/components/dropzone/AttachmentList";
 export default {
-  // function called for every file dropped or selected
+  components: {
+    AttachmentList: AttachmentList
+  },
+   data () {
+      msg: 'Hello World'
+   },
+   created: function () {
+      console.log('Printing from the Mixin')
+   },
+   methods: {
+      displayMessage: function () {
+         console.log('Now printing from a mixin function')
+      },
+      // function called for every file dropped or selected
       fileAdded(file) {
         console.log("File Dropped => ", file);
         this.dropzoneOptions.dictDefaultMessage = file;
@@ -44,4 +58,14 @@ export default {
         this.companyBackgroundUpload();
         //this.test(response);
       },
+   },
+
+   computed: {
+     getTempAttachments() {
+        return this.tempAttachments;
+      },
+      getAttachments() {
+        return this.attachments;
+      },
+   }
 }

@@ -14,17 +14,23 @@
                     <form action="#" id="step03_1">
                       <div class="input" ref="rut">
                         <label>RUT de la empresa</label>
-                        <input type="text" name="rutempresa_st03" ref="rutCompany" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutCompany.value])" @keyup="rutValidation($refs.rutCompany.value)">
+                        <input type="text" name="rutempresa_st03" v-model="rutCompany" ref="rutCompany" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutCompany.value])" @keyup="rutValidation($refs.rutCompany.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                         <div id="loginrut-error" class="errorlogin" v-if="!rutIsValid">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="fantasy">
                         <label>Nombre de Fantasía de la Empresa <i>(Opcional)</i></label>
-                        <input type="text" name="nombreempresa_st03" ref="fantasyName" @focus="focus($refs.fantasy)" @blur="blur([$refs.fantasy, $refs.fantasyName.value])">
+                        <input type="text" name="nombreempresa_st03" v-model="fantasyName" ref="fantasyName" @focus="focus($refs.fantasy)" @blur="blur([$refs.fantasy, $refs.fantasyName.value])">
+                        <div id="nombreempresa_st03-error" class="errorlogin" v-if="!fantasyIsValid">
+                          Ingrese un nombre
+                        </div>
                       </div>
                       <div class="input" ref="businessName">
                         <label>Razón Social</label>
-                        <input type="text" name="razonsocial_st03" ref="businessNameClass" @focus="focus($refs.businessName)" @blur="blur([$refs.businessName, $refs.businessNameClass.value])">
+                        <input type="text" name="razonsocial_st03" v-model="businessName" ref="businessNameClass" @focus="focus($refs.businessName)" @blur="blur([$refs.businessName, $refs.businessNameClass.value])">
+                        <div id="razonsocial_st03-error" class="errorlogin" v-if="!businessIsValid">
+                          Ingrese un nombre
+                        </div>
                       </div>
                       <div class="input datepicker" ref="date">
                         <label>Fecha de Constitución</label>
@@ -41,7 +47,7 @@
                       </div>
                       <div class="input" ref="giro">
                         <label>Giro</label>
-                        <input type="text" name="giro_st03" ref="giroInput" @focus="focus($refs.giro)" @blur="blur([$refs.giro, $refs.giroInput.value])">
+                        <input type="text" name="giro_st03" v-model="giro" ref="giroInput" @focus="focus($refs.giro)" @blur="blur([$refs.giro, $refs.giroInput.value])">
                       </div>
                       <div class="input">
                         <div class="input-select">
@@ -63,13 +69,13 @@
                       </div>
                       <div class="input" ref="phone">
                         <label>Teléfono de la empresa <i>(Opcional)</i></label>
-                        <input type="text" name="telefonoempresa_st03" ref="phoneCompany" @focus="focus($refs.phone)" @blur="blur([$refs.phone, $refs.phoneCompany.value])" @keyup="phoneNumberValidation($refs.phoneCompany.value)">
+                        <input type="text" name="telefonoempresa_st03" v-model="phoneCompany" ref="phoneCompany" @focus="focus($refs.phone)" @blur="blur([$refs.phone, $refs.phoneCompany.value])" @keyup="phoneNumberValidation($refs.phoneCompany.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
                         <div id="phonest02-error" class="formerror" v-if="!telIsValid">Ingrese un número válido</div>
                       </div>
                       <div class="input" ref="email">
                         <label>Email de la empresa <i>(Opcional)</i></label>
-                        <input type="text" name="emailempresa_st03" ref="emailCompany" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailCompany.value])" @keyup="emailValidation($refs.emailCompany.value)">
+                        <input type="text" name="emailempresa_st03" v-model="companyEmail" ref="emailCompany" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailCompany.value])" @keyup="emailValidation($refs.emailCompany.value)">
                         <div id="email2st02-error" class="formerror" v-if="!emailIsValid">Ingrese un email válido</div>
                       </div>
                     </form>
@@ -156,15 +162,21 @@
                         </div>
                         <div class="input" ref="street">
                           <label>Calle</label>
-                          <input type="text" name="callecomercial_st03" ref="streetInput" @focus="focus($refs.street)" @blur="blur([$refs.street, $refs.streetInput.value])">
+                          <input type="text" name="callecomercial_st03" v-model="street" 
+                            ref="streetInput" @focus="focus($refs.street)" 
+                            @blur="blur([$refs.street, $refs.streetInput.value])">
                         </div>
                         <div class="input" ref="number">
                           <label>Número</label>
-                          <input type="text" name="numerocomercial_st03" ref="numberInput" @focus="focus($refs.number)" @blur="blur([$refs.number, $refs.numberInput.value])">
+                          <input type="text" name="numerocomercial_st03" v-model="streetNumber" 
+                            ref="numberInput" @focus="focus($refs.number)" 
+                            @blur="blur([$refs.number, $refs.numberInput.value])">
                         </div>
                         <div class="input" ref="office">
                           <label>Oficina</label>
-                          <input type="text" name="oficinacomercial_st03" ref="officeInput" @focus="focus($refs.office)" @blur="blur([$refs.office, $refs.officeInput.value])">
+                          <input type="text" name="oficinacomercial_st03" v-model="office" 
+                            ref="officeInput" @focus="focus($refs.office)" 
+                            @blur="blur([$refs.office, $refs.officeInput.value])">
                         </div>
                       </form>
                     </div>
@@ -181,9 +193,13 @@
                         <h2>Redes digitales de la empresa</h2>
                         <div class="input" ref="website">
                           <label>Sitio web</label>
-                          <input type="text" name="sitioweb_st03" ref="websiteInput" @focus="focus($refs.website)" @blur="blur([$refs.website, $refs.websiteInput.value])">
+                          <input type="text" name="sitioweb_st03" v-model="website" 
+                            ref="websiteInput" @focus="focus($refs.website)" 
+                            @blur="blur([$refs.website, $refs.websiteInput.value])">
                         </div>
-                        <button class="btn-red u-mt50 big" id="submitStep03">Guardar y continuar<i class="fa fa-angle-right"></i></button>
+                        <button class="btn-red u-mt50 big" id="submitStep03" type="button" @click="checkForm()">
+                          Guardar y continuar<i class="fa fa-angle-right"></i>
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -215,20 +231,39 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 //Vue Dropzone
 import vue2Dropzone from 'vue2-dropzone';
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
-import AttachmentList from "@/components/dropzone/AttachmentList";
+
+import mixin from '@/mixins/mixin.js'
 
   export default {
     name: 'StepOne',
+    mixins: [mixin],
     components:{
       Cabecera,
       StepNumbers,
       datePicker,
       vueDropzone: vue2Dropzone,
-      AttachmentList: AttachmentList
+      //AttachmentList: AttachmentList
     },
     data () {
       return {
-        vueDropzoneFile: [],
+        //Step One Variables
+        rutCompany: '',
+        fantasyName: '',
+        businessName: '',
+        date: '',
+        giro: '',
+        phoneCompany: '',
+        companyEmail: '',
+        street: '',
+        streetNumber: '',
+        office: '',
+        website: '',
+
+        //Validation variables
+        formIsValid: false,
+        fantasyIsValid: true,
+        businessIsValid: true,
+
         //DatePicker data
         date: null,
         options: {
@@ -240,6 +275,7 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
         },
 
         //Vue Dropzone data
+        vueDropzoneFile: [],
         tempAttachments: [],
         attachments: [],
         dropzoneOptions: {
@@ -262,7 +298,7 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
           thumbnailHeight: 140,
           uploadMultiple: true,
           parallelUploads: 20
-        }
+        },
       }
     },
 
@@ -274,64 +310,30 @@ import AttachmentList from "@/components/dropzone/AttachmentList";
       ...mapActions(['getRegion', 'getProvince', 'getCommune', 'getActivity', 'getCategory', 
         'companyBackgroundUpload']),
 
-      // function called for every file dropped or selected
-      fileAdded(file) {
-        console.log("File Dropped => ", file);
-        this.dropzoneOptions.dictDefaultMessage = file;
-        console.log("File Dropped => ", this.dropzoneOptions.dictDefaultMessage);
-        // Construct your file object to render in the UI
-        let attachment = {};
-        attachment._id = file.upload.uuid;
-        attachment.title = file.name;
-        attachment.type = "file";
-        attachment.extension = "." + file.type.split("/")[1];
-        attachment.user = JSON.parse(localStorage.getItem("user"));
-        attachment.content = "File Upload by Select or Drop";
-        attachment.thumb = file.dataURL;
-        attachment.thumb_list = file.dataURL;
-        attachment.isLoading = true;
-        attachment.progress = null;
-        attachment.size = file.size;
-        this.tempAttachments = [...this.tempAttachments, attachment];
-      },
-      // a middle layer function where you can change the XHR request properties
-      sendingFiles(files, xhr, formData) {
-        console.log(
-          "if you want to change the upload time or add data to the formData you can do it here."
-        );
-        console.log("Files sending", files);
-      },
-      // function where we get the upload progress
-      uploadProgress(file, progress, bytesSent) {
-        console.log("File Upload Progress", progress);
-        this.tempAttachments.map(attachment => {
-          if (attachment.title === file.name) {
-            attachment.progress = `${Math.floor(progress)}`;
-          }
-        });
-      },
-      // called on successful upload of a file
-      success(file, response) {
-        console.log("File uploaded successfully");
-        console.log("Response is ->", response);
-        console.log("file is ->", file);
-        this.setVueDropzoneFile(file);
-        this.companyBackgroundUpload();
-        //this.test(response);
-      },
+      checkForm() {
+        if (this.rut == '') {
+          this.rutIsValid = false;
+          this.formIsValid = false;
+        } else {
+          this.rutIsValid = true;
+          this.formIsValid = true;
+        }
 
+        if (this.businessName == '') {
+          this.businessIsValid = false;
+          this.formIsValid = false;
+        } else {
+          this.businessIsValid = true;
+          this.formIsValid = true;
+        }
+      }
     },
 
     computed: {
       ...mapState(['selectedRegion', 'selectedProvince', 'selectedCommune', 'selectedActivity', 
         'selectedCategory', 'collapse', 'rutIsValid', 'telIsValid', 'emailIsValid', 
         'activities', 'categories', 'regions', 'provinces', 'communes']),
-      getTempAttachments() {
-        return this.tempAttachments;
-      },
-      getAttachments() {
-        return this.attachments;
-      },
+     
       /*test: {
         get() {
           return this.getName();
