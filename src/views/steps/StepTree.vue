@@ -15,7 +15,7 @@
                   <form action="#" id="step05_1">
                     <div class="input"  ref="rut">
                       <label>RUT del Patrocinante 1</label>
-                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value])" @keyup="rutValidation($refs.rutParticipante.value)">
+                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante)" @keyup="rutValidation($refs.rutParticipante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
                       <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
                     </div>
@@ -56,7 +56,7 @@
                       <h2>Patrocinante 2</h2>
                       <div class="input" ref="rut2">
                         <label>RUT del Patrocinante 2</label>
-                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value])" @keyup="rutValidation($refs.rutParticipante2.value)">
+                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist(rutParticipante2)" @keyup="rutValidation($refs.rutParticipante2.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
                         <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
                       </div>
@@ -143,28 +143,76 @@ export default {
         telefonoParticipante2: '',
         dataPatrocinantes: [{}],
         urlBase: this.$store.state.URL,
+        patrocinantes: [{
+                          "detId": "1",
+                          "nombre": "3M Chile S.A.",
+                          "perId": "88362",
+                          "relId": "1555",
+                          "apePat": "",
+                          "apeMat": "",
+                          "rut": "11111111-1",
+                          "perTip": "1",
+                          "preRegNro": "85231",
+                          "preRegId": "2",
+                          "camara": "SANTIAGO"
+                          },
+                          {
+                          "detId": "18",
+                          "nombre": "Abastible S.A.",
+                          "perId": "88379",
+                          "relId": "1087",
+                          "apePat": "",
+                          "apeMat": "",
+                          "rut": "22222222-2",
+                          "perTip": "1",
+                          "preRegNro": "90465",
+                          "preRegId": "19",
+                          "camara": "ANTOFAGASTA"
+                          }]
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation']),
+      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'savePostulacionCompleted']),
 
       save() {
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
             this.dataPatrocinantes.push({
-            rutParticipante: this.rutParticipante,
-            nombreParticipante: this.nombreParticipante,
-            emailParticipante: this.emailParticipante,
-            telefonoParticipante: this.telefonoParticipante,
-            rutParticipante2: this.rutParticipante2,
-            nombreParticipante2: this.nombreParticipante2,
-            emailParticipante2: this.emailParticipante2,
-            telefonoParticipante2: this.telefonoParticipante2,
+            patrocinantes: {
+              rutParticipante: this.rutParticipante,
+              nombreParticipante: this.nombreParticipante,
+              emailParticipante: this.emailParticipante,
+              telefonoParticipante: this.telefonoParticipante,
+              rutParticipante2: this.rutParticipante2,
+              nombreParticipante2: this.nombreParticipante2,
+              emailParticipante2: this.emailParticipante2,
+              telefonoParticipante2: this.telefonoParticipante2,
+            } 
       });
       console.log(this.dataPatrocinantes);
       } else {
         alert("Los datos tienen que ser válidos");
       }
       
+      },
+
+      validateRutExist(rut) {
+        
+        axios.get(this.urlBase + this.$route.path + '/validatePatrocinantes/' + rut).then((response) => {
+        console.log(response.data);
+        }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+        });
+        
+        /*for (let i=0; i < this.patrocinantes.length; i++) {
+
+         if (this.rutParticipante == this.patrocinantes[i].rut) {
+            this.nombreParticipante = this.patrocinantes[i].nombre;
+          }
+          
+          if (this.rutParticipante2 == this.patrocinantes[i].rut) {
+            this.nombreParticipante2 = this.patrocinantes[i].nombre;
+          } 
+        }*/
       },
 
       validateInput() {
@@ -182,7 +230,8 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
-          this.postParticipante();
+          this.savePostulacionCompleted(this.dataPatrocinantes);
+          //this.postParticipante();
         } else {
           alert("Debe llenar todos los campos");
         }

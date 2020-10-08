@@ -34,7 +34,8 @@ export default new Vuex.Store({
 	emailIsValid: true,
 	emailConfirmIsValid: true,
 	collapse: 'EXPANDIR',
-	vueDropzoneFile: []
+	vueDropzoneFile: [],
+	postulacionCompleted: [{}]
   },
 
   getters: {
@@ -65,6 +66,10 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
+	savePostulacionCompleted(state, step) {
+		state.postulacionCompleted.push(step);
+	},
   	focus(state, refs) {
   		refs.className = 'input active'
   		//console.log(refs);
