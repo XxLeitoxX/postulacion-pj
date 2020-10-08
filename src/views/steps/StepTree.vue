@@ -197,7 +197,7 @@ export default {
 
       validateRutExist(rut) {
         
-        axios.get(this.urlBase + this.$route.path + '/validatePatrocinantes/' + rut).then((response) => {
+        axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
         console.log(response.data);
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
