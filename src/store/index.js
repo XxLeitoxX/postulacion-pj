@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import { mapState } from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import { validaRut, telValidate, emailValidate } from "./../validation/validation";
+import { validaRut, telValidate, emailValidate, validaURL } from "./../validation/validation";
 
 Vue.use(Vuex)
 
@@ -25,10 +25,11 @@ export default new Vuex.Store({
 	selectedCategory: '',
 	localhost: 'http://localhost:8080',
 	URL: 'http://postulacion.isc.cl',
-	rutIsValid: true,
-	telIsValid: true,
-	emailIsValid: true,
-	emailConfirmIsValid: true,
+	rutIsValid: '',
+	telIsValid: '',
+	emailIsValid: '',
+	emailConfirmIsValid: '',
+	websiteIsValid: '',
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: []
   },
@@ -57,6 +58,13 @@ export default new Vuex.Store({
     },
     getterVueDropzoneFile(state) {
     	return state.vueDropzoneFile;
+    },
+    getterRutIsValid(state) {
+    	return state.rutIsValid;
+    },
+
+    getterWebsiteIsValid(state) {
+    	return state.websiteIsValid;
     },
   },
 
@@ -100,8 +108,8 @@ export default new Vuex.Store({
   	rutValidation(state, rut) {
 
 		if (rut !== '') {
-			console.log(rut);
 			console.log(state.rutIsValid);
+			console.log(rut);
 			validaRut(rut) ? state.rutIsValid = true : state.rutIsValid = false; 
 		}
     },
@@ -123,6 +131,12 @@ export default new Vuex.Store({
     	if (emailConfirm !== '') {
         	emailValidate(emailConfirm) ? state.emailConfirmIsValid = true : state.emailConfirmIsValid = false;
       	}
+    },
+
+    validateURL (state, URL) {
+    	if (URL !== '') {
+    		validaURL(URL) ? state.websiteIsValid = true : state.websiteIsValid = false;
+    	}
     },
 	
 	loadCamaras(state, camarasAction) {
@@ -152,6 +166,24 @@ export default new Vuex.Store({
     setVueDropzoneFile(state, newFile) {
     	console.log(newFile);
       state.vueDropzoneFile = newFile;
+    },
+
+    setRutIsValid(state, newRutIsValid) {
+    	if (newRutIsValid == false) {
+    		console.log(newRutIsValid);
+     		state.rutIsValid = false;
+    	} else {
+    		state.rutIsValid = true;
+    	}
+    },
+
+    setWebsiteIsValid(state, newWebsiteIsValid) {
+    	if (newWebsiteIsValid == false) {
+    		console.log(newWebsiteIsValid);
+     		state.websiteIsValid = false;
+    	} else {
+    		state.websiteIsValid = true;
+    	}
     },
 
   },
