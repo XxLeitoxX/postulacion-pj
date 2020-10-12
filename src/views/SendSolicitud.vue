@@ -8,7 +8,7 @@
               <div class="c-form-info__validacion">
                 <div class="info">
                   <h2> <strong>Espera tu Validación de </strong>correo electrónico</h2>
-                  <p>En unos minutos le enviaremos un correo a la casilla <a href="#">correo@dominio.cl  </a>con las instrucciones de validación necesarias para continuar con el proceso de postulación. <br>Por favor revise su bandeja de entrada y carpeta de spam.</p>
+                  <p>En unos minutos le enviaremos un correo a la casilla <a href="#">{{ emailGlobal }}</a> con las instrucciones de validación necesarias para continuar con el proceso de postulación. <br>Por favor revise su bandeja de entrada y carpeta de spam.</p>
                   <p>Además, contarás con un número de solicitud para hacer seguimiento o continuar el proceso si es que es necesario.</p>
                 </div>
               </div>
@@ -35,7 +35,7 @@
 
 <script>
 import Cabecera from './../components/Cabecera.vue'
-
+import { mapState } from "vuex";
 export default {
   name: 'SendSolicitud',
   components: {
@@ -49,6 +49,10 @@ export default {
   methods: {
 
 
+  },
+
+  computed: {
+    ...mapState(['emailGlobal']),
   },
 
    created: function () {

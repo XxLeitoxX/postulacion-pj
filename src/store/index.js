@@ -13,6 +13,9 @@ export default new Vuex.Store({
   	activeRequest: '',
 	activeRecovery: '',
 	camaras: [],
+	tipoSocs: [],
+	URL: 'http://postulacion.isc.cl',
+	URLEmail: 'http://postulacionweb.isc.cl', 
 	regions: [],
 	selectedRegion: '',
 	provinces: [],
@@ -24,14 +27,17 @@ export default new Vuex.Store({
 	categories: [],
 	selectedCategory: '',
 	localhost: 'http://localhost:8080',
+<<<<<<< HEAD
 	URL: 'http://postulacion.isc.cl',
 	rutIsValid: '',
 	telIsValid: '',
 	emailIsValid: '',
 	emailConfirmIsValid: '',
 	websiteIsValid: '',
+	emailGlobal: '',
 	collapse: 'EXPANDIR',
-	vueDropzoneFile: []
+	vueDropzoneFile: [],
+	postulacionCompleted: [{}]
   },
 
   getters: {
@@ -69,6 +75,10 @@ export default new Vuex.Store({
   },
 
   mutations: {
+
+	savePostulacionCompleted(state, step) {
+		state.postulacionCompleted.push(step);
+	},
   	focus(state, refs) {
   		refs.className = 'input active'
   		//console.log(refs);
@@ -87,14 +97,51 @@ export default new Vuex.Store({
   		//state.active = ''
   	},
 
+
+  	validation(state, rut, tel, email, emailConfirm) {
+		//console.log(rut);
+      if (rut !== '') {
+        validaRut(rut) ? state.rutIsValid = true : state.rutIsValid = false; 
+      }
+	  //console.log(tel);
+      if (tel !== '') {
+        telValidate(tel) ? state.telIsValid = true : state.telIsValid = false;
+      }
+	  //console.log(email);
+      if (this.email !== '') {
+        emailValidate(this.email) ? this.emailIsValid = true : this.emailIsValid = false;
+      }
+	  //console.log(emailConfirm);
+      if (this.emailConfirm !== '') {
+         emailValidate(this.emailConfirm) ? this.emailConfirmIsValid = true : this.emailConfirmIsValid = false;
+	  }
+	},
+
   	collapseClick(state, refs) {
-  		if (refs[0].className == 'c-form-drag whitebg small font') {
-  			refs[0].className = 'c-form-drag whitebg font'
+		
+		if (refs[0].className == 'c-form-drag whitebg small font') {
+			refs[0].className = 'c-form-drag whitebg font'
+			refs[1].innerText = 'MINIMIZAR'
+		}else if(refs[0].className == 'c-form-drag whitebg font') {
+			refs[0].className = 'c-form-drag whitebg small font'
+			refs[1].innerText = 'EXPANDIR'
+		}
+
+		if (refs[0].className == 'c-form-steps whitebg small') {
+			refs[0].className = 'c-form-steps whitebg'
   			refs[1].innerText = 'MINIMIZAR'
-  		}else if(refs[0].className == 'c-form-drag whitebg font') {
-  			refs[0].className = 'c-form-drag whitebg small font'
-  			refs[1].innerText = 'EXPANDIR'
-  		}
+		}else if(refs[0].className == 'c-form-steps whitebg') {
+			refs[0].className = 'c-form-steps whitebg small'
+			refs[1].innerText = 'EXPANDIR'
+		}
+		if (refs[0].className == 'c-form-steps greybg small') {
+			refs[0].className = 'c-form-steps greybg'
+  			refs[1].innerText = 'MINIMIZAR'
+		}else if(refs[0].className == 'c-form-steps greybg') {
+			refs[0].className = 'c-form-steps greybg small'
+			refs[1].innerText = 'EXPANDIR'
+		}
+  		
   		if (refs[0].className == 'c-form-steps small font'){
   			refs[0].className = 'c-form-steps font'
   			refs[1].innerText = 'MINIMIZAR'
@@ -103,7 +150,18 @@ export default new Vuex.Store({
   			refs[1].innerText = 'EXPANDIR'
   		}
   		//console.log(refs);
-  	},
+	  },
+	  
+	collapseClickStep3(state, refs) {
+
+		if (refs[0].className == 'c-form-drag whitebg small') {
+			refs[0].className = 'c-form-drag whitebg'
+			refs[1].innerText = 'MINIMIZAR'
+		}else if(refs[0].className == 'c-form-drag whitebg') {
+			refs[0].className = 'c-form-drag whitebg small'
+			refs[1].innerText = 'EXPANDIR'
+		}
+	},
 
   	rutValidation(state, rut) {
 
@@ -131,6 +189,7 @@ export default new Vuex.Store({
     	if (emailConfirm !== '') {
         	emailValidate(emailConfirm) ? state.emailConfirmIsValid = true : state.emailConfirmIsValid = false;
       	}
+
     },
 
     validateURL (state, URL) {
@@ -141,6 +200,11 @@ export default new Vuex.Store({
 	
 	loadCamaras(state, camarasAction) {
 		state.camaras = camarasAction
+	},
+
+
+	loadTipoSocs(state, tipoSocsAction) {
+		state.tipoSocs = tipoSocsAction
 	},
 
 	setRegion(state, newRegion) {
@@ -168,6 +232,7 @@ export default new Vuex.Store({
       state.vueDropzoneFile = newFile;
     },
 
+<<<<<<< HEAD
     setRutIsValid(state, newRutIsValid) {
     	if (newRutIsValid == false) {
     		console.log(newRutIsValid);
@@ -186,14 +251,25 @@ export default new Vuex.Store({
     	}
     },
 
+	emailForSendSolicitud(state, email) {
+		state.emailGlobal = email
+	}
+
+
   },
 
   actions: {
 
-	  getCamaras: async function({commit}) {
-		const data = await fetch('https://listarcamaras.free.beeceptor.com/listarCamaras');
+	  getCamaras: async function({commit, state}) {
+		const data = await fetch(state.URL + '/listarCamaras');
 		const camaras = await data.json();
 		commit('loadCamaras', camaras);
+	  },
+
+	  getTipoSociedad: async function({commit, state}) {
+		const data = await fetch(state.URL + '/listarTipoSoc');
+		const tipoSocs = await data.json();
+		commit('loadTipoSocs', tipoSocs);
 	  },
 
 	  getActivity: async function({state}) {
@@ -278,6 +354,7 @@ export default new Vuex.Store({
           console.log('FAILURE!!');
         });
 	  },
+
 
   },
   modules: {
