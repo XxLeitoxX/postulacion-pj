@@ -15,7 +15,7 @@
                   <form action="#" id="step05_1">
                     <div class="input"  ref="rut">
                       <label>RUT del Patrocinante 1</label>
-                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante)" @keyup="rutValidation($refs.rutParticipante.value)">
+                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante, $refs.rutParticipante.value)" @keyup="rutValidation($refs.rutParticipante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
                       <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
                     </div>
@@ -56,7 +56,7 @@
                       <h2>Patrocinante 2</h2>
                       <div class="input" ref="rut2">
                         <label>RUT del Patrocinante 2</label>
-                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist(rutParticipante2)" @keyup="rutValidation($refs.rutParticipante2.value)">
+                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist2(rutParticipante2, $refs.rutParticipante2.value)" @keyup="rutValidation($refs.rutParticipante2.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
                         <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
                       </div>
@@ -142,33 +142,11 @@ export default {
         telefonoParticipante: '',
         telefonoParticipante2: '',
         dataPatrocinantes: [{}],
+        dataValidaciones: [],
         urlBase: this.$store.state.URL,
-        patrocinantes: [{
-                          "detId": "1",
-                          "nombre": "3M Chile S.A.",
-                          "perId": "88362",
-                          "relId": "1555",
-                          "apePat": "",
-                          "apeMat": "",
-                          "rut": "11111111-1",
-                          "perTip": "1",
-                          "preRegNro": "85231",
-                          "preRegId": "2",
-                          "camara": "SANTIAGO"
-                          },
-                          {
-                          "detId": "18",
-                          "nombre": "Abastible S.A.",
-                          "perId": "88379",
-                          "relId": "1087",
-                          "apePat": "",
-                          "apeMat": "",
-                          "rut": "22222222-2",
-                          "perTip": "1",
-                          "preRegNro": "90465",
-                          "preRegId": "19",
-                          "camara": "ANTOFAGASTA"
-                          }]
+        grupos: {},
+        estado: '', 
+        motivo: {}
       }
     },
     methods:{
@@ -176,6 +154,13 @@ export default {
 
       save() {
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+          
+          if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
+              && this.grupos.name !== 'MESA DIRECTIVA NACIONAL'
+              && this.grupos.name !== 'MESA DIRECTIVA REGIONAL'
+              && this.grupos.name !== 'CONSEJO REGIONAL'
+              && this.grupos.name !== 'COMISION DE SOCIOS'
+              && this.grupos.name !== 'COMISION DE SOCIOS REGIONAL') {
             this.dataPatrocinantes.push({
             patrocinantes: {
               rutParticipante: this.rutParticipante,
@@ -187,7 +172,29 @@ export default {
               emailParticipante2: this.emailParticipante2,
               telefonoParticipante2: this.telefonoParticipante2,
             } 
-      });
+          });
+        }
+        else {
+          alert("Socio con cuota Pendiente o Morosa");
+          this.dataPatrocinantes.push({
+            patrocinantes: {
+              rutParticipante: this.rutParticipante,
+              nombreParticipante: this.nombreParticipante,
+              emailParticipante: this.emailParticipante,
+              telefonoParticipante: this.telefonoParticipante,
+              rutParticipante2: this.rutParticipante2,
+              nombreParticipante2: this.nombreParticipante2,
+              emailParticipante2: this.emailParticipante2,
+              telefonoParticipante2: this.telefonoParticipante2,
+              motivo: {
+                estado: this.dataValidaciones.Estado,
+                name: this.dataValidaciones.grupos.GRUPO,
+                perId: this.dataValidaciones.grupos.PER_ID
+              }
+            } 
+          });
+
+        }           
       console.log(this.dataPatrocinantes);
       } else {
         alert("Los datos tienen que ser válidos");
@@ -195,24 +202,49 @@ export default {
       
       },
 
-      validateRutExist(rut) {
+      validateRutExist(rut, ref) {
         
         axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
-        console.log(response.data);
+          this.dataValidaciones = response.data;
+          console.log(this.dataValidaciones);
+          if (this.rutParticipante !== this.rutParticipante2) {
+            this.nombreParticipante = this.dataValidaciones.Representante.PER_NOM;
+            this.estado = this.dataValidaciones.Estado;
+            this.grupos = {
+              name: this.dataValidaciones.grupos.GRUPO,
+              perId: this.dataValidaciones.grupos.PER_ID
+            }
+          } else {
+            alert("Los participantes deben tener rut distinto");
+          }
+ 
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
         });
-        
-        /*for (let i=0; i < this.patrocinantes.length; i++) {
+      
+      },
 
-         if (this.rutParticipante == this.patrocinantes[i].rut) {
-            this.nombreParticipante = this.patrocinantes[i].nombre;
+      validateRutExist2(rut, ref) {
+        
+        axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
+          this.dataValidaciones = response.data;
+
+          if (this.rutParticipante !== this.rutParticipante2) {
+            this.nombreParticipante2 = this.dataValidaciones.Representante.PER_NOM;
+            this.estado = this.dataValidaciones.Estado;
+            this.estado = this.dataValidaciones.Estado;
+            this.grupos = {
+              name: this.dataValidaciones.grupos.GRUPO,
+              perId: this.dataValidaciones.grupos.PER_ID
+            }
+          } else {
+            alert("Los participantes deben tener rut distinto");
           }
-          
-          if (this.rutParticipante2 == this.patrocinantes[i].rut) {
-            this.nombreParticipante2 = this.patrocinantes[i].nombre;
-          } 
-        }*/
+
+        }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+        });
+      
       },
 
       validateInput() {
