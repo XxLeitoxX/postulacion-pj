@@ -2,7 +2,7 @@
   <div>
     <Cabecera></Cabecera>
     <main role="main">
-      <StepNumbers></StepNumbers>
+      <!-- <StepNumbers></StepNumbers> -->
       <div class="c-steps-numbers">
         <div class="container">
           <div class="c-steps-numbers__item success"><span>1</span>
