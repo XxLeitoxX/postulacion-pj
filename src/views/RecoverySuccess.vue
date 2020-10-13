@@ -1,0 +1,44 @@
+<template>
+    <main role="main">
+        <Cabecera />
+      <div class="c-form-info whitebg">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 offset-lg-2 c-form-info__wrapper">
+              <div class="c-form-info__validacion recovery">
+                <div class="info">
+                  <h2>CÓDIGO ENVIADO</h2>
+                  <p>El código ha sido enviado a tu correo y debería llegar en unos minutos.</p>
+                  <p class="u-mb50">Recuerda la carpeta de SPAM.</p><a class="btn-blue" href="#">INGRESAR<i class="fa fa-angle-right"></i></a><a class="recovery" href="#">Solicitar envío de código nuevamente</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+</template>
+
+<script>
+import Cabecera from './../components/Cabecera.vue'
+
+export default {
+  name: 'RecoverySuccess',
+  components: {
+    Cabecera,
+  },
+  data () {
+    return {
+     
+    }
+  },
+  methods: {
+
+
+  },
+
+   created: function () {
+    
+  }
+}
+</script>
