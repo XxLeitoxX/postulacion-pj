@@ -103,7 +103,7 @@
                       >
                       </date-picker> -->
 
-                      <date-picker v-model="time1" ref="inputDatePicker"
+                      <date-picker v-model="date" ref="inputDatePicker"
                         :lang="lang"
                         @focus="focus($refs.date)"
                         @blur="blur([$refs.date, $refs.inputDatePicker.value])"
@@ -263,13 +263,12 @@
                     @vdropzone-file-added="fileAdded"
                     @vdropzone-sending-multiple="sendingFiles"
                     @vdropzone-success-multiple="success"
+                    class="border"
                   >
-                    <div class="dropzone-custom-content">
-                      <h3 class="dropzone-custom-title">
-                        Drag and drop to upload content!
-                      </h3>
+                    <div class="dropzone-custom-content svg">
+                      
                       <div class="subtitle">
-                        Arrastre o haga click para subir sus documentos
+
                       </div>
                     </div>
                   </vue-dropzone>
@@ -469,9 +468,18 @@
                           Ingrese un website
                         </div>
                       </div>
-                      <button
+                      <!-- <button
                         class="btn-red u-mt50 big"
                         id="submitStep03"
+                        type="button"
+                        @click="saveStepOne()"
+                      >
+                        Guardar<i class="fa fa-angle-right"></i>
+                      </button> -->
+
+                      <button
+                        class="btn-red u-mt50 big"
+                        id="submitStep04"
                         type="button"
                         @click="checkForm()"
                       >
@@ -527,36 +535,35 @@ export default {
   data() {
     return {
       //Step One Variables
-      rutCompany: "",
-      fantasyName: "",
-      businessName: "",
-      date: "",
-      giro: "",
-      phoneCompany: "",
-      companyEmail: "",
-      street: "",
-      streetNumber: "",
-      office: "",
-      website: "",
+      rutCompany: '',
+      fantasyName: '',
+      businessName: '',
+      date: '',
+      giro: '',
+      phoneCompany: '',
+      companyEmail: '',
+      street: '',
+      streetNumber: '',
+      office: '',
+      website: '',
 
       //Validation variables
       formIsValid: false,
-      fantasyIsValid: "",
-      businessIsValid: "",
-      giroIsValid: "",
-      activityIsValid: "",
-      categoryIsValid: "",
-      dropzoneIsValid: "",
-      regionIsValid: "",
-      provinceIsValid: "",
-      communeIsValid: "",
-      streetIsValid: "",
-      streetNumberIsValid: "",
-      officeIsValid: "",
+      fantasyIsValid: '',
+      businessIsValid: '',
+      giroIsValid: '',
+      activityIsValid: '',
+      categoryIsValid: '',
+      dropzoneIsValid: '',
+      regionIsValid: '',
+      provinceIsValid: '',
+      communeIsValid: '',
+      streetIsValid: '',
+      streetNumberIsValid: '',
+      officeIsValid: '',
 
       //DatePicker data
-      date: null,
-      time1: '',
+      date: '',
       /*options: {
         format: "DD/MM/YYYY",
         useCurrent: false,
@@ -598,6 +605,8 @@ export default {
         parallelUploads: 20,
         addRemoveLinks: true,
       },
+
+      stepOneObject: []
     };
   },
 
@@ -608,10 +617,9 @@ export default {
       "getterCommune",
       "getterActivity",
       "getterCategory",
-      "getterFile",
       "getterVueDropzoneFile",
       "getterRutIsValid",
-      "getterWebsite",
+      "getterWebsiteIsValid",
     ]),
     ...mapMutations([
       "focus",
@@ -629,6 +637,7 @@ export default {
       "setVueDropzoneFile",
       "setRutIsValid",
       "setWebsiteIsValid",
+      "saveCompletedForm"
     ]),
     ...mapActions([
       "getRegion",
@@ -840,6 +849,30 @@ export default {
         this.formIsValid = true;
       }
     },
+
+    saveStepOne () {
+      this.stepOneObject.push({
+        rut: this.rutCompany,
+        fantasy: this.fantasyName,
+        businessName: this.businessName,
+        date: this.date,
+        giro: this.giro,
+        activity: this.selectedActivity,
+        category: this.selectedCategory,
+        phoneCompany: this.phoneCompany,
+        companyEmail: this.companyEmail,
+        files: this.vueDropzoneFile,
+        region: this.selectedRegion,
+        province: this.selectedProvince,
+        commune: this.selectedCommune,
+        street: this.street,
+        streetNumber: this.streetNumber,
+        office: this.office,
+        website: this.website
+      });
+      console.log(this.stepOneObject);
+      this.saveCompletedForm(this.stepOneObject);
+    }
   },
 
   computed: {
@@ -859,6 +892,7 @@ export default {
       "regions",
       "provinces",
       "communes",
+      "completedForm"
     ]),
 
     /*test: {
@@ -889,7 +923,8 @@ export default {
 
 .dropzone-custom-content {
   position: absolute;
-  left: 50%;
+  padding-top: 15%;
+  left: 58%;
   transform: translate(-50%, -30%);
   text-align: center;
 }
@@ -901,10 +936,23 @@ export default {
 
 .subtitle {
   color: #314b5f;
+  width: 500px;
+  height: 100px;
 }
 
-.vue-dropzone .dropzone .dz-clickable {
+.border {
   background: url(../../assets/img/draganddrop.png) no-repeat !important;
+  border: 0;
+  height: 194px;
+  width: 652px;
+}
+
+.border:hover {
+  cursor: pointer;
+}
+
+.svg {
+  background: url(../../assets/img/draganddrop-text.svg) no-repeat center;
 }
 
 .datepickerr {

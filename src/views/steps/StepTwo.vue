@@ -73,8 +73,13 @@
               </div>
             </div>
           </div>
-          <div class="c-form-drag greybg small">
-            <div class="container"><a class="section-minimizar" href="#" data-formulario="3">EXPANDIR<span></span></a>
+          <div class="c-form-drag whitebg small font" ref="collapse">
+            <div class="container">
+              <a class="section-minimizar"
+                ref="collapseMin"
+                @click="collapseClick([$refs.collapse, $refs.collapseMin])">
+                {{ collapse }}<span></span>
+              </a>
               <div class="row">
                 <div class="col-md-12 col-lg-6 offset-lg-2">
                   <h2>Antecendentes financieros de la empresa</h2>
@@ -82,7 +87,30 @@
                   <ul>
                     <li>Documento carpeta tributaria especial</li>
                   </ul>
-                  <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form>
+                  <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form> -->
+
+                  <vue-dropzone
+                    ref="myVueDropzone"
+                    :useCustomSlot="true"
+                    id="dropzone"
+                    @vdropzone-upload-progress="uploadProgress"
+                    :options="dropzoneOptions"
+                    @vdropzone-file-added="fileAdded"
+                    @vdropzone-sending-multiple="sendingFiles"
+                    @vdropzone-success-multiple="success"
+                    class="border"
+                  >
+                    <div class="dropzone-custom-content svg">
+                      
+                      <div class="subtitle">
+
+                      </div>
+                    </div>
+                  </vue-dropzone>
+                  <AttachmentList
+                    :tempAttachments="getTempAttachments"
+                    :attachments="getAttachments"
+                  />
                 </div>
               </div>
             </div>
@@ -145,17 +173,69 @@
 <script>
   import Cabecera from '@/components/Cabecera.vue'
   import StepNumbers from '../../components/StepNumbers.vue'
+  //Store import
+  import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+  //Vue Dropzone
+  import vue2Dropzone from "vue2-dropzone";
+  import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
+  import mixin from "@/mixins/mixin.js";
   export default {
     name: 'StepTwo',
+    mixins: [mixin],
     components:{
       Cabecera,
       StepNumbers,
+      vueDropzone: vue2Dropzone,
     },
     data () {
       return {
+        vueDropzoneFile: [],
+        tempAttachments: [],
+        attachments: [],
+        dropzoneOptions: {
+          // The Url Where Dropped or Selected files will be sent
+          url: `https://httpbin.org/post`,
+          // File Size allowed in MB
+          maxFilesize: 102400000,
+          // Authentication Headers like Access_Token of your application
+          headers: {
+            Authorization: `Access Token`,
+          },
+          // The way you want to receive the files in the server
+          paramName: function (n) {
+            return "file[]";
+          },
+          dictDefaultMessage: "Upload Files Here xD",
+          includeStyling: false,
+          previewsContainer: false,
+          thumbnailWidth: 250,
+          thumbnailHeight: 140,
+          uploadMultiple: true,
+          parallelUploads: 20,
+          addRemoveLinks: true,
+        },
       }
-    }
+    },
+
+    methods: {
+      ...mapMutations([
+        "focus",
+        "blur",
+        "collapseClick",
+        "setVueDropzoneFile",
+      ]),
+
+      ...mapActions([
+        "companyBackgroundUpload",
+      ]),
+    },
+
+    computed: {
+      ...mapState([
+        "collapse",
+      ]),
+    },
   }
 </script>
 

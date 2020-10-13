@@ -27,7 +27,6 @@ export default new Vuex.Store({
 	categories: [],
 	selectedCategory: '',
 	localhost: 'http://localhost:8080',
-<<<<<<< HEAD
 	URL: 'http://postulacion.isc.cl',
 	rutIsValid: '',
 	telIsValid: '',
@@ -37,7 +36,7 @@ export default new Vuex.Store({
 	emailGlobal: '',
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
-	postulacionCompleted: [{}]
+	completedForm: []
   },
 
   getters: {
@@ -76,8 +75,10 @@ export default new Vuex.Store({
 
   mutations: {
 
-	savePostulacionCompleted(state, step) {
-		state.postulacionCompleted.push(step);
+	saveCompletedForm(state, step) {
+		console.log(step);
+		state.completedForm = step;
+		console.log(state.completedForm);
 	},
   	focus(state, refs) {
   		refs.className = 'input active'
@@ -232,7 +233,6 @@ export default new Vuex.Store({
       state.vueDropzoneFile = newFile;
     },
 
-<<<<<<< HEAD
     setRutIsValid(state, newRutIsValid) {
     	if (newRutIsValid == false) {
     		console.log(newRutIsValid);
