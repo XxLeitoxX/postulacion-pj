@@ -242,7 +242,7 @@
           <div class="c-form-drag whitebg small font" ref="collapse">
             <div class="container">
               <a
-                class="section-minimizar"
+                class="section-minimizar pointer"
                 ref="collapseMin"
                 @click="collapseClick([$refs.collapse, $refs.collapseMin])"
                 >{{ collapse }}<span></span
@@ -301,7 +301,7 @@
           <div class="c-form-steps small font" ref="commercialAddress">
             <div class="container">
               <a
-                class="section-minimizar"
+                class="section-minimizar pointer"
                 ref="commercialMin"
                 @click="
                   collapseClick([$refs.commercialAddress, $refs.commercialMin])
@@ -1047,5 +1047,9 @@ export default {
 
 .mx-calendar:hover .mx-calendar-panel-date:hover {
   border-color: black;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>
