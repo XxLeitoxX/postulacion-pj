@@ -14,7 +14,6 @@ export default new Vuex.Store({
 	activeRecovery: '',
 	camaras: [],
 	tipoSocs: [],
-	URL: 'http://postulacion.isc.cl',
 	URLEmail: 'http://postulacionweb.isc.cl', 
 	regions: [],
 	selectedRegion: '',
@@ -82,7 +81,7 @@ export default new Vuex.Store({
 	},
   	focus(state, refs) {
   		refs.className = 'input active'
-  		//console.log(refs);
+  		console.log(refs);
   		//console.log(refs);
 	},
 	  
@@ -96,6 +95,27 @@ export default new Vuex.Store({
   		console.log(refs);
   		console.log(refs[1]);
   		//state.active = ''
+  	},
+
+  	dateFocus(state, refs, refs2){
+  		refs.className = 'input active'
+  		console.log(refs);
+  		console.log(refs2);
+  		//console.log(refs);
+  		/*if (refs2 == '' || refs2 == null) {
+  			this.dateBlur(refs);
+  		} else {
+  			refs.className = 'input active'
+  		}*/
+  	},
+
+  	dateBlur(state, refs) {
+  		console.log(refs[1]);
+  		if (refs[1] == '' || refs[1] == null) {
+  			refs[0].className = 'input'
+  		} else {
+  			refs[0].className = 'input active'
+  		}	
   	},
 
 
@@ -276,6 +296,7 @@ export default new Vuex.Store({
 		const data = await fetch(state.URL + '/listarActividad');
 		//const region = await data.json();
 		state.activities = await data.json();
+		console.log(state.activities);
 	  },
 
 	  getCategory: async function({state}) {
@@ -332,10 +353,14 @@ export default new Vuex.Store({
 		  Iteate over any file sent over appending the files
 		  to the form data.
 		*/
+		  console.log("before for");
+		  console.log(state.vueDropzoneFile.length);
 		for( var i = 0; i < state.vueDropzoneFile.length; i++ ){
+		  console.log("inside for");
 		  let file = state.vueDropzoneFile[i];
 
 		  formData.append('files[' + i + ']', file);
+		  console.log(file);
 		}
 
 		//let fd = new FormData();

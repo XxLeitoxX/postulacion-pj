@@ -84,7 +84,7 @@
                       </div>
                     </div>
                     <div class="input " ref="date">
-                      <label>Fecha de Constitución</label>
+                      <label>Fecha de Constitución</label> 
                       <!-- <input type="text" data-toggle="datepicker" name="consitucion_st03" > -->
 
                       <!-- <datepicker ref="datePick" 
@@ -105,9 +105,19 @@
 
                       <date-picker v-model="date" ref="inputDatePicker"
                         :lang="lang"
-                        @focus="focus($refs.date)"
-                        @blur="blur([$refs.date, $refs.inputDatePicker.value])"
-                        valueType="format"></date-picker>
+                        @focus="dateFocus($refs.date, $refs.inputDatePicker.currentValue)"
+                        @change="dateValidation()"
+                        valueType="format">
+                        <!-- <i slot="icon-calendar" class="mx-icon-calendar"
+                          @click="dateBlur([$refs.date, $refs.inputDatePicker.currentValue])"></i> -->
+                      </date-picker> {{date}}
+                      <div
+                        id="giro_st03-error"
+                        class="errorlogin"
+                        v-if="dateIsValid === false"
+                      >
+                        Ingrese una fecha
+                      </div>
                     </div>
                     <div class="input" ref="giro">
                       <label>Giro</label>
@@ -220,8 +230,7 @@
                       <div
                         id="email2st02-error"
                         class="formerror"
-                        v-if="emailIsValid === false"
-                      >
+                        v-if="emailIsValid === false">
                         Ingrese un email válido
                       </div>
                     </div>
@@ -254,28 +263,37 @@
                     </li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
-                  <vue-dropzone
-                    ref="myVueDropzone"
-                    :useCustomSlot="true"
-                    id="dropzone"
-                    @vdropzone-upload-progress="uploadProgress"
-                    :options="dropzoneOptions"
-                    @vdropzone-file-added="fileAdded"
-                    @vdropzone-sending-multiple="sendingFiles"
-                    @vdropzone-success-multiple="success"
-                    class="border"
-                  >
-                    <div class="dropzone-custom-content svg">
-                      
-                      <div class="subtitle">
+                  <div class="input">
+                    <vue-dropzone
+                      ref="myVueDropzone"
+                      :useCustomSlot="true"
+                      id="dropzone"
+                      @vdropzone-upload-progress="uploadProgress"
+                      :options="dropzoneOptions"
+                      @vdropzone-file-added="fileAdded"
+                      @vdropzone-sending-multiple="sendingFiles"
+                      @vdropzone-success-multiple="success"
+                      @drag="dropZoneValidation($event)"
+                      class="border">
+                      <div class="dropzone-custom-content svg">
+                        
+                        <div class="subtitle">
 
+                        </div>
                       </div>
+                    </vue-dropzone>
+                    <AttachmentList
+                      :tempAttachments="getTempAttachments"
+                      :attachments="getAttachments"
+                    />
+                    <div
+                      id="email2st02-errord"
+                      class="errorlogin"
+                      v-if="dropzoneIsValid === false">
+                        Ingrese un archivo
                     </div>
-                  </vue-dropzone>
-                  <AttachmentList
-                    :tempAttachments="getTempAttachments"
-                    :attachments="getAttachments"
-                  />
+                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -301,7 +319,7 @@
                             name="regioncomercial_st03"
                             @input="$event = setRegion($event.target.value)"
                             :value="selectedRegion"
-                            @change="getProvince()"
+                            @change="[getProvince(), regionValidation()]"
                           >
                             <option value="" selected disabled hidden>
                               Selecciona una Región
@@ -355,6 +373,7 @@
                         <div class="input-select">
                           <select
                             name="comunacomercial_st03"
+                            @input="$event = setCommune($event.target.value)"
                             :value="selectedCommune"
                           >
                             <option value="" selected disabled hidden>
@@ -551,6 +570,7 @@ export default {
       formIsValid: false,
       fantasyIsValid: '',
       businessIsValid: '',
+      dateIsValid: '',
       giroIsValid: '',
       activityIsValid: '',
       categoryIsValid: '',
@@ -624,6 +644,8 @@ export default {
     ...mapMutations([
       "focus",
       "blur",
+      "dateFocus",
+      "dateBlur",
       "rutValidation",
       "phoneNumberValidation",
       "emailValidation",
@@ -661,6 +683,14 @@ export default {
         this.businessIsValid = false;
       } else {
         this.businessIsValid = true;
+      }
+    },
+
+    dateValidation() {
+      if (this.date == "" || this.date == null) {
+        this.dateIsValid = false;
+      } else {
+        this.dateIsValid = true;
       }
     },
 
@@ -753,19 +783,27 @@ export default {
         this.formIsValid = true;
       }
 
-      if (this.fantasyName == "") {
+      /*if (this.fantasyName == "") {
         this.fantasyIsValid = false;
         this.formIsValid = false;
       } else {
         this.fantasyIsValid = true;
         this.formIsValid = true;
-      }
+      }*/
 
       if (this.businessName == "") {
         this.businessIsValid = false;
         this.formIsValid = false;
       } else {
         this.businessIsValid = true;
+        this.formIsValid = true;
+      }
+
+      if (this.date == "" || this.date == null) {
+        this.dateIsValid = false;
+        this.formIsValid = false;
+      } else {
+        this.dateIsValid = true;
         this.formIsValid = true;
       }
 
@@ -790,6 +828,14 @@ export default {
         this.formIsValid = false;
       } else {
         this.categoryIsValid = true;
+        this.formIsValid = true;
+      }
+
+      if (this.vueDropzoneFile == "") {
+        this.dropzoneIsValid = false;
+        this.formIsValid = false;
+      } else {
+        this.dropzoneIsValid = true;
         this.formIsValid = true;
       }
 
@@ -848,6 +894,10 @@ export default {
         this.setWebsiteIsValid(true);
         this.formIsValid = true;
       }
+
+      if (this.formIsValid == true) {
+
+      }
     },
 
     saveStepOne () {
@@ -872,6 +922,17 @@ export default {
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
+    },
+
+    postStepOne () {
+      let stepOneObject = this.stepOneObject;
+      let data = JSON.stringify(stepOneObject);
+      console.log(data);
+      /*axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
+      console.log(response.data);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });*/
     }
   },
 
@@ -892,7 +953,8 @@ export default {
       "regions",
       "provinces",
       "communes",
-      "completedForm"
+      "completedForm",
+      "URL"
     ]),
 
     /*test: {
