@@ -31,9 +31,37 @@
                   <h2>Información de los Trabajadores</h2>
                   <p>Ingresa el número de la totalidad de sus trabajadores, incluyendo los que están en obra, faena o centro de trabajo.</p>
                   <form action="#" id="step04_1">
-                    <div class="input u-mb0">
+                    <!-- <div class="input u-mb0">
                       <label>Número total de trabajadores en la empresa</label>
                       <input type="text" name="trabajadores_st04">
+                    </div> -->
+                    <div class="input u-mb0">
+                      <div class="input-select">
+                        <select
+                          name="trabajadores_st03"
+                          @input="$event = setTotalEmployees($event.target.value)"
+                          :value="selectedTotalEmployees"
+                          @change="employeesTotalValidation()"
+                        >
+                          <option value="" selected disabled hidden>
+                            Número total de trabajadores en la empresa
+                          </option>
+                          <option
+                            v-for="(employees, key) in totalEmployees"
+                            :value="employees.num_Trabajadores_Id"
+                            :key="key"
+                          >
+                            {{ employees.numero_trabajadores }}
+                          </option>
+                        </select>
+                        <div
+                          id="giro_st03-error"
+                          class="errorlogin"
+                          v-if="totalEmployeesIsValid === false"
+                        >
+                          Ingrese un número de trabajadores
+                        </div>
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -46,11 +74,39 @@
                 <div class="col-md-12 col-lg-6 offset-lg-2">
                   <h2>Información Financiera</h2>
                   <form action="#" id="step04_2">
-                    <div class="input u-mb60">
+                    <!-- <div class="input u-mb60">
                       <div class="input-select">
                         <select name="rangofacturacion_st04">
                           <option value="default">Rango de facturación según ventas anuales</option>
                         </select>
+                      </div>
+                    </div> -->
+                    <div class="input u-mb60">
+                      <div class="input-select">
+                        <select
+                          name="rango_st03"
+                          @input="$event = setRange($event.target.value)"
+                          :value="selectedRange"
+                          @change="rangeValidation()"
+                        >
+                          <option value="" selected disabled hidden>
+                            Rango de facturación según ventas anuales
+                          </option>
+                          <option
+                            v-for="(range, key) in range"
+                            :value="range.rangoId"
+                            :key="key"
+                          >
+                            {{ range.rango }}
+                          </option>
+                        </select>
+                        <div
+                          id="giro_st03-error"
+                          class="errorlogin"
+                          v-if="rangeIsValid === false"
+                        >
+                          Ingrese un rango
+                        </div>
                       </div>
                     </div>
                     <div class="input u-mb60">
@@ -190,6 +246,9 @@
     },
     data () {
       return {
+
+        totalEmployeesIsValid: '',
+        rangeIsValid: '',
         vueDropzoneFile: [],
         tempAttachments: [],
         attachments: [],
@@ -219,23 +278,56 @@
     },
 
     methods: {
+      ...mapGetters([
+        "getterTotalEmployees",
+        "getterRange",
+      ]),
       ...mapMutations([
         "focus",
         "blur",
         "collapseClick",
         "setVueDropzoneFile",
+        "setTotalEmployees",
+        "setRange",
       ]),
 
       ...mapActions([
         "companyBackgroundUpload",
+        "getTotalEmployees",
+        "getRange",
       ]),
+
+      employeesTotalValidation() {
+        if (this.selectedTotalEmployees == "") {
+          this.totalEmployeesIsValid = false;
+        } else {
+          this.totalEmployeesIsValid = true;
+        }
+      },
+
+      rangeValidation () {
+        if (this.selectedRange == "") {
+          this.rangeIsValid = false;
+        } else {
+          this.rangeIsValid = true;
+        }
+      }
     },
 
     computed: {
       ...mapState([
         "collapse",
+        "selectedTotalEmployees",
+        "selectedRange",
+        "totalEmployees",
+        "range",
       ]),
     },
+
+    created () {
+      this.getTotalEmployees();
+      this.getRange();
+    }
   }
 </script>
 

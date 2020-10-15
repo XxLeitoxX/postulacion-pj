@@ -110,7 +110,7 @@
                         valueType="format">
                         <!-- <i slot="icon-calendar" class="mx-icon-calendar"
                           @click="dateBlur([$refs.date, $refs.inputDatePicker.currentValue])"></i> -->
-                      </date-picker> {{date}}
+                      </date-picker>
                       <div
                         id="giro_st03-error"
                         class="errorlogin"

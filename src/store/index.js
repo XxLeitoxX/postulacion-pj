@@ -25,6 +25,10 @@ export default new Vuex.Store({
 	selectedActivity: '',
 	categories: [],
 	selectedCategory: '',
+	totalEmployees: [],
+	selectedTotalEmployees: '',
+	range: [],
+	selectedRange: '',
 	localhost: 'http://localhost:8080',
 	URL: 'http://postulacion.isc.cl',
 	rutIsValid: '',
@@ -32,6 +36,7 @@ export default new Vuex.Store({
 	emailIsValid: '',
 	emailConfirmIsValid: '',
 	websiteIsValid: '',
+	totalEmployeesIsValid: '',
 	emailGlobal: '',
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
@@ -69,6 +74,14 @@ export default new Vuex.Store({
 
     getterWebsiteIsValid(state) {
     	return state.websiteIsValid;
+    },
+
+    getterTotalEmployees(state) {
+    	return state.selectedTotalEmployees;
+    },
+
+    getterRange(state) {
+    	return state.selectedTotalEmployees;
     },
   },
 
@@ -271,6 +284,16 @@ export default new Vuex.Store({
     	}
     },
 
+    setTotalEmployees(state, newSelectedTotalEmployees) {
+    	state.selectedTotalEmployees = newSelectedTotalEmployees;
+    	console.log(state.selectedTotalEmployees);
+    },
+
+    setRange(state, newSelectedRange) {
+    	state.selectedRange = newSelectedRange;
+    	console.log(state.selectedRange);
+    },
+
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
 	}
@@ -378,6 +401,19 @@ export default new Vuex.Store({
         .catch(function(){
           console.log('FAILURE!!');
         });
+	  },
+
+	  getTotalEmployees: async function ({state}) {
+		const data = await fetch(state.URL + '/listarNumeroTrabajadores');
+		state.totalEmployees = await data.json();
+	  	console.log(state.totalEmployees);
+	  },
+
+	  getRange: async function({state}) {
+		const data = await fetch(state.URL + '/listarRango');
+		//const region = await data.json();
+		state.range = await data.json();
+	  	console.log(state.range);
 	  },
 
 
