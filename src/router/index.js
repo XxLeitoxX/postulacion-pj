@@ -3,8 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import DatosBasicos from '../views/DatosBasicos.vue';
 import RecoveryCode from '../views/RecoveryCode.vue';
-import StepOne from '@/views/steps/StepOne.vue';
-import StepTwo from '@/views/steps/StepTwo.vue';
+
 
 
 Vue.use(VueRouter)
@@ -57,6 +56,13 @@ Vue.use(VueRouter)
     name: 'StepFour',
     //component: StepNumbers
     component: () => import('@/views/steps/StepFour.vue')
+  },
+
+  {
+    path: '/paso5/:id',
+    name: 'StepFive',
+    //component: StepNumbers
+    component: () => import('@/views/steps/StepFive.vue')
   },
   
   {

@@ -72,7 +72,7 @@ export default new Vuex.Store({
 	},
   	focus(state, refs) {
   		refs.className = 'input active'
-  		//console.log(refs);
+  		console.log(refs);
   		//console.log(refs);
 	},
 	  
@@ -83,8 +83,8 @@ export default new Vuex.Store({
   		} else {
   			refs[0].className = 'input active'
   		}
-  		//console.log(refs);
-  		//console.log(refs[1]);
+  		console.log(refs);
+  		console.log(refs[1]);
   		//state.active = ''
   	},
 
