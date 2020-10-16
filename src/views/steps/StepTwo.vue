@@ -109,20 +109,30 @@
                         </div>
                       </div>
                     </div>
-                    <div class="input u-mb60">
-                      <div class="input-select">
+                    <div class="input u-mb60" ref="input">
+                      <!-- <div class="input-select">
                         <select name="patrimonio_st04">
                           <option value="default">Patrimonio según último balance o capital inicial para empresas < 1 año</option>
                         </select>
-                      </div>
-                    </div>
-                    <div class="input u-mb60 percent">
+                      </div> -->
                       <label>Porcentaje de la sociedad dedicado a la construcción</label>
-                      <input type="text" name="porcentajesociedad_st04">
+                      <input type="text" name="patrimonio_st04" ref="percentage"
+                        @focus="focus($refs.input)"
+                        @blur="blur([$refs.input, $refs.percentage.value])">
                     </div>
-                    <div class="input u-mb30 uf">
+                    <div class="input u-mb60 percent" ref="society">
+                      <label>Porcentaje de la sociedad dedicado a la construcción</label>
+                      <input type="text" name="porcentajesociedad_st04"
+                        ref="build"
+                        @focus="focus($refs.society)"
+                        @blur="blur([$refs.society, $refs.build.value])">
+                    </div>
+                    <div class="input u-mb30 uf" ref="volume">
                       <label>Volumen facturado año anterior</label>
-                      <input type="text" name="volumenfacturacion_st04">
+                      <input type="text" name="volumenfacturacion_st04"
+                        ref="volumeInput"
+                        @focus="focus($refs.volume)"
+                        @blur="blur([$refs.volume, $refs.volumeInput.value])">
                     </div>
                   </form>
                 </div>
@@ -131,7 +141,7 @@
           </div>
           <div class="c-form-drag whitebg small font" ref="collapse">
             <div class="container">
-              <a class="section-minimizar"
+              <a class="section-minimizar pointer"
                 ref="collapseMin"
                 @click="collapseClick([$refs.collapse, $refs.collapseMin])">
                 {{ collapse }}<span></span>
@@ -171,8 +181,12 @@
               </div>
             </div>
           </div>
-          <div class="c-form-steps whitebg small">
-            <div class="container"><a class="section-minimizar" href="#" data-formulario="4">EXPANDIR<span></span></a>
+          <div class="c-form-steps whitebg small" ref="collapseC">
+            <div class="container">
+              <a class="section-minimizar pointer" ref="collapseComp"
+                @click="collapseClick([$refs.collapseC, $refs.collapseComp])"
+                data-formulario="4">
+              {{ collapse }}<span></span></a>
               <div class="c-form-steps__content step-data u-pb0">
                 <div class="row">
                   <div class="col-md-12 col-lg-6 offset-lg-2">

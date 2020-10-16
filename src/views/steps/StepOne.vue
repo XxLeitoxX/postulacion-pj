@@ -105,11 +105,13 @@
 
                       <date-picker v-model="date" ref="inputDatePicker"
                         :lang="lang"
-                        @focus="dateFocus($refs.date, $refs.inputDatePicker.currentValue)"
-                        @change="dateValidation()"
+                        @focus="dateFocus($refs.date)"
+                        @change="dateValidation($refs.date)"
                         valueType="format">
-                        <!-- <i slot="icon-calendar" class="mx-icon-calendar"
-                          @click="dateBlur([$refs.date, $refs.inputDatePicker.currentValue])"></i> -->
+                        <!-- <i slot="icon-clear" class="mx-icon-clear"
+                          @click="test($refs.date)">
+                        </i> -->
+
                       </date-picker>
                       <div
                         id="giro_st03-error"
@@ -686,9 +688,11 @@ export default {
       }
     },
 
-    dateValidation() {
+    dateValidation(refs) {
       if (this.date == "" || this.date == null) {
+        console.log("test me");
         this.dateIsValid = false;
+        this.dateBlur(refs);
       } else {
         this.dateIsValid = true;
       }
@@ -898,6 +902,10 @@ export default {
       if (this.formIsValid == true) {
 
       }
+    },
+
+    test() {
+      console.log("test");
     },
 
     saveStepOne () {

@@ -110,10 +110,9 @@ export default new Vuex.Store({
   		//state.active = ''
   	},
 
-  	dateFocus(state, refs, refs2){
+  	dateFocus(state, refs){
   		refs.className = 'input active'
   		console.log(refs);
-  		console.log(refs2);
   		//console.log(refs);
   		/*if (refs2 == '' || refs2 == null) {
   			this.dateBlur(refs);
@@ -123,12 +122,14 @@ export default new Vuex.Store({
   	},
 
   	dateBlur(state, refs) {
-  		console.log(refs[1]);
-  		if (refs[1] == '' || refs[1] == null) {
-  			refs[0].className = 'input'
+  		console.log(refs);
+  		/*console.log(refs);
+  		if (refs == '' || refs == null) {
+  			refs.className = 'input'
   		} else {
-  			refs[0].className = 'input active'
-  		}	
+  			refs.className = 'input active'
+  		}	*/
+  		refs.className = 'input'
   	},
 
 
