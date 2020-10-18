@@ -124,6 +124,7 @@ import StepNumbers from './../../components/StepNumbers';
 import { mapState, mapMutations } from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import VueRouter from "vue-router";
 
 export default {
   name: 'StepTree',
@@ -206,16 +207,26 @@ export default {
         
         axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
           this.dataValidaciones = response.data;
-          console.log(this.dataValidaciones);
-          if (this.rutParticipante !== this.rutParticipante2) {
+        
+          if (Object.keys(this.dataValidaciones).length !== 0) {
+            if (this.rutParticipante !== this.rutParticipante2) {
+            
             this.nombreParticipante = this.dataValidaciones.Representante.PER_NOM;
             this.estado = this.dataValidaciones.Estado;
-            this.grupos = {
+
+            if (this.dataValidaciones.grupos !== '') {
+              this.grupos = {
               name: this.dataValidaciones.grupos.GRUPO,
               perId: this.dataValidaciones.grupos.PER_ID
             }
+            }
+            
           } else {
             alert("Los participantes deben tener rut distinto");
+            
+          }
+          } else {
+            alert("El patrocinante no existe");
           }
  
         }).catch(function (error) {
@@ -227,9 +238,10 @@ export default {
       validateRutExist2(rut, ref) {
         
         axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
+          console.log(response.data[0]);
           this.dataValidaciones = response.data;
-
-          if (this.rutParticipante !== this.rutParticipante2) {
+          if (Object.keys(this.dataValidaciones).length !== 0) {
+            if (this.rutParticipante !== this.rutParticipante2) {
             this.nombreParticipante2 = this.dataValidaciones.Representante.PER_NOM;
             this.estado = this.dataValidaciones.Estado;
             this.estado = this.dataValidaciones.Estado;
@@ -239,6 +251,9 @@ export default {
             }
           } else {
             alert("Los participantes deben tener rut distinto");
+          }
+          } else {
+            alert("El Patrocinante no existe");
           }
 
         }).catch(function (error) {
@@ -263,6 +278,7 @@ export default {
         if (this.validateInput()) {
           this.save();
           this.savePostulacionCompleted(this.dataPatrocinantes);
+          this.$router.push({ name: "StepFour" });
           //this.postParticipante();
         } else {
           alert("Debe llenar todos los campos");
