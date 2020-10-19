@@ -377,6 +377,7 @@
                             name="comunacomercial_st03"
                             @input="$event = setCommune($event.target.value)"
                             :value="selectedCommune"
+                            @change="communeValidation()"
                           >
                             <option value="" selected disabled hidden>
                               Selecciona una Comuna
@@ -392,8 +393,7 @@
                           <div
                             id="email2st02-error"
                             class="formerror"
-                            v-if="communeIsValid === false"
-                          >
+                            v-if="communeIsValid === false">
                             Ingrese una Comuna
                           </div>
                         </div>
@@ -412,9 +412,8 @@
                         <div
                           id="email2st02-error"
                           class="formerror"
-                          v-if="streetIsValid === false"
-                        >
-                          Ingrese una Calle Comercial
+                          v-if="streetIsValid === false">
+                            Ingrese una Calle Comercial
                         </div>
                       </div>
                       <div class="input" ref="number">
@@ -465,7 +464,7 @@
             <div class="container">
               <div class="c-form-steps__content">
                 <div class="row">
-                  <div class="col-md-12 col-lg-6 offset-lg-2">
+                  <div class="col-md-10 col-lg-6 offset-lg-2">
                     <form action="#" id="step03_3">
                       <h2>Redes digitales de la empresa</h2>
                       <div class="input" ref="website">
@@ -476,9 +475,7 @@
                           v-model="website"
                           ref="websiteInput"
                           @focus="focus($refs.website)"
-                          @blur="
-                            blur([$refs.website, $refs.websiteInput.value])
-                          "
+                          @blur="blur([$refs.website, $refs.websiteInput.value])"
                           @keyup="validateURL($refs.websiteInput.value)"
                         />
                         <div
@@ -489,14 +486,14 @@
                           Ingrese un website
                         </div>
                       </div>
-                      <!-- <button
+                      <button
                         class="btn-red u-mt50 big"
                         id="submitStep03"
                         type="button"
                         @click="saveStepOne()"
                       >
                         Guardar<i class="fa fa-angle-right"></i>
-                      </button> -->
+                      </button>
 
                       <button
                         class="btn-red u-mt50 big"
@@ -504,8 +501,10 @@
                         type="button"
                         @click="checkForm()"
                       >
-                        Guardar y continuar<i class="fa fa-angle-right"></i>
+                        Continuar<i class="fa fa-angle-right"></i>
                       </button>
+
+
                     </form>
                   </div>
                 </div>
@@ -758,7 +757,7 @@ export default {
       if (this.street == "") {
         this.streetIsValid = false;
       } else {
-        this.communeIsValid = true;
+        this.streetIsValid = true;
       }
     },
 
@@ -835,7 +834,7 @@ export default {
         this.formIsValid = true;
       }
 
-      if (this.vueDropzoneFile == "") {
+      if (this.vueDropzoneFile === "") {
         this.dropzoneIsValid = false;
         this.formIsValid = false;
       } else {
@@ -900,7 +899,9 @@ export default {
       }
 
       if (this.formIsValid == true) {
-
+        this.saveStepOne();
+      } else {
+        alert("Debe completar los campos requeridos");
       }
     },
 
@@ -1058,6 +1059,6 @@ export default {
 }
 
 .pointer {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 </style>

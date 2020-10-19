@@ -117,6 +117,7 @@
                       </div> -->
                       <label>Porcentaje de la sociedad dedicado a la construcción</label>
                       <input type="text" name="patrimonio_st04" ref="percentage"
+                        v-model="firstPercentage"
                         @focus="focus($refs.input)"
                         @blur="blur([$refs.input, $refs.percentage.value])">
                     </div>
@@ -124,6 +125,7 @@
                       <label>Porcentaje de la sociedad dedicado a la construcción</label>
                       <input type="text" name="porcentajesociedad_st04"
                         ref="build"
+                        v-model="secondPercentage"
                         @focus="focus($refs.society)"
                         @blur="blur([$refs.society, $refs.build.value])">
                     </div>
@@ -131,6 +133,7 @@
                       <label>Volumen facturado año anterior</label>
                       <input type="text" name="volumenfacturacion_st04"
                         ref="volumeInput"
+                        v-model="volume"
                         @focus="focus($refs.volume)"
                         @blur="blur([$refs.volume, $refs.volumeInput.value])">
                     </div>
@@ -194,29 +197,85 @@
                       <h2>COMPOSICIÓN ACCIONARIA</h2>
                       <div class="content-repeater" id="repeater">
                         <div class="wrapper-repeater">
-                          <div class="input item-content u-mb70">
+                          <div class="input item-content u-mb70" ref="rut">
                             <label>RUT de la persona (natural o jurídica)<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="rutpersona_st04">
+                            <input type="text" name="rutpersona_st04"
+                              v-model="rutPerson"
+                              ref="rutPerson"
+                              @focus="focus($refs.rut)"
+                              @blur="blur([$refs.rut, $refs.rutPerson.value])"
+                              @keyup="rutValidation($refs.rutPerson.value)">
                             <div class="small-text">Sin puntos y con guión (11111111-1)</div>
+                            <div
+                              id="giro_st03-error"
+                              class="errorlogin"
+                              v-if="rutIsValid === false">
+                                Ingrese un rut válido
+                            </div>
                           </div>
-                          <div class="input item-content u-mb70">
+                          <div class="input item-content u-mb70" ref="name">
                             <label>Nombre<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="nombrepersona_st04">
+                            <input type="text" name="nombrepersona_st04"
+                              v-model="name"
+                              ref="nameInput"
+                              @focus="focus($refs.name)"
+                              @blur="blur([$refs.name, $refs.nameInput.value])"
+                              @keyup="nameValidation()">
+                              <div
+                                id="giro_st03-error"
+                                class="errorlogin"
+                                v-if="nameIsValid === false">
+                                  Ingrese un nombre
+                              </div>
                           </div>
-                          <div class="input item-content u-mb70">
+                          <div class="input item-content u-mb70" ref="lastname">
                             <label>Apellido Paterno<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="apellido1persona_st04">
+                            <input type="text" name="apellido1persona_st04"
+                              v-model="fatherLastname"
+                              ref="fatherLastnameInput"
+                              @focus="focus($refs.lastname)"
+                              @blur="blur([$refs.lastname, $refs.fatherLastnameInput.value])"
+                              @keyup="fatherLastnameValidation()">
+                              <div
+                                id="giro_st03-error"
+                                class="errorlogin"
+                                v-if="fatherLastnameIsValid === false">
+                                  Ingrese un apellido
+                              </div>
                           </div>
-                          <div class="input item-content u-mb70">
+                          <div class="input item-content u-mb70" ref="motherLastname">
                             <label>Apellido Materno<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="apellido2persona_st04">
+                            <input type="text" name="apellido2persona_st04"
+                              v-model="motherLastname"
+                              ref="motherLastnameInput"
+                              @focus="focus($refs.motherLastname)"
+                              @blur="blur([$refs.motherLastname, $refs.motherLastnameInput.value])"
+                              @keyup="motherLastnameValidation()">
+                              <div
+                                id="giro_st03-error"
+                                class="errorlogin"
+                                v-if="motherLastnameIsValid === false">
+                                  Ingrese un apellido
+                              </div>
                           </div>
-                          <div class="input item-content u-mb70">
+                          <div class="input item-content u-mb70" ref="societyPercentage">
                             <label>Porcentaje de la sociedad<i> (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="porcentajesociedad_st04">
+                            <input type="text" name="porcentajesociedad_st04"
+                              v-model="societyPercentage"
+                              ref="societyPercentageInput"
+                              @focus="focus($refs.societyPercentage)"
+                              @blur="blur([$refs.societyPercentage, $refs.societyPercentageInput.value])"
+                              @keyup="societyValidation()">
+                              <div
+                                id="giro_st03-error"
+                                class="errorlogin"
+                                v-if="societyPercentageIsValid === false">
+                                  Ingrese un porcentaje
+                              </div>
                           </div>
                         </div>
-                      </div><a class="input-remover" href="#" style="display:none" id="repeater-rmv-btn">Eliminar socio<span>x</span></a><a class="input-repeater" href="#" id="repeater-add-btn">Añadir otro socio<span>+</span></a>
+                      </div><a class="input-remover" href="#" style="display:none" id="repeater-rmv-btn">Eliminar socio<span>x</span></a>
+                      <a class="input-repeater" @click="addPartnerValidation()" id="repeater-add-btn">Añadir otro socio<span>+</span></a>
                     </form>
                   </div>
                 </div>
@@ -228,7 +287,8 @@
               <div class="c-form-steps__content step-data">
                 <div class="row">
                   <div class="col-md-12 col-lg-8 offset-lg-2">
-                    <form action="#" id="step04_3"><a class="link prev btn-blue u-mt50 u-mr30 small" href="#"><i class="fa fa-angle-left"></i>Anterior</a><a class="link btn-red u-mt50 big" href="#" id="submitStep04">Guardar y continuar<i class="fa fa-angle-right"></i></a></form>
+                    <form action="#" id="step04_3"><a class="link prev btn-blue u-mt50 u-mr30 small" href="#"><i class="fa fa-angle-left"></i>Anterior</a>
+                      <a class="link btn-red u-mt50 big" href="#" id="submitStep04">Guardar y continuar<i class="fa fa-angle-right"></i></a></form>
                   </div>
                 </div>
               </div>
@@ -260,9 +320,23 @@
     },
     data () {
       return {
-
+        firstPercentage: '',
+        secondPercentage: '',
+        volume: '',
+        rutPerson: '',
+        name: '',
+        fatherLastname: '',
+        motherLastname: '',
+        societyPercentage: '',
+        addPartner: [],
         totalEmployeesIsValid: '',
         rangeIsValid: '',
+        nameIsValid: '',
+        fatherLastnameIsValid: '',
+        motherLastnameIsValid: '',
+        societyPercentageIsValid: '',
+        formIsValid: '',
+
         vueDropzoneFile: [],
         tempAttachments: [],
         attachments: [],
@@ -295,14 +369,17 @@
       ...mapGetters([
         "getterTotalEmployees",
         "getterRange",
+        "getterRutIsValid"
       ]),
       ...mapMutations([
         "focus",
         "blur",
+        "rutValidation",
         "collapseClick",
         "setVueDropzoneFile",
         "setTotalEmployees",
         "setRange",
+        "setRutIsValid",
       ]),
 
       ...mapActions([
@@ -325,7 +402,53 @@
         } else {
           this.rangeIsValid = true;
         }
-      }
+      },
+
+      nameValidation() {
+        if (this.name == "") {
+          this.nameIsValid = false;
+        } else {
+            this.nameIsValid = true;
+        }
+      },
+
+      fatherLastnameValidation() {
+        if (this.fatherLastname == "") {
+          this.fatherLastnameIsValid = false;
+        } else {
+            this.fatherLastnameIsValid = true;
+        }
+      },
+
+      motherLastnameValidation() {
+        if (this.motherLastname == "") {
+          this.motherLastnameIsValid = false;
+        } else {
+            this.motherLastnameIsValid = true;
+        }
+      },
+
+      societyValidation() {
+        if (this.societyPercentage == "") {
+          this.societyPercentageIsValid = false;
+        } else {
+            this.societyPercentageIsValid = true;
+        }
+      },
+
+      addPartnerValidation() {
+
+      },
+
+      checkForm() {
+        if (this.rutPerson == "") {
+          this.setRutIsValid(false);
+          this.formIsValid = false;
+        } else {
+          this.setRutIsValid(true);
+          this.formIsValid = true;
+        }
+      },
     },
 
     computed: {
@@ -335,6 +458,7 @@
         "selectedRange",
         "totalEmployees",
         "range",
+        "rutIsValid",
       ]),
     },
 
@@ -344,5 +468,45 @@
     }
   }
 </script>
+
+<style>
+  .pointer {
+    cursor: pointer !important;
+  }
+
+  .dropzone-custom-content {
+  position: absolute;
+  padding-top: 15%;
+  left: 58%;
+  transform: translate(-50%, -30%);
+  text-align: center;
+}
+
+.dropzone-custom-title {
+  margin-top: 0;
+  color: #00b782;
+}
+
+.subtitle {
+  color: #314b5f;
+  width: 500px;
+  height: 100px;
+}
+
+.border {
+  background: url(../../assets/img/draganddrop.png) no-repeat !important;
+  border: 0;
+  height: 194px;
+  width: 652px;
+}
+
+.border:hover {
+  cursor: pointer;
+}
+
+.svg {
+  background: url(../../assets/img/draganddrop-text.svg) no-repeat center;
+}
+</style>
 
     
