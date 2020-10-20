@@ -16,7 +16,7 @@
                       <label>RUT del representante</label>
                       <input type="text" name="rutrepresentante_st06" v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @keyup="rutValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                      <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                     </div>
                     <div class="input" ref="nombre">
                       <label>Nombre del representante</label>
@@ -34,27 +34,27 @@
                       <label>Teléfono (fijo)</label>
                       <input type="text" name="telefonorepresentante_st06" v-model="dataRepresentante.telRepre" ref="telRepreCChc" @focus="focus($refs.tel)" @blur="blur([$refs.tel, $refs.telRepreCChc.value])" @keyup="phoneNumberValidation($refs.telRepreCChc.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
-                      <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un teléfono Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                     </div>
                     <div class="input" ref="cel">
                       <label>Celular</label>
                       <input type="text" name="celularrepresentante_st06" v-model="dataRepresentante.celRepre" ref="celRepreCChc" @focus="focus($refs.cel)" @blur="blur([$refs.cel, $refs.celRepreCChc.value])" @keyup="phoneNumberValidation($refs.celRepreCChc.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
-                      <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un celular Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                     </div>
                     <div class="input datepicker" ref="fecha">
                       <label>Fecha de nacimiento</label>
-                      <!--<input type="text" data-toggle="datepicker" name="fecharepresentante_st06" ref="fechaRepre" @focus="focus($refs.fecha)" @blur="blur([$refs.fecha, $refs.fechaRepre.value])">-->
-                        <date-picker name="date" v-model="dataRepresentante.date" :config="options" class="datepickerVue"
-                          ref="fechaRepreCChc"
-                          @focus="focus($refs.fecha)" 
-                          @blur="blur([$refs.fecha, $refs.fechaRepreCChc.value])">
-                          </date-picker>
+                        <date-picker v-model="dataRepresentante.date" ref="fechaRepreCChc"
+                        :lang="lang"
+                        @focus="dateFocus($refs.fecha)"
+                        @change="dateValidation($refs.fecha)"
+                        valueType="format">
+                      </date-picker>
                     </div>
                     <div class="input u-mb0" ref="email">
                       <label>Email de contacto</label>
                       <input type="text" name="emailrepresentante_st06" v-model="dataRepresentante.emailRepre" ref="emailRepreCChc" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailRepreCChc.value])" @keyup="emailValidation($refs.emailRepreCChc.value)">
-                      <div id="rutst02-error" class="formerror" v-if="!emailIsValid">Ingrese un email Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                     </div>
                   </form>
                 </div>
@@ -73,7 +73,7 @@
                         <label>RUT del contacto</label>
                         <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value])" @keyup="validateRutContactoCobranzaExist($refs.rutContactoCob.value) , rutValidation($refs.rutContactoCob.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                        <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="nombreContacto">
                         <label>Nombre del contacto</label>
@@ -91,18 +91,18 @@
                         <label>Teléfono (fijo)</label>
                         <input type="text" name="telefonorepresentante02_st06" v-model="dataContactoCobranza.telContacto" ref="telContactoCob" @focus="focus($refs.telContacto)" @blur="blur([$refs.telContacto, $refs.telContactoCob.value])"  @keyup="phoneNumberValidation($refs.telContactoCob.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
-                        <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un teléfono Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                       </div>
                       <div class="input" ref="celContacto">
                         <label>Celular</label>
                         <input type="text" name="celularrepresentante02_st06" v-model="dataContactoCobranza.celContacto" ref="celContactoCob" @focus="focus($refs.celContacto)" @blur="blur([$refs.celContacto, $refs.celContactoCob.value])"  @keyup="phoneNumberValidation($refs.celContactoCob.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
-                        <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un celular Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                       </div>
                       <div class="input" ref="emailContacto">
                         <label>Email de contacto</label>
                          <input type="text" name="emailrepresentante02_st06" v-model="dataContactoCobranza.emailContacto" ref="emailContactoCob" @focus="focus($refs.emailContacto)" @blur="blur([$refs.emailContacto, $refs.emailContactoCob.value])" @keyup="emailValidation($refs.emailContactoCob.value)">
-                        <div id="rutst02-error" class="formerror" v-if="!emailIsValid">Ingrese un email Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                       </div>
                     </form>
                   </div>
@@ -123,7 +123,7 @@
                             <label>RUT del representante<i>	(<i class="contador">1</i> de<i class="total">{{ total }}</i>)</i></label>
                             <input type="text" name="rutrepresentante03_st06"  ref="rutRepreLeg" @focus="focus($refs.rutRepre)" @blur="blur([$refs.rutRepre, $refs.rutRepreLeg.value])" @keyup="rutValidation($refs.rutRepreLeg.value), validateRutRepresentanteLegalExist($refs.rutRepreLeg.value)"  v-model="dataRepreLegal.rutRepreLegal">
                             <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                            <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                            <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                           </div>
                           <div class="input" ref="nombreRepre">
                             <label>Nombre del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
@@ -141,27 +141,27 @@
                             <label>Teléfono (fijo)<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                             <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg" @focus="focus($refs.telRepre)" @blur="blur([$refs.telRepre, $refs.telRepreLeg.value])"  @keyup="phoneNumberValidation($refs.telRepreLeg.value)" v-model="dataRepreLegal.telRepreLegal">
                             <div class="small-text">Use el formato +56 0 0000 0000</div>
-                            <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un teléfono Válido</div>
+                            <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                           </div>
                           <div class="input" ref="celRepre">
                             <label>Celular<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                             <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg" @focus="focus($refs.celRepre)" @blur="blur([$refs.celRepre, $refs.celRepreLeg.value])" @keyup="phoneNumberValidation($refs.celRepreLeg.value)" v-model="dataRepreLegal.celRepreLegal">
                             <div class="small-text">Use el formato +56 0 0000 0000</div>
-                            <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un celular Válido</div>
+                            <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                           </div>
                           <div class="input datepicker"  ref="fechaRepre">
                             <label>Fecha de nacimiento<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <!--<input type="text" data-toggle="datepicker" name="fecharepresentante03_st06"> -->
-                              <date-picker name="date" v-model="dataRepreLegal.dateRepreLegal" :config="options" class="datepickerVue"
-                                ref="fechaRepreLegal"
-                                @focus="focus($refs.fechaRepre)" 
-                                @blur="blur([$refs.fechaRepre, $refs.fechaRepreLegal.value])">
+                              <date-picker v-model="dataRepreLegal.dateRepreLegal" ref="fechaRepreLegal"
+                                          :lang="lang"
+                                          @focus="dateFocus($refs.fechaRepre)"
+                                          @change="dateValidation($refs.fechaRepre)"
+                                          valueType="format">
                               </date-picker>
                           </div>
                           <div class="input" ref="emailRepre">
                             <label>Mail de contacto<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                             <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg" @focus="focus($refs.emailRepre)" @blur="blur([$refs.emailRepre, $refs.emailRepreLeg.value])" @keyup="emailValidation($refs.emailRepreLeg.value)" v-model="dataRepreLegal.emailRereLegal">
-                            <div id="rutst02-error" class="formerror" v-if="!emailIsValid">Ingrese un email Válido</div>
+                            <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                           </div>
                           <div v-if="inputs" >
                             <div v-for="(item, index) in inputs" :key="index">
@@ -170,7 +170,7 @@
                                 <label>RUT del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                                   <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index])" v-model="form.rutRepreLegal[index]">
                                 <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                                <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                                <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                               </div>
 
                               <div class="input" ref="nombreRepre2">
@@ -192,29 +192,30 @@
                                 <label>Teléfono (fijo)<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                                 <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg2" @focus="focus($refs.telRepre2[index])" @blur="blur([$refs.telRepre2[index], form.telRepreLegal[index]])" v-model="form.telRepreLegal[index]">
                                 <div class="small-text">Use el formato +56 0 0000 0000</div>
-                                <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un teléfono Válido</div>
+                                <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                               </div>
 
                               <div class="input" ref="celRepre2">
                                 <label>Celular<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                                 <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg2" @focus="focus($refs.celRepre2[index])" @blur="blur([$refs.celRepre2[index], form.celRepreLegal[index]])" v-model="form.celRepreLegal[index]">
                                 <div class="small-text">Use el formato +56 0 0000 0000</div>
-                                <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un celular Válido</div>
+                                <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                               </div>
 
                               <div class="input datepicker"  ref="fechaRepre">
                             <label>Fecha de nacimiento<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                              <date-picker name="date" v-model="form.dateRepreLegal[index]" :config="options" class="datepickerVue"
-                                ref="fechaRepreLegal"
-                                @focus="focus($refs.fechaRepre)" 
-                                @blur="blur([$refs.fechaRepre, $refs.fechaRepreLegal.value])">
+                              <date-picker v-model="form.dateRepreLegal[index]" ref="fechaRepreLegal"
+                                          :lang="lang"
+                                          @focus="dateFocus($refs.fechaRepre)"
+                                          @change="dateValidation($refs.fechaRepre)"
+                                          valueType="format">
                               </date-picker>
                           </div>
 
                           <div class="input" ref="emailRepre2">
                             <label>Mail de contacto<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                             <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg2" @focus="focus($refs.emailRepre2[index])" @blur="blur([$refs.emailRepre2[index], form.emailRereLegal[index]])" v-model="form.emailRereLegal[index]">
-                            <div id="rutst02-error" class="formerror" v-if="!emailIsValid">Ingrese un email Válido</div>
+                            <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                           </div>
                           </div>
                           </div>
@@ -386,9 +387,11 @@ import { mapState, mapMutations } from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 //Vue Datepicker
-import datePicker from 'vue-bootstrap-datetimepicker';
+/*import datePicker from 'vue-bootstrap-datetimepicker';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';*/
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 
 
 export default {
@@ -396,20 +399,26 @@ export default {
   components: {
     Cabecera,
     StepNumbers,
-    datePicker,
+    DatePicker,
 },
   data () {
       return {
       data: [{}],
       dataValidaciones: [],
       //DatePicker data
-        options: {
+        /*options: {
           format: 'DD/MM/YYYY',
           useCurrent: false,
           showClear: true,
           showClose: true,
           toolbarPlacement: 'bottom',
+        }*/
+        lang: {
+        formatLocale: {
+          firstDayOfWeek: 1,
+          weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
         },
+      }, 
       //Data form representante
       dataRepresentante:[{
         rutRepre: '',
@@ -419,8 +428,9 @@ export default {
         telRepre: '',
         celRepre: '',
         emailRepre: '',
-        date: null,
+        date: '',
       }],
+      dateIsValid: '',
       //Data form contacto de cobranza
       dataContactoCobranza: {
         rutContactoCob: '',
@@ -470,7 +480,7 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'savePostulacionCompleted']),
+      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'savePostulacionCompleted', 'dateFocus', 'dateBlur']),
 
       save() {
 
@@ -534,7 +544,6 @@ export default {
       },
 
       saveContinue() {
-        console.log(this.validateInput);
         if (this.validateInput()) {
             this.save();
             this.savePostulacionCompleted(this.data);
@@ -592,7 +601,7 @@ export default {
             && this.dataRepreLegal.emailRereLegal !== '' 
             ) {
 
-          if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+          if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true && this.dateIsValid == true) {
             return true;
           }
         } else {
@@ -718,7 +727,17 @@ export default {
         console.log("AXIOS ERROR: ", error);
         });
       
+      },
+
+      dateValidation(refs) {
+      if (this.dataRepresentante.date == "" || this.dataRepresentante.date == null) {
+        this.dateIsValid = false;
+        this.dateBlur(refs);
+      } else {
+        this.dateIsValid = true;
       }
+    },
+
     },
     computed: {
       ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid'])
@@ -752,5 +771,37 @@ export default {
     top: 10px;
     right: 20px;
     color: #fff;
+}
+
+.datepickerr {
+  margin-bottom: 35px;
+  border-bottom: 1px solid #333;
+  max-width: 360px;
+}
+
+.mx-datepicker {
+  position: relative !important;
+  display: inline;
+}
+
+.mx-input {
+  width: 90% !important;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.0); 
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.0);
+  border-bottom: 1px solid #333;
+  padding: 0;
+  padding-left: 0;
+}
+
+.mx-input:hover {
+  border-color: black;
+}
+.mx-input:focus {
+  border-color: black;
+}
+
+.mx-calendar:hover .mx-calendar-panel-date:hover {
+  border-color: black;
 }
 </style>
