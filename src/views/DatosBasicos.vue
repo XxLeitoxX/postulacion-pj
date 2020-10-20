@@ -48,13 +48,18 @@
                     @focus="focus($refs.email_confirmation)"
                     @blur="blur([$refs.email_confirmation, $refs.emailConfirmValue.value])"
                     v-model="emailConfirm"
-                    @keyup="checkInput()"
+                    @keyup="checkInput(), checkEmail()"
                   />
                   <div
                     id="email2st02-error"
                     class="formerror"
                     v-if="!emailConfirmIsValid"
                   >Ingrese un email válido</div>
+                  <div
+                    id="email2st02-error"
+                    class="formerror"
+                    v-if="!emailConfirmIsValidEqual"
+                  >El email debe ser el mismo</div>
                   <div
                     id="email2st02-error"
                     class="formerror"
@@ -273,7 +278,8 @@ export default {
       urlBase: this.$store.state.URL,
       urlBaseMail: this.$store.state.URLEmail,
       urlMail: '',
-      showTipSociety: false
+      showTipSociety: false,
+      emailConfirmIsValidEqual: true
     };
   },
   methods: {
@@ -370,14 +376,31 @@ export default {
 
     },
 
+    checkEmail() {
+
+      if (this.email !== this.emailConfirm ) {
+            this.emailConfirmIsValidEqual = false;
+            this.emailConfirmIsValid = true;
+            this.emailIsValid = true;
+            this.formIsValid = false;
+            return false;
+      } else {
+            this.emailConfirmIsValidEqual = true;
+            this.formIsValid = false;
+            return true;
+      }
+
+    },
 
     onChangeTipoPostulacion() {
+      
       if (this.tipSelect !== "") {
         this.tipoSolIsValid = true;
       } 
 
       if(this.tipSelect == '1') {
         this.showTipSociety = true;
+        //this.tipoSocDocs[0] = '';
       }else {
         this.showTipSociety = false;
       }
@@ -393,17 +416,19 @@ export default {
     onChangeTipoSoc() {
       if (this.tipSelectSoc !== "") {
         this.tipoSocIsValid = true;
-      } 
+      }
+      
     },
    
    
     sendSolicitudPostulacion() {
       this.validation();
-      if (this.validation() !== false) {
+      if (this.validation() !== false && this.checkEmail() !== false) {
         this.generateUrl();
         this.saveSolicitudPostulacion();
         this.postPostulacion();
         this.emailForSendSolicitud(this.emailConfirm);
+        this.tipoSocSendDoc(this.tipSelectSoc);
         this.$router.push({ name: "SendSolicitud" });
       } else {
         alert("Coloque datos validos");
@@ -440,13 +465,13 @@ export default {
     },
 
     ...mapActions(['getCamaras', 'getTipoSociedad']),
-    ...mapMutations(['focus', 'blur', 'emailForSendSolicitud'])
+    ...mapMutations(['focus', 'blur', 'emailForSendSolicitud', 'tipoSocSendDoc'])
     //...mapMutations(['focus', 'blur', 'validation'])
   },
 
   computed: {
     //...mapState(["camaras", "rutIsValid", 'telIsValid', 'emailGlobal']),
-    ...mapState(['camaras', 'tipoSocs']),
+    ...mapState(['camaras', 'tipoSocs', 'tipoSocDocs']),
   },
 
   created: function () {

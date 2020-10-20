@@ -35,7 +35,18 @@ export default new Vuex.Store({
 	emailConfirmIsValid: true,
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
-	postulacionCompleted: [{}]
+	postulacionCompleted: [{}],
+	//resLimitadaDocsShow: false,
+	resLimitadaDocs: [],
+	socResLimitadaDocs: [],
+	socColectivaDocs: [],
+	socAccionesDocs:[],
+	socAnonimaDocs:[],
+	socComanditaDocs:[],
+	corDerechoDocs:[],
+	fundacionDocs:[],
+	universidadDocs:[],
+	tipoSocDocs: []
   },
 
   getters: {
@@ -219,6 +230,122 @@ export default new Vuex.Store({
 
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
+	},
+
+	tipoSocSendDoc(state, tipo) {
+		console.log(tipo);
+
+		if (tipo == 'EIRL') {
+			state.resLimitadaDocs = ['Escritura Pública de Constitución',
+									 'Inscripción Extracto de la Constitución en el Registro de Comercio correspondiente',
+									 'Publicación en el Diario Oficial',
+									 'Protocolización Notarial de la Constitución, según los términos del Código de Comercio y Leyes especiales',
+									 'Escrituras Públicas de Modificaciones (incluidas transformaciones), si existieren',
+									 'Inscripción de Modificación en el Registro de Comercio correspondiente',
+									 'Publicación en el Diario Oficial del Extracto de la Modificación',
+									 'Protocolización Notarial de la Modificación, según los términos del Código de Comercio y Leyes especiales',
+									 'Certificados del Registro de Comercio Correspondiente',
+									 'Copia de inscripción de la Constitución de una Sociedad con anotaciones marginales, con vigencia',
+									 'Certificado de Vigencia de Poder',
+									 'Poderes Vigentes (Personerías). En este caso generalmente se encuentran en la escritura de Constitución o en alguna escritura de modificación'
+		   							];
+			state.tipoSocDocs.push(state.resLimitadaDocs);
+		}
+		if (tipo == 'SRL') {
+			state.socResLimitadaDocs = ['Escritura Pública de Constitución', 'Inscripción Extracto de la Constitución en el Registro de Comercio correspondiente', 
+										'Publicación en el Diario Oficial', 'Protocolización Notarial de la Constitución, según los términos del Código de Comercio y Leyes especiales',
+										'Escrituras Públicas de Modificaciones (incluidas transformaciones) Sociales, si existieren', 'Inscripción de Modificación en el Registro de Comercio correspondiente',
+										'Publicación en el Diario Oficial del Extracto de la Modificación', 'Protocolización Notarial de la Modificación, según los términos del Código de Comercio y Leyes especiales',
+										'Certificados del Registro de Comercio Correspondiente', 'Copia de inscripción de la Constitución de una Sociedad con anotaciones marginales, con vigencia',
+										'Certificado de Vigencia de Poder', 'Poderes Vigentes (Personerías). En este caso generalmente se encuentran en la escritura de Constitución o en alguna escritura de modificación social'
+									   ];
+			state.tipoSocDocs.push(state.socResLimitadaDocs);
+		}
+		if (tipo == 'SC') {
+			state.socColectivaDocs = ['Constitución', 'Modificación', 'Vigencia', 'Estatuto Actualizado', 
+			'Anotaciones', 'Migración (si fuera del caso)', 'Escritura Pública de Constitución',
+			'Inscripción Extracto de la Constitución en el Registro de Comercio Correspondiente',
+			'Publicación en el Diario Oficial',
+			'Protocolización Notarial de la Constitución, según los términos del Código de Comercio y Leyes especiales',
+			'Escrituras Pública de Modificaciones (incluidas transformaciones) Sociales, si existieren',
+			'Inscripción de Modificación en el Registro de Comercio correspondiente',
+			'Publicación en el Diario Oficial del Extracto de la Modificación',
+			'Protocolización Notarial de la Modificación, según los términos del Código de Comercio y Leyes especiales',
+			'Poderes Vigentes (Personerías). En este caso, generalmente se encuentran en la escritura de Constitución o en alguna escritura de modificación social',
+			'Certificados del Registro de Comercio correspondiente',
+			'Copia de Inscripción de la Constitución de una Sociedad con anotaciones marginales con vigencia',
+			'Certificado de Vigencia de Poder'
+		   ];
+			state.tipoSocDocs.push(state.socColectivaDocs);
+		}
+		if (tipo == 'SAC') {
+			state.socAccionesDocs = ['Escritura Pública de Constitución', 
+									 'Inscripción Extracto de la Constitución en el Registro de Comercio correspondiente',
+									 'Publicación en el Diario Oficial',
+									 'Protocolización Notarial de la Constitución, según los términos del Código de Comercio y Leyes especiales',
+									 'Escrituras Públicas de Modificaciones (incluidas transformaciones) Sociales, si existieren',
+									 'Inscripción de Modificación en el Registro de Comercio correspondiente',
+									 'Publicación en el Diario Oficial del Extracto de la Modificación',
+									 'Protocolización Notarial de la Modificación, según los términos del Código de Comercio y Leyes especiales',
+									 'Reducción a Escritura Pública de Actas de Directorio donde consten los Poderes Vigentes de la Sociedad (una o más según corresponda)',
+									 'Certificados del Registro de Comercio Correspondiente',
+									 'Copia de inscripción de la Constitución de una Sociedad con anotaciones marginales, con vigencia',
+									 'Certificado de Inscripción de Poderes, si correspondiere' 
+									];
+			state.tipoSocDocs.push(state.socAccionesDocs);
+		}
+		if (tipo == 'SA') {
+			state.socAnonimaDocs = ['Escritura Pública de Constitución', 
+									'Inscripción Extracto de la Constitución en el Registro de Comercio correspondiente', 
+									'Publicación en el Diario Oficial',
+									'Protocolización Notarial de la Constitución, según los términos del Código de Comercio y Leyes especiales',
+									'Escrituras Públicas de Modificaciones (incluidas transformaciones) Sociales, si existieren',
+									'Inscripción de Modificación en el Registro de Comercio correspondiente',
+									'Publicación en el Diario Oficial del Extracto de la Modificación',
+									'Protocolización Notarial de la Modificación, según los términos del Código de Comercio y Leyes especiales',
+									'Reducción a Escritura Pública de Actas de Directorio donde consten los Poderes Vigentes de la Sociedad (una o más según corresponda)',
+									'Certificados del Registro de Comercio Correspondiente',
+									'Copia de inscripción de la Constitución de una Sociedad con anotaciones marginales, con vigencia',
+									'Certificado de Inscripción de Poderes, si correspondiere'
+								   ];
+			state.tipoSocDocs.push(state.socAnonimaDocs);
+		}
+		if (tipo == 'SCO') {
+			state.socComanditaDocs = ['Escritura Pública de Constitución', 
+									  'Inscripción Extracto de la Constitución en el Registro de Comercio correspondiente', 
+									  'Publicación en el Diario Oficial',
+									  'Protocolización Notarial de la Constitución, según los términos del Código de Comercio y Leyes especiales',
+									  'Escrituras Públicas de Modificaciones (incluidas transformaciones) Sociales, si existieren',
+									  'Inscripción de Modificación en el Registro de Comercio correspondiente',
+									  'Publicación en el Diario Oficial del Extracto de la Modificación',
+									  'Protocolización Notarial de la Modificación, según los términos del Código de Comercio y Leyes especiales',
+									  'Certificados Registro de Comercio Correspondiente',
+									  'Copia de Inscripción de la Constitución de una Sociedad con anotaciones marginales con vigencia',
+									  'Certificado de Vigencia de Poder',
+									  'Poderes Vigentes (Personerías). En este caso generalmente se encuentran en la escritura de Constitución o en alguna escritura de modificación social'];
+			state.tipoSocDocs.push(state.socComanditaDocs);
+		}
+		if (tipo == 'CDP') {
+			state.corDerechoDocs = ['El acto por medio del cual se constituyó la corporación o la fundación, que puede ser escritura pública o escritura privada suscrita ante notario', 
+									'Oficio de la Secretaría Municipal de la Municipalidad correspondiente al domicilio, la que aprueba la constitución o modificación de los Estatutos de la corporación o fundación', 
+									'Inscripción de la entidad en el Registro Nacional de Personas Jurídicas del Servicio de Registro Civil e Identificación (se acredita mediante certificado de personalidad jurídica vigente. También se solicita en este Registro el certificado de composición del Directorio)'
+		  ];
+			state.tipoSocDocs.push(state.corDerechoDocs);
+		}
+
+		if (tipo == 'FUN') {
+			state.fundacionDocs = ['El acto por medio del cual se constituyó la corporación o la fundación, que puede ser escritura pública o escritura privada suscrita ante notario', 
+									'Oficio de la Secretaría Municipal de la Municipalidad correspondiente al domicilio, la que aprueba la constitución o modificación de los Estatutos de la corporación o fundación', 
+									'Inscripción de la entidad en el Registro Nacional de Personas Jurídicas del Servicio de Registro Civil e Identificación (se acredita mediante certificado de personalidad jurídica vigente. También se solicita en este Registro el certificado de composición del Directorio)'
+								  ];
+			state.tipoSocDocs.push(state.fundacionDocs);
+		}
+
+		if (tipo == 'UNI') {
+			state.socResLimuniversidadDocsitadaDocs = ['Doc 4', 'Doc 5', 'Doc 6'];
+			state.tipoSocDocs.push(state.universidadDocs);
+		}
+		
 	}
 
   },

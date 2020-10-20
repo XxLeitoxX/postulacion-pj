@@ -240,7 +240,8 @@ export default {
         axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
           console.log(response.data[0]);
           this.dataValidaciones = response.data;
-          if (Object.keys(this.dataValidaciones).length !== 0) {
+          if (Object.keys(this.dataValidaciones).length !== 0
+          ) {
             if (this.rutParticipante !== this.rutParticipante2) {
             this.nombreParticipante2 = this.dataValidaciones.Representante.PER_NOM;
             this.estado = this.dataValidaciones.Estado;
