@@ -122,7 +122,7 @@ import StepNumbers from './../../components/StepNumbers';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
-  name: 'StepFour',
+  name: 'StepFive',
   components: {
     Cabecera,
     StepNumbers,

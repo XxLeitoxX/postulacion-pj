@@ -3,8 +3,7 @@ import Vuex from 'vuex'
 import { mapState } from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
-import { validaRut, telValidate, emailValidate } from "./../validation/validation";
+import { validaRut, telValidate, emailValidate, validaURL } from "./../validation/validation";
 
 Vue.use(Vuex)
 
@@ -15,7 +14,6 @@ export default new Vuex.Store({
 	activeRecovery: '',
 	camaras: [],
 	tipoSocs: [],
-	URL: 'http://postulacion.isc.cl',
 	URLEmail: 'http://postulacionweb.isc.cl', 
 	regions: [],
 	selectedRegion: '',
@@ -27,12 +25,19 @@ export default new Vuex.Store({
 	selectedActivity: '',
 	categories: [],
 	selectedCategory: '',
+	totalEmployees: [],
+	selectedTotalEmployees: '',
+	range: [],
+	selectedRange: '',
 	localhost: 'http://localhost:8080',
-	rutIsValid: true,
-	telIsValid: true,
+	URL: 'http://postulacion.isc.cl',
+	rutIsValid: '',
+	telIsValid: '',
+	emailIsValid: '',
+	emailConfirmIsValid: '',
+	websiteIsValid: '',
+	totalEmployeesIsValid: '',
 	emailGlobal: '',
-	emailIsValid: true,
-	emailConfirmIsValid: true,
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
 	postulacionCompleted: [{}],
@@ -46,7 +51,8 @@ export default new Vuex.Store({
 	corDerechoDocs:[],
 	fundacionDocs:[],
 	universidadDocs:[],
-	tipoSocDocs: []
+	tipoSocDocs: [],
+	completedForm: []
   },
 
   getters: {
@@ -74,12 +80,29 @@ export default new Vuex.Store({
     getterVueDropzoneFile(state) {
     	return state.vueDropzoneFile;
     },
+    getterRutIsValid(state) {
+    	return state.rutIsValid;
+    },
+
+    getterWebsiteIsValid(state) {
+    	return state.websiteIsValid;
+    },
+
+    getterTotalEmployees(state) {
+    	return state.selectedTotalEmployees;
+    },
+
+    getterRange(state) {
+    	return state.selectedTotalEmployees;
+    },
   },
 
   mutations: {
 
-	savePostulacionCompleted(state, step) {
-		state.postulacionCompleted.push(step);
+	saveCompletedForm(state, step) {
+		console.log(step);
+		state.completedForm = step;
+		console.log(state.completedForm);
 	},
   	focus(state, refs) {
   		refs.className = 'input active'
@@ -97,6 +120,28 @@ export default new Vuex.Store({
   		console.log(refs);
   		console.log(refs[1]);
   		//state.active = ''
+  	},
+
+  	dateFocus(state, refs){
+  		refs.className = 'input active'
+  		console.log(refs);
+  		//console.log(refs);
+  		/*if (refs2 == '' || refs2 == null) {
+  			this.dateBlur(refs);
+  		} else {
+  			refs.className = 'input active'
+  		}*/
+  	},
+
+  	dateBlur(state, refs) {
+  		console.log(refs);
+  		/*console.log(refs);
+  		if (refs == '' || refs == null) {
+  			refs.className = 'input'
+  		} else {
+  			refs.className = 'input active'
+  		}	*/
+  		refs.className = 'input'
   	},
 
 
@@ -168,8 +213,8 @@ export default new Vuex.Store({
   	rutValidation(state, rut) {
 
 		if (rut !== '') {
-			console.log(rut);
 			console.log(state.rutIsValid);
+			console.log(rut);
 			validaRut(rut) ? state.rutIsValid = true : state.rutIsValid = false; 
 		}
     },
@@ -192,6 +237,12 @@ export default new Vuex.Store({
         	emailValidate(emailConfirm) ? state.emailConfirmIsValid = true : state.emailConfirmIsValid = false;
       	}
 
+    },
+
+    validateURL (state, URL) {
+    	if (URL !== '') {
+    		validaURL(URL) ? state.websiteIsValid = true : state.websiteIsValid = false;
+    	}
     },
 	
 	loadCamaras(state, camarasAction) {
@@ -224,9 +275,37 @@ export default new Vuex.Store({
     },
 
     setVueDropzoneFile(state, newFile) {
+    	console.log(newFile);
       state.vueDropzoneFile = newFile;
     },
 
+    setRutIsValid(state, newRutIsValid) {
+    	if (newRutIsValid == false) {
+    		console.log(newRutIsValid);
+     		state.rutIsValid = false;
+    	} else {
+    		state.rutIsValid = true;
+    	}
+    },
+
+    setWebsiteIsValid(state, newWebsiteIsValid) {
+    	if (newWebsiteIsValid == false) {
+    		console.log(newWebsiteIsValid);
+     		state.websiteIsValid = false;
+    	} else {
+    		state.websiteIsValid = true;
+    	}
+    },
+
+    setTotalEmployees(state, newSelectedTotalEmployees) {
+    	state.selectedTotalEmployees = newSelectedTotalEmployees;
+    	console.log(state.selectedTotalEmployees);
+    },
+
+    setRange(state, newSelectedRange) {
+    	state.selectedRange = newSelectedRange;
+    	console.log(state.selectedRange);
+    },
 
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
@@ -348,6 +427,7 @@ export default new Vuex.Store({
 		
 	}
 
+
   },
 
   actions: {
@@ -368,6 +448,7 @@ export default new Vuex.Store({
 		const data = await fetch(state.URL + '/listarActividad');
 		//const region = await data.json();
 		state.activities = await data.json();
+		console.log(state.activities);
 	  },
 
 	  getCategory: async function({state}) {
@@ -418,10 +499,26 @@ export default new Vuex.Store({
 		const data = await response.json();
 		console.log(data);*/
 		//this.postId = data.id;
-		let fd = new FormData();
-      	fd.append('file', this.state.vueDropzoneFile)
+
+		let formData = new FormData();
+		/*
+		  Iteate over any file sent over appending the files
+		  to the form data.
+		*/
+		  console.log("before for");
+		  console.log(state.vueDropzoneFile.length);
+		for( var i = 0; i < state.vueDropzoneFile.length; i++ ){
+		  console.log("inside for");
+		  let file = state.vueDropzoneFile[i];
+
+		  formData.append('files[' + i + ']', file);
+		  console.log(file);
+		}
+
+		//let fd = new FormData();
+      	//fd.append('file', state.vueDropzoneFile)
 		axios.post( state.URL+'/uploadfile',
-                fd,
+                formData,
                 {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -433,6 +530,19 @@ export default new Vuex.Store({
         .catch(function(){
           console.log('FAILURE!!');
         });
+	  },
+
+	  getTotalEmployees: async function ({state}) {
+		const data = await fetch(state.URL + '/listarNumeroTrabajadores');
+		state.totalEmployees = await data.json();
+	  	console.log(state.totalEmployees);
+	  },
+
+	  getRange: async function({state}) {
+		const data = await fetch(state.URL + '/listarRango');
+		//const region = await data.json();
+		state.range = await data.json();
+	  	console.log(state.range);
 	  },
 
 
