@@ -107,12 +107,14 @@
                         :lang="lang"
                         @focus="dateFocus($refs.date)"
                         @change="dateValidation($refs.date)"
+                        :disabled-date="(date) => date >= new Date()"
                         valueType="format">
                         <!-- <i slot="icon-clear" class="mx-icon-clear"
                           @click="test($refs.date)">
                         </i> -->
 
                       </date-picker>
+                      {{lang.formatLocale.months}}
                       <div
                         id="giro_st03-error"
                         class="errorlogin"
@@ -464,7 +466,7 @@
             <div class="container">
               <div class="c-form-steps__content">
                 <div class="row">
-                  <div class="col-md-10 col-lg-6 offset-lg-2">
+                  <div class="col-md-10 col-lg-12 offset-lg-2">
                     <form action="#" id="step03_3">
                       <h2>Redes digitales de la empresa</h2>
                       <div class="input" ref="website">
@@ -487,7 +489,7 @@
                         </div>
                       </div>
                       <button
-                        class="btn-red u-mt50 big"
+                        class="link btn-red u-mt50 big u-mr20"
                         id="submitStep03"
                         type="button"
                         @click="saveStepOne()"
@@ -496,14 +498,13 @@
                       </button>
 
                       <button
-                        class="btn-red u-mt50 big"
+                        class="link btn-red u-mt50 big"
                         id="submitStep04"
                         type="button"
                         @click="checkForm()"
                       >
                         Continuar<i class="fa fa-angle-right"></i>
                       </button>
-
 
                     </form>
                   </div>
@@ -595,13 +596,15 @@ export default {
 
       lang: {
         formatLocale: {
-          firstDayOfWeek: 1,
-          weekdaysShort: ['Dom', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          firstDayOfWeek: 0,
+          weekdaysMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
         },
+
+        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
       },
 
       //Vue Dropzone data
-      vueDropzoneFile: [],
+      //vueDropzoneFile: [],
       tempAttachments: [],
       attachments: [],
       dropzoneOptions: {
@@ -671,6 +674,7 @@ export default {
       "companyBackgroundUpload",
     ]),
 
+    //Validation Input error
     fantasyValidation() {
       if (this.fantasyName == "") {
         this.fantasyIsValid = false;
@@ -777,13 +781,12 @@ export default {
       }
     },
 
+    //Step One Inputs Validation
     checkForm() {
-      if (this.rutCompany == "") {
+      if (this.rutCompany == "" || this.rutIsValid == false) {
         this.setRutIsValid(false);
-        this.formIsValid = false;
       } else {
         this.setRutIsValid(true);
-        this.formIsValid = true;
       }
 
       /*if (this.fantasyName == "") {
@@ -796,110 +799,109 @@ export default {
 
       if (this.businessName == "") {
         this.businessIsValid = false;
-        this.formIsValid = false;
       } else {
         this.businessIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.date == "" || this.date == null) {
+      if (this.date == "" || this.date == null || this.dateIsValid == false) {
         this.dateIsValid = false;
-        this.formIsValid = false;
       } else {
         this.dateIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.giro == "") {
         this.giroIsValid = false;
-        this.formIsValid = false;
       } else {
         this.giroIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedActivity == "") {
         this.activityIsValid = false;
-        this.formIsValid = false;
       } else {
         this.activityIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedCategory == "") {
         this.categoryIsValid = false;
-        this.formIsValid = false;
       } else {
         this.categoryIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.vueDropzoneFile === "") {
+      if (this.vueDropzoneFile == "") {
         this.dropzoneIsValid = false;
-        this.formIsValid = false;
       } else {
         this.dropzoneIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedRegion == "") {
         this.regionIsValid = false;
-        this.formIsValid = false;
       } else {
         this.regionIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedProvince == "") {
         this.provinceIsValid = false;
-        this.formIsValid = false;
       } else {
         this.provinceIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedCommune == "") {
         this.communeIsValid = false;
-        this.formIsValid = false;
       } else {
         this.communesIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.street == "") {
         this.streetIsValid = false;
-        this.formIsValid = false;
       } else {
         this.streetIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.streetNumber == "") {
         this.streetNumberIsValid = false;
-        this.formIsValid = false;
       } else {
         this.streetNumberIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.office == "") {
         this.officeIsValid = false;
-        this.formIsValid = false;
       } else {
         this.officeIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.website == "") {
+      if (this.website == "" || this.websiteIsValid == false) {
         this.setWebsiteIsValid(false);
-        this.formIsValid = false;
       } else {
         this.setWebsiteIsValid(true);
+      }
+
+      if (this.rutCompany == "" 
+        || this.rutIsValid == false 
+        || this.websiteIsValid == false 
+        || this.dateIsValid == false
+        || this.businessName == ""
+        || this.date == ""
+        || this.giro == ""
+        || this.selectedActivity == ""
+        || this.selectedCategory == ""
+        || this.vueDropzoneFile == ""
+        || this.selectedRegion == ""
+        || this.selectedProvince == ""
+        || this.selectedCommune == ""
+        || this.street == ""
+        || this.streetNumber == ""
+        || this.office == ""
+        || this.website == "") {
+        
+          this.formIsValid = false;
+        console.log(this.formIsValid);
+      } else {
         this.formIsValid = true;
       }
 
       if (this.formIsValid == true) {
         this.saveStepOne();
+        this.$router.push({ name: "StepTwo" });
       } else {
         alert("Debe completar los campos requeridos");
       }
@@ -931,17 +933,18 @@ export default {
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
+      this.stepOneObject = [];
     },
 
     postStepOne () {
       let stepOneObject = this.stepOneObject;
       let data = JSON.stringify(stepOneObject);
       console.log(data);
-      /*axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
+      axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
-      });*/
+      });
     }
   },
 
@@ -962,6 +965,7 @@ export default {
       "regions",
       "provinces",
       "communes",
+      "vueDropzoneFile",
       "completedForm",
       "URL"
     ]),

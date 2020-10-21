@@ -195,8 +195,10 @@
                   <div class="col-md-12 col-lg-6 offset-lg-2">
                     <form action="#" id="step04_3">
                       <h2>COMPOSICIÓN ACCIONARIA</h2>
+
                       <div class="content-repeater" id="repeater">
-                        <div class="wrapper-repeater">
+                        <div class="wrapper-repeater" 
+                          v-for="(inputs, index) in addPartner" :key="index">
                           <div class="input item-content u-mb70" ref="rut">
                             <label>RUT de la persona (natural o jurídica)<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
                             <input type="text" name="rutpersona_st04"
@@ -275,7 +277,7 @@
                           </div>
                         </div>
                       </div><a class="input-remover" href="#" style="display:none" id="repeater-rmv-btn">Eliminar socio<span>x</span></a>
-                      <a class="input-repeater" @click="addPartnerValidation()" id="repeater-add-btn">Añadir otro socio<span>+</span></a>
+                      <a class="input-repeater pointer" @click="addPartnerValidation()" id="repeater-add-btn">Añadir otro socio<span>+</span></a>
                     </form>
                   </div>
                 </div>
@@ -286,9 +288,14 @@
             <div class="container">
               <div class="c-form-steps__content step-data">
                 <div class="row">
-                  <div class="col-md-12 col-lg-8 offset-lg-2">
-                    <form action="#" id="step04_3"><a class="link prev btn-blue u-mt50 u-mr30 small" href="#"><i class="fa fa-angle-left"></i>Anterior</a>
-                      <a class="link btn-red u-mt50 big" href="#" id="submitStep04">Guardar y continuar<i class="fa fa-angle-right"></i></a></form>
+                  <div class="col-md-12 col-lg-12 offset-lg-2">
+                    <form action="#" id="step04_3">
+                      <button class="link prev btn-blue u-mt50 u-mr30 small" @click="goStepOne">
+                        <i class="fa fa-angle-left"></i>Anterior</button>
+                      <button class="link btn-red u-mt50 big u-mr20" type="button" id="submitStep04">
+                        Guardar<i class="fa fa-angle-right"></i></button>
+                      <button class="link btn-red u-mt50 big" id="submitStep04">Continuar<i class="fa fa-angle-right"></i></button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -329,6 +336,7 @@
         motherLastname: '',
         societyPercentage: '',
         addPartner: [],
+        inputsPartner: [],
         totalEmployeesIsValid: '',
         rangeIsValid: '',
         nameIsValid: '',
@@ -437,7 +445,18 @@
       },
 
       addPartnerValidation() {
+        this.addPartner.push({
+          rutPerson: this.rutPerson, 
+          name: this.name,
+          fatherLastname: this.fatherLastname,
+          motherLastname: this.motherLastname,
+          percentage: this.percentage});
+        console.log(this.addPartner);
+        //this.addPartner.push(this.inputsPartner);
+      },
 
+      goStepOne() {
+        this.$router.push({ name: "StepOne" });
       },
 
       checkForm() {

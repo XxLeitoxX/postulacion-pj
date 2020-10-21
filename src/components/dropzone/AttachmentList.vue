@@ -7,12 +7,14 @@
             <p class="" ref="attachmentTitle">{{ tempAttachment.title }}</p>
           </div>
           <div class="file-info">
-            <span class="uploaded-date"> {{ tempAttachment.size }} bytes </span>
+            <!-- <span class="uploaded-date"> {{ tempAttachment.size }} bytes </span> -->
             <span v-if="checkProgress(tempAttachment)" class="upload-prgress">
               {{ `${tempAttachment.progress} %` }}
             </span>
+            
           </div>
         </div>
+      <button title="Delete this file" @click="removeThisFile(tempAttachment)">Borrar archivo</button>
       </li>
     </ul>
   </div>
@@ -24,6 +26,11 @@ export default {
   methods: {
     checkProgress(attachment) {
       return attachment.progress === null ? false : true;
+    },
+    removeThisFile: function(thisFile){
+      //thisFile = '';
+      console.log("File removed!")
+      console.log(thisFile)
     }
   },
   props: {
@@ -37,7 +44,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 ul {
   display: flex;
   flex-wrap: wrap;
