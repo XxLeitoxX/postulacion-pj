@@ -40,7 +40,6 @@ export default new Vuex.Store({
 	emailGlobal: '',
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
-	postulacionCompleted: [{}],
 	//resLimitadaDocsShow: false,
 	resLimitadaDocs: [],
 	socResLimitadaDocs: [],
