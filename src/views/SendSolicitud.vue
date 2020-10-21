@@ -13,17 +13,23 @@
                 </div>
               </div>
               <div class="c-form-info__documentos">
-                <div class="info">
+               <div class="info">
                   <h2> <strong>Documentos requeridos para el proceso</strong></h2>
                   <p>Para las siguientes etapas de postulación deberá tener a mano los siguientes datos y documentos en formato digital (jpg, png o pdf).</p>
                   <ul>
+                    <li  v-for="(doc, index) in tipoSocDocs[0]" :key="index">
+                      {{ doc }}.
+                    </li>
+                  </ul>
+
+                  <!--<ul>
                     <li>Escritura de constitución</li>
                     <li>Transformaciones y modificaciones (max 10 adjuntos)</li>
                     <li>Memoria o CV de la empresa</li>
                     <li>Escritura social (S.R.L)</li>
                     <li>Escritura social (S.A)</li>
                     <li>Logo</li>
-                  </ul>
+                  </ul> -->
                 </div>
               </div>
             </div>
@@ -52,7 +58,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['emailGlobal']),
+    ...mapState(['emailGlobal', 'resLimitadaDocs', 'socResLimitadaDocs', 'tipoSocDocs']),
   },
 
    created: function () {
