@@ -456,6 +456,26 @@
                           Ingrese una Oficina
                         </div>
                       </div>
+
+                      <div class="input" ref="reference">
+                        <label>Puntos de Referencia</label>
+                        <input
+                          type="text"
+                          name="oficinacomercial_st03"
+                          v-model="reference"
+                          ref="referenceInput"
+                          @focus="focus($refs.reference)"
+                          @blur="blur([$refs.reference, $refs.referenceInput.value])"
+                          @keyup="referenceValidation()"
+                        />
+                        <div
+                          id="email2st02-error"
+                          class="formerror"
+                          v-if="referenceIsValid === false"
+                        >
+                          Ingrese un punto de referencia
+                        </div>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -566,6 +586,7 @@ export default {
       street: '',
       streetNumber: '',
       office: '',
+      reference: '',
       website: '',
 
       //Validation variables
@@ -583,6 +604,7 @@ export default {
       streetIsValid: '',
       streetNumberIsValid: '',
       officeIsValid: '',
+      referenceIsValid: '',
 
       //DatePicker data
       date: '',
@@ -781,6 +803,14 @@ export default {
       }
     },
 
+    referenceValidation() {
+      if (this.reference == "") {
+        this.referenceIsValid = false;
+      } else {
+        this.referenceIsValid = true;
+      }
+    },
+
     //Step One Inputs Validation
     checkForm() {
       if (this.rutCompany == "" || this.rutIsValid == false) {
@@ -869,6 +899,12 @@ export default {
         this.officeIsValid = true;
       }
 
+      if (this.reference == "") {
+        this.referenceIsValid = false;
+      } else {
+        this.referenceIsValid = true;
+      }
+
       if (this.website == "" || this.websiteIsValid == false) {
         this.setWebsiteIsValid(false);
       } else {
@@ -891,6 +927,7 @@ export default {
         || this.street == ""
         || this.streetNumber == ""
         || this.office == ""
+        || this.reference == ""
         || this.website == "") {
         
           this.formIsValid = false;
@@ -929,6 +966,7 @@ export default {
         street: this.street,
         streetNumber: this.streetNumber,
         office: this.office,
+        reference: this.reference,
         website: this.website
       });
       console.log(this.stepOneObject);

@@ -194,19 +194,19 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-6 offset-lg-2">
                     <form action="#" id="step04_3">
-                      <h2>COMPOSICIÓN ACCIONARIA</h2>
+                      <h2>COMPOSICIÓN ACCIONARIA {{this.rutIsValid}}</h2>
 
                       <div class="content-repeater" id="repeater">
                         <div class="wrapper-repeater" 
                           v-for="(inputs, index) in addPartner" :key="index">
                           <div class="input item-content u-mb70" ref="rut">
-                            <label>RUT de la persona (natural o jurídica)<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                            <label>RUT de la persona (natural o jurídica)<i>  (<i class="contador">{{index+1}}</i> de <i class="total">{{addPartner.length}}</i>)</i></label> 
                             <input type="text" name="rutpersona_st04"
                               v-model="rutPerson"
                               ref="rutPerson"
-                              @focus="focus($refs.rut)"
-                              @blur="blur([$refs.rut, $refs.rutPerson.value])"
-                              @keyup="rutValidation($refs.rutPerson.value)">
+                              @focus="focus($refs.rut[index])"
+                              @blur="blur([$refs.rut[index], $refs.rutPerson[index].value])"
+                              @keyup="rutValidation($refs.rutPerson[index].value)">
                             <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                             <div
                               id="giro_st03-error"
@@ -216,12 +216,14 @@
                             </div>
                           </div>
                           <div class="input item-content u-mb70" ref="name">
-                            <label>Nombre<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                            <label>Nombre<i>  
+                              (<i class="contador">{{index+1}}</i> de <i class="total">{{addPartner.length}}</i>)</i>
+                            </label>
                             <input type="text" name="nombrepersona_st04"
                               v-model="name"
                               ref="nameInput"
-                              @focus="focus($refs.name)"
-                              @blur="blur([$refs.name, $refs.nameInput.value])"
+                              @focus="focus($refs.name[index])"
+                              @blur="blur([$refs.name[index], $refs.nameInput[index].value])"
                               @keyup="nameValidation()">
                               <div
                                 id="giro_st03-error"
@@ -231,12 +233,14 @@
                               </div>
                           </div>
                           <div class="input item-content u-mb70" ref="lastname">
-                            <label>Apellido Paterno<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                            <label>Apellido Paterno<i>  
+                              (<i class="contador">{{index+1}}</i> de <i class="total">{{addPartner.length}}</i>)</i>
+                            </label>
                             <input type="text" name="apellido1persona_st04"
                               v-model="fatherLastname"
                               ref="fatherLastnameInput"
-                              @focus="focus($refs.lastname)"
-                              @blur="blur([$refs.lastname, $refs.fatherLastnameInput.value])"
+                              @focus="focus($refs.lastname[index])"
+                              @blur="blur([$refs.lastname[index], $refs.fatherLastnameInput[index].value])"
                               @keyup="fatherLastnameValidation()">
                               <div
                                 id="giro_st03-error"
@@ -246,12 +250,14 @@
                               </div>
                           </div>
                           <div class="input item-content u-mb70" ref="motherLastname">
-                            <label>Apellido Materno<i>  (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                            <label>Apellido Materno<i>  
+                              (<i class="contador">{{index+1}}</i> de <i class="total">{{addPartner.length}}</i>)</i>
+                            </label>
                             <input type="text" name="apellido2persona_st04"
                               v-model="motherLastname"
                               ref="motherLastnameInput"
-                              @focus="focus($refs.motherLastname)"
-                              @blur="blur([$refs.motherLastname, $refs.motherLastnameInput.value])"
+                              @focus="focus($refs.motherLastname[index])"
+                              @blur="blur([$refs.motherLastname[index], $refs.motherLastnameInput[index].value])"
                               @keyup="motherLastnameValidation()">
                               <div
                                 id="giro_st03-error"
@@ -261,12 +267,14 @@
                               </div>
                           </div>
                           <div class="input item-content u-mb70" ref="societyPercentage">
-                            <label>Porcentaje de la sociedad<i> (<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                            <label>Porcentaje de la sociedad<i> 
+                              (<i class="contador">{{index+1}}</i> de <i class="total">{{addPartner.length}}</i>)</i>
+                            </label>
                             <input type="text" name="porcentajesociedad_st04"
                               v-model="societyPercentage"
                               ref="societyPercentageInput"
-                              @focus="focus($refs.societyPercentage)"
-                              @blur="blur([$refs.societyPercentage, $refs.societyPercentageInput.value])"
+                              @focus="focus($refs.societyPercentage[index])"
+                              @blur="blur([$refs.societyPercentage[index], $refs.societyPercentageInput[index].value])"
                               @keyup="societyValidation()">
                               <div
                                 id="giro_st03-error"
@@ -275,6 +283,7 @@
                                   Ingrese un porcentaje
                               </div>
                           </div>
+                          <hr>
                         </div>
                       </div><a class="input-remover" href="#" style="display:none" id="repeater-rmv-btn">Eliminar socio<span>x</span></a>
                       <a class="input-repeater pointer" @click="addPartnerValidation()" id="repeater-add-btn">Añadir otro socio<span>+</span></a>
@@ -335,7 +344,8 @@
         fatherLastname: '',
         motherLastname: '',
         societyPercentage: '',
-        addPartner: [],
+        auxRut: '',
+        addPartner: [{}],
         inputsPartner: [],
         totalEmployeesIsValid: '',
         rangeIsValid: '',
@@ -450,7 +460,7 @@
           name: this.name,
           fatherLastname: this.fatherLastname,
           motherLastname: this.motherLastname,
-          percentage: this.percentage});
+          societyPercentage: this.societyPercentage});
         console.log(this.addPartner);
         //this.addPartner.push(this.inputsPartner);
       },
@@ -460,12 +470,10 @@
       },
 
       checkForm() {
-        if (this.rutPerson == "") {
+        if (this.rutPerson == "" || this.rutIsValid == false) {
           this.setRutIsValid(false);
-          this.formIsValid = false;
         } else {
           this.setRutIsValid(true);
-          this.formIsValid = true;
         }
       },
     },
