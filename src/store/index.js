@@ -40,7 +40,6 @@ export default new Vuex.Store({
 	emailGlobal: '',
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
-	postulacionCompleted: [{}],
 	//resLimitadaDocsShow: false,
 	resLimitadaDocs: [],
 	socResLimitadaDocs: [],
@@ -52,7 +51,8 @@ export default new Vuex.Store({
 	fundacionDocs:[],
 	universidadDocs:[],
 	tipoSocDocs: [],
-	completedForm: []
+	completedForm: [], 
+	rutGlobal: ''
   },
 
   getters: {
@@ -309,6 +309,16 @@ export default new Vuex.Store({
 
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
+	},
+
+	nroSolicitudObj(state, nro) {
+		state.completedForm.push({
+			nroSolicitud: nro,
+		});
+	},
+
+	getRutGlobal(state, rut) {
+		state.rutGlobal = rut;
 	},
 
 	tipoSocSendDoc(state, tipo) {
