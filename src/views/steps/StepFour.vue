@@ -244,7 +244,7 @@
                 <div class="row">
                   <div class="col-md-10 col-lg-10 offset-lg-2">
                     <form action="#" id="step06_4">
-                      <button class="link prev btn-blue u-mt50 u-mr30 small" href="#"><i class="fa fa-angle-left"></i>Anterior</button>
+                      <button class="link prev btn-blue u-mt50 u-mr30 small" type="button" @click="anterior"><i class="fa fa-angle-left"></i>Anterior</button>
                       <button type="button" class="link btn-red u-mt50 big" id="submitStep06" style="margin-right: 25px;" @click="save">Guardar<i class="fa fa-angle-right"></i></button>
                       <button type="button" class="link btn-red u-mt50 big" id="submitStep06" @click="saveContinue">Continuar<i class="fa fa-angle-right"></i></button>
                     </form>
@@ -487,6 +487,7 @@ export default {
       });
 
       this.saveCompletedForm(this.data);
+      this.savePost();
 
       } else {
         alert("Tiene que ingresar datos válidos");
@@ -504,6 +505,10 @@ export default {
           alert("Debe llenar todos los campos");
         }
         
+      },
+
+      anterior() {
+        this.$router.push({ name: "StepTree" });
       },
 
       show (modalName) {
@@ -675,6 +680,17 @@ export default {
       
       },
 
+      savePost: function () {
+          
+      let objPatrocinante = this.completedForm;
+      let data = JSON.stringify(objPatrocinante);
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+      console.log(response.data);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+    },
+
       dateValidation(refs) {
       if (this.dataRepresentante.date == "" || this.dataRepresentante.date == null) {
         this.dateIsValid = false;
@@ -686,7 +702,7 @@ export default {
 
     },
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm'])
+      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'completedForm'])
     },
 
     created: function () {

@@ -86,7 +86,7 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12 offset-lg-2">
                     <form action="#" id="step04_3">
-                      <button class="link prev btn-blue u-mt50 u-mr30 small" href="#">
+                      <button class="link prev btn-blue u-mt50 u-mr30 small" type="button" @click="anterior">
                         <i class="fa fa-angle-left"></i>Anterior</button>
                         <button class="link btn-red u-mt50 big u-mr20"  type="button" id="submitStep05" @click="save">Guardar<i class="fa fa-angle-right"></i></button>
                         <button class="link btn-red u-mt50 big" type="button" id="submitStep05" @click="saveContinue">Continuar<i class="fa fa-angle-right"></i></button></form>
@@ -154,7 +154,7 @@ export default {
       ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm']),
 
       save() {
-        console.log(this.rutGlobal);
+        
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
           
           if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
@@ -197,7 +197,6 @@ export default {
           });
 
         }           
-      console.log(this.dataPatrocinantes);
       this.saveCompletedForm(this.dataPatrocinantes);
       this.savePost();
       console.log(this.completedForm);
@@ -282,30 +281,22 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
-          this.saveCompletedForm(this.dataPatrocinantes);
           this.$router.push({ name: "StepFour" });
-          //this.postParticipante();
+          
         } else {
           alert("Debe llenar todos los campos");
         }
       },
 
-      /*postParticipante:  function() {
-      let objPatrocinante = this.dataPatrocinantes;
-      let data = JSON.stringify(objPatrocinante);
-      console.log(data);
-      axios.post(this.urlBase + this.$route.path + '/postpatrocinantes', data).then((response) => {
-      console.log(response.data);
-      }).catch(function (error) {
-      console.log("AXIOS ERROR: ", error);
-      });
-    },*/
+    anterior() {
+        this.$router.push({ name: "StepTwo" });
+    },
     
     savePost: function () {
           
-      let objPatrocinante = this.dataPatrocinantes;
+      let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);
-      axios.post(this.urlBase + this.$route.path + '/guardarParcial', data).then((response) => {
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
