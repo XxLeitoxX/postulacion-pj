@@ -23,7 +23,7 @@
                         v-model="rutCompany"
                         ref="rutCompany"
                         @focus="focus($refs.rut)"
-                        @blur="blur([$refs.rut, $refs.rutCompany.value])"
+                        @blur="blur([$refs.rut, $refs.rutCompany.value]), getNroSolicitud($refs.rutCompany.value)"
                         @keyup="rutValidation($refs.rutCompany.value)"
                       />
                       <div class="small-text">
@@ -525,7 +525,7 @@
                       >
                         Continuar<i class="fa fa-angle-right"></i>
                       </button>
-
+                      {{completedForm}}
                     </form>
                   </div>
                 </div>
@@ -562,6 +562,9 @@ import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 import mixin from "@/mixins/mixin.js";
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 export default {
   name: "StepOne",
@@ -652,7 +655,11 @@ export default {
         addRemoveLinks: true,
       },
 
-      stepOneObject: []
+      stepOneObject: [],
+
+      urlBase: this.$store.state.URL,
+      datosBasicos: [],
+      nroSolicitud: '',
     };
   },
 
@@ -685,7 +692,8 @@ export default {
       "setVueDropzoneFile",
       "setRutIsValid",
       "setWebsiteIsValid",
-      "saveCompletedForm"
+      "saveCompletedForm",
+      "nroSolicitudObj"
     ]),
     ...mapActions([
       "getRegion",
@@ -887,11 +895,7 @@ export default {
         this.streetIsValid = true;
       }
 
-      if (this.streetNumber == "") {
-        this.streetNumberIsValid = false;
-      } else {
-        this.streetNumberIsValid = true;
-      }
+      this.streetNumberValidation()
 
       if (this.office == "") {
         this.officeIsValid = false;
@@ -899,11 +903,7 @@ export default {
         this.officeIsValid = true;
       }
 
-      if (this.reference == "") {
-        this.referenceIsValid = false;
-      } else {
-        this.referenceIsValid = true;
-      }
+      this.referenceValidation();
 
       if (this.website == "" || this.websiteIsValid == false) {
         this.setWebsiteIsValid(false);
@@ -931,7 +931,7 @@ export default {
         || this.website == "") {
         
           this.formIsValid = false;
-        console.log(this.formIsValid);
+          console.log(this.formIsValid);
       } else {
         this.formIsValid = true;
       }
@@ -971,10 +971,35 @@ export default {
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
+      this.savePost();
+      console.log(this.completedForm);
       this.stepOneObject = [];
     },
+    
+    getNroSolicitud(rut) {
+      axios.get(this.urlBase+'/buscarPostulante/' + rut).then((response) => {
+        this.datosBasicos = response.data;
+        console.log(this.datosBasicos);
+        this.nroSolicitud = this.datosBasicos[0].nro_solicitud;
+        this.nroSolicitudObj(this.nroSolicitud);
+        console.log(this.nroSolicitud);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+    },
 
-    postStepOne () {
+    savePost: function () {
+          
+      let stepOneObject = this.completedForm;
+      let data = JSON.stringify(stepOneObject);
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+      console.log(response.data);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+    },
+  },
+    /*postStepOne () {
       let stepOneObject = this.stepOneObject;
       let data = JSON.stringify(stepOneObject);
       console.log(data);
@@ -983,8 +1008,18 @@ export default {
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-    }
-  },
+    },
+
+    getStepOne () {
+      let stepOneObject = this.stepOneObject;
+      let data = JSON.stringify(stepOneObject);
+      console.log(data);
+      axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
+      console.log(response.data);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+    },*/
 
   computed: {
     ...mapState([

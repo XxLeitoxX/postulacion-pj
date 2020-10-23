@@ -100,8 +100,14 @@ export default new Vuex.Store({
 
 	saveCompletedForm(state, step) {
 		console.log(step);
-		state.completedForm = step;
+		state.completedForm.push(step);
 		console.log(state.completedForm);
+	},
+
+	activeClass (refs) {
+		
+		refs.className = 'active'
+  		console.log(refs);
 	},
   	focus(state, refs) {
   		refs.className = 'input active'
@@ -424,7 +430,15 @@ export default new Vuex.Store({
 			state.tipoSocDocs.push(state.universidadDocs);
 		}
 		
-	}
+	},
+
+	nroSolicitudObj(state, nro) {
+
+		state.nroSolicitudGlobal = nro;
+		state.completedForm.push({
+			nroSolicitud: nro,
+		});
+	},
 
 
   },

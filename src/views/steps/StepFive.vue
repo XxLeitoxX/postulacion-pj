@@ -13,7 +13,7 @@
                   <p>Lea y confirme cada uno de los compromisos obligatorios que los postulantes a socios  deben adquirir con la Cámara Chilena de la Construcción</p>
                   <form action="#">
                     <div class="form-tabs">
-                      <div class="form-tab tab01 active">
+                      <div class="form-tab tab01 active" ref="tab1">
                         <div class="tab-number">
                           <p>1</p>
                         </div>
@@ -23,12 +23,12 @@
                           <p>El postulante declara que toma conocimiento de lo antes señalado y se obliga al cumplimiento de las disposiciones contenidas en el Código y sus anexos.</p>
                           <p>Conocer <a href="https://www.cchc.cl/uploads/basica/archivos/Descargar-Codigo-de-Buenas-Practicas-en-la-Industria-de-la-Construccion.pdf" target="_blank">aquí:</a></p>
                           <div class="md-checkbox">
-                            <input id="tab01" type="checkbox">
+                            <input id="tab01" type="checkbox" @click="activeClass($refs.tab1)">
                             <label for="tab01" id="checbox01">Acepto.												</label>
                           </div>
                         </div>
                       </div>
-                      <div class="form-tab tab02">
+                      <div class="form-tab tab02" :class="active">
                         <div class="tab-number">
                           <p>2</p>
                         </div>
@@ -43,25 +43,25 @@
                           </ul>
                           <p>Lo anterior a través de las siguientes prácticas:<br>Definir y comunicar a la organización los objetivos en Seguridad y Salud en el trabajo, en adelante “SST”.<br>Identificar los peligros de SST e implementar un plan de mitigación asociados a ellos, con al menos una revisión anual.<br>Implementar un Sistema de Gestión en Seguridad y Salud en el Trabajo que involucre la participación de ejecutivos mandos medios y trabajadores.<br>Desarrollar un plan anual de capacitación en SST para ejecutivos, mandos medios y trabajadores.<br>Implementar un modelo de reporte de incidentes, realizando gestión sobre los hallazgos de riesgos mayores.<br>Reportar a la Comisión de Seguridad y Salud Laboral de la CChC los accidentes graves y/o fatales que se produzcan en la empresa y obras y afecten a trabajadores propios o de contratistas, facilitando información a la Comisión que permita realizar los aprendizajes de cada caso.</p>
                           <div class="md-checkbox">
-                            <input id="tab02" type="checkbox">
+                            <input id="tab02" type="checkbox" @click="activeClass()">
                             <label for="tab02">Acepto y me comprometo</label>
                           </div>
                         </div>
                       </div>
-                      <div class="form-tab tab03">
+                      <div class="form-tab tab03" :class="active">
                         <div class="tab-number">
                           <p>3</p>
                         </div>
                         <div class="tab-info">
                           <h3>Declaración de Conocimiento del Modelo de Prevención de Delitos CChC</h3>
                           <p>En cumplimiento de lo dispuesto en la Ley N° 20.393, la Cámara Chilena de la Construcción-CChC, ha adoptado e implementado un Modelo de Prevención de Delitos, que conforme a lo dispuesto en el Artículo 4°, N° 3, letra d), de dicha ley, entre otros elementos, debe incluir la existencia de obligaciones, prohibiciones, sanciones administrativas y procedimientos de denuncia y determinación de responsabilidades en contra de las personas que incumplan el modelo de prevención de delitos. Además, estas obligaciones, prohibiciones y sanciones deben ser incorporadas expresamente en los documentos que la CChC celebre con terceras partes, proveedores, socios y otros que considere necesario.<br>De esta manera, como postulante a socio de la CChC, declaro conocer y a su vez me obligo a cumplir con el Modelo de Prevención de Delitos (disponible en el sitio web www.CCHC.cl, en el Portal del Socio y entregado en este acto) implementado por la CChC, con el objeto de prevenir, evitar y detectar la comisión de los delitos de  Lavado de Activos, Financiamiento del Terrorismo, Cohecho Funcionario Público Nacional o Extranjero, Receptación, Negociación Incompatible, Corrupción entre Particulares, Apropiación Indebida, Administración Desleal, y los artículos 136, 139, 139 bis, 139 ter de la Ley General de Pesca y Acuicultura, como también en relación aquellos delitos que se incorporen en lo sucesivo en la Ley Nº20.393.</p>
-                          <div class="md-checkbox">
-                            <input id="tab03" type="checkbox">
+                          <div class="md-checkbox" ref="one">
+                            <input id="tab03" type="checkbox" @click="activeClass($refs.one)">
                             <label for="tab03">Acepto y me comprometo											</label>
                           </div>
                         </div>
                       </div>
-                      <div class="form-tab tab04">
+                      <div class="form-tab tab04" :class="active">
                         <div class="tab-number bg">
                           <p>4</p>
                         </div>
@@ -87,14 +87,76 @@
               </div>
             </div>
           </div>
-          <div class="c-form-drag whitebg small">
-            <div class="container u-pb0"><a class="section-minimizar" href="#" data-formulario="2">EXPANDIR<span></span></a>
+          <div class="c-form-drag whitebg small font" ref="collapse">
+            <div class="container u-pb0">
+              <a class="section-minimizar pointer"
+                ref="collapseMin"
+                @click="collapseClick([$refs.collapse, $refs.collapseMin])">
+                {{ collapse }}<span></span>
+              </a>
               <div class="row">
                 <div class="col-md-12 col-lg-6 offset-lg-2">
                   <h2>BUENAS PRÁCTICAS</h2>
                   <p class="u-mb50">La Cámara insta a sus socios a comprometerse con las mejores prácticas empresariales y de la industria. Es por ello que pedimos acreditarlas con los siguientes documentos</p>
-                  <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
-                  <form class="dropzone dropzone-custom small-drop02" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span></form>
+                  <!-- <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
+                  <form class="dropzone dropzone-custom small-drop02" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span></form> -->
+                  <vue-dropzone
+                    ref="myVueDropzone"
+                    :useCustomSlot="true"
+                    id="dropzone"
+                    @vdropzone-upload-progress="uploadProgress"
+                    :options="dropzoneOptions"
+                    @vdropzone-file-added="fileAdded"
+                    @vdropzone-sending-multiple="sendingFiles"
+                    @vdropzone-success-multiple="success"
+                    class="border"
+                  >
+                    <div class="dropzone-custom-content svg">
+                      
+                      <div class="subtitle">
+
+                      </div>
+                    </div>
+                  </vue-dropzone>
+                  <AttachmentList
+                    :tempAttachments="getTempAttachments"
+                    :attachments="getAttachments"
+                  />
+                  <div
+                    id="email2st02-errord"
+                    class="errorlogin"
+                    v-if="dropzoneIsValid === false">
+                      Ingrese un archivo
+                  </div>
+                  <br>
+                  <vue-dropzone
+                    ref="myVueDropzone"
+                    :useCustomSlot="true"
+                    id="dropzone"
+                    @vdropzone-upload-progress="uploadProgress"
+                    :options="dropzoneOptions"
+                    @vdropzone-file-added="fileAdded"
+                    @vdropzone-sending-multiple="sendingFiles"
+                    @vdropzone-success-multiple="success"
+                    class="border"
+                  >
+                    <div class="dropzone-custom-content svg">
+                      
+                      <div class="subtitle">
+
+                      </div>
+                    </div>
+                  </vue-dropzone>
+                  <AttachmentList
+                    :tempAttachments="getTempAttachments"
+                    :attachments="getAttachments"
+                  />
+                  <div
+                    id="email2st02-errord"
+                    class="errorlogin"
+                    v-if="dropzoneIsValid === false">
+                      Ingrese un archivo
+                  </div>
                 </div>
               </div>
             </div>
@@ -121,23 +183,91 @@ import Cabecera from './../../components/Cabecera';
 import StepNumbers from './../../components/StepNumbers';
 import { mapState, mapMutations } from 'vuex';
 
+  import vue2Dropzone from "vue2-dropzone";
+  import "vue2-dropzone/dist/vue2Dropzone.min.css";
+
+  import mixin from "@/mixins/mixin.js";
+
 export default {
   name: 'StepFive',
+  mixins: [mixin],
   components: {
     Cabecera,
     StepNumbers,
-    
+    vueDropzone: vue2Dropzone,
 },
   data () {
       return {
       data: [{}],
+      active: '',
+      dropzoneIsValid: '',
+      vueDropzoneFile: [],
+        tempAttachments: [],
+        attachments: [],
+        dropzoneOptions: {
+          // The Url Where Dropped or Selected files will be sent
+          url: `https://httpbin.org/post`,
+          // File Size allowed in MB
+          maxFilesize: 102400000,
+          // Authentication Headers like Access_Token of your application
+          headers: {
+            Authorization: `Access Token`,
+          },
+          // The way you want to receive the files in the server
+          paramName: function (n) {
+            return "file[]";
+          },
+          dictDefaultMessage: "Upload Files Here xD",
+          includeStyling: false,
+          previewsContainer: false,
+          thumbnailWidth: 250,
+          thumbnailHeight: 140,
+          uploadMultiple: true,
+          parallelUploads: 20,
+          addRemoveLinks: true,
+        },
+
+        stepFiveObject: []
      
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation']),
+      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', "saveCompletedForm"]),
 
+      activeClass(refs) {
+        console.log(refs);
+      },
+
+      saveStepFive() {
+        this.stepFiveObject.push({
+          files: this.vueDropzoneFile,
+        });
+        console.log(this.stepFiveObject);
+        this.saveCompletedForm(this.stepFiveObject);
+        this.savePost();
+        console.log(this.completedForm);
+        this.stepFiveObject = [];
+      },
+
+      savePost: function () {
+          
+        let stepFiveObject = this.completedForm;
+        let data = JSON.stringify(stepFiveObject);
+        axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+          console.log(response.data);
+        }).catch(function (error) {
+          console.log("AXIOS ERROR: ", error);
+        });
+      },
      
+    },
+
+    computed: {
+      ...mapState([
+        "collapse",
+        "vueDropzoneFile,",
+        "completedForm"
+      ]),
     },
     
 
@@ -148,3 +278,39 @@ export default {
     
 }
 </script>
+
+<style type="text/css">
+  .dropzone-custom-content {
+  position: absolute;
+  padding-top: 15%;
+  left: 58%;
+  transform: translate(-50%, -30%);
+  text-align: center;
+}
+
+.dropzone-custom-title {
+  margin-top: 0;
+  color: #00b782;
+}
+
+.subtitle {
+  color: #314b5f;
+  width: 500px;
+  height: 100px;
+}
+
+.border {
+  background: url(../../assets/img/draganddrop.png) no-repeat !important;
+  border: 0;
+  height: 194px;
+  width: 652px;
+}
+
+.border:hover {
+  cursor: pointer;
+}
+
+.svg {
+  background: url(../../assets/img/draganddrop-text.svg) no-repeat center;
+}
+</style>
