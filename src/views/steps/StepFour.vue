@@ -441,7 +441,6 @@ export default {
       ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', 'dateFocus', 'dateBlur']),
 
       save() {
-
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
         this.data.push({
 
@@ -488,7 +487,7 @@ export default {
 
       this.saveCompletedForm(this.data);
       this.savePost();
-
+      console.log(this.completedForm);
       } else {
         alert("Tiene que ingresar datos válidos");
       }

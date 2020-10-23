@@ -4,7 +4,6 @@
     <main role="main">
        <StepNumbers></StepNumbers>
     <div class="c-form-steps">
-     
         <div class="c-form-steps__sections" data-step="03">
           <div class="container">
             <div class="c-form-steps__content step-data">
@@ -281,8 +280,7 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
-          this.$router.push({ name: "StepFour" });
-          
+          this.$router.push({ name: "StepFour" });          
         } else {
           alert("Debe llenar todos los campos");
         }
@@ -309,10 +307,16 @@ export default {
 
       hide () {
             this.$modal.hide('help-modal-1');
-      }
+      },
+    
+    created() {
+    
+    console.log(this.completedForm);
+    console.log(this.nroSolicitudGlobal);
+  }
     },
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'rutGlobal'])
+      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'rutGlobal', 'nroSolicitudGlobal'])
     },
     
 }

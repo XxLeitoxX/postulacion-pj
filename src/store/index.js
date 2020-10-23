@@ -52,7 +52,8 @@ export default new Vuex.Store({
 	universidadDocs:[],
 	tipoSocDocs: [],
 	completedForm: [], 
-	rutGlobal: ''
+	rutGlobal: '',
+	nroSolicitudGlobal: ''
   },
 
   getters: {
@@ -101,7 +102,7 @@ export default new Vuex.Store({
 
 	saveCompletedForm(state, step) {
 		console.log(step);
-		state.completedForm = step;
+		state.completedForm.push(step);
 		console.log(state.completedForm);
 	},
   	focus(state, refs) {
@@ -312,6 +313,8 @@ export default new Vuex.Store({
 	},
 
 	nroSolicitudObj(state, nro) {
+
+		state.nroSolicitudGlobal = nro;
 		state.completedForm.push({
 			nroSolicitud: nro,
 		});
