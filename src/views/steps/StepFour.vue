@@ -119,91 +119,45 @@
                       <h2>REPRESENTANTE LEGAL</h2>
                       <div class="content-repeater" id="repeater">
                         <div class="wrapper-repeater">
-                          <div class="input" ref="rutRepre">
-                            <label>RUT del representante<i>	(<i class="contador">1</i> de<i class="total">{{ total }}</i>)</i></label>
-                            <input type="text" name="rutrepresentante03_st06"  ref="rutRepreLeg" @focus="focus($refs.rutRepre)" @blur="blur([$refs.rutRepre, $refs.rutRepreLeg.value])" @keyup="rutValidation($refs.rutRepreLeg.value), validateRutRepresentanteLegalExist($refs.rutRepreLeg.value)"  v-model="dataRepreLegal.rutRepreLegal">
-                            <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                            <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
-                          </div>
-                          <div class="input" ref="nombreRepre">
-                            <label>Nombre del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="nombrerepresentante03_st06" ref="nombreRepreLeg" @focus="focus($refs.nombreRepre)" @blur="blur([$refs.nombreRepre, $refs.nombreRepreLeg.value])" v-model="dataRepreLegal.nombreRepreLegal">
-                          </div>
-                          <div class="input" ref="apePatRepre">
-                            <label>Apellido Paterno del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="apellido1representante03_st06" ref="apePatRepreLeg" @focus="focus($refs.apePatRepre)" @blur="blur([$refs.apePatRepre, $refs.apePatRepreLeg.value])"  v-model="dataRepreLegal.apePatRepreLegal">
-                          </div>
-                          <div class="input" ref="apeMatRepre">
-                            <label>Apellido Materno del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="apellido2representante03_st06" ref="apeMatRepreLeg" @focus="focus($refs.apeMatRepre)" @blur="blur([$refs.apeMatRepre, $refs.apeMatRepreLeg.value])" v-model="dataRepreLegal.apeMatReprelegal">
-                          </div>
-                          <div class="input" ref="telRepre">
-                            <label>Teléfono (fijo)<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg" @focus="focus($refs.telRepre)" @blur="blur([$refs.telRepre, $refs.telRepreLeg.value])"  @keyup="phoneNumberValidation($refs.telRepreLeg.value)" v-model="dataRepreLegal.telRepreLegal">
-                            <div class="small-text">Use el formato +56 0 0000 0000</div>
-                            <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
-                          </div>
-                          <div class="input" ref="celRepre">
-                            <label>Celular<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg" @focus="focus($refs.celRepre)" @blur="blur([$refs.celRepre, $refs.celRepreLeg.value])" @keyup="phoneNumberValidation($refs.celRepreLeg.value)" v-model="dataRepreLegal.celRepreLegal">
-                            <div class="small-text">Use el formato +56 0 0000 0000</div>
-                            <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
-                          </div>
-                          <div class="input datepicker"  ref="fechaRepre">
-                            <label>Fecha de nacimiento<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                              <date-picker v-model="dataRepreLegal.dateRepreLegal" ref="fechaRepreLegal"
-                                          :lang="lang"
-                                          @focus="dateFocus($refs.fechaRepre)"
-                                          @change="dateValidation($refs.fechaRepre)"
-                                          valueType="format">
-                              </date-picker>
-                          </div>
-                          <div class="input" ref="emailRepre">
-                            <label>Mail de contacto<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg" @focus="focus($refs.emailRepre)" @blur="blur([$refs.emailRepre, $refs.emailRepreLeg.value])" @keyup="emailValidation($refs.emailRepreLeg.value)" v-model="dataRepreLegal.emailRereLegal">
-                            <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
-                          </div>
-                          <div v-if="inputs" >
                             <div v-for="(item, index) in inputs" :key="index">
-
                               <div class="input" ref="rutRepre2">
-                                <label>RUT del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index])" v-model="form.rutRepreLegal[index]">
+                                <label>RUT del representante<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
+                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index)" v-model="form.rutRepreLegal[index]">
                                 <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                                 <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                               </div>
 
                               <div class="input" ref="nombreRepre2">
-                                <label>Nombre del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                                <label>Nombre del representante<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
                                 <input type="text" name="nombrerepresentante03_st06" ref="nombreRepreLeg2" @focus="focus($refs.nombreRepre2[index])" @blur="blur([$refs.nombreRepre2[index], form.nomRepreLegal[index]])" v-model="form.nomRepreLegal[index]">
                               </div>
 
                               <div class="input" ref="apePatRepre2">
-                                <label>Apellido Paterno del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                                <label>Apellido Paterno del representante<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
                                 <input type="text" name="apellido1representante03_st06" ref="apePatRepreLeg2" @focus="focus($refs.apePatRepre2[index])" @blur="blur([$refs.apePatRepre2[index], form.apePatRepreLegal[index]])" v-model="form.apePatRepreLegal[index]">
                               </div>
 
                               <div class="input" ref="apeMatRepre2">
-                                <label>Apellido Materno del representante<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                                <label>Apellido Materno del representante<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
                                 <input type="text" name="apellido2representante03_st06" ref="apeMatRepreLeg2" @focus="focus($refs.apeMatRepre2[index])" @blur="blur([$refs.apeMatRepre2[index], form.apeMatReprelegal[index]])" v-model="form.apeMatReprelegal[index]">
                               </div>
 
                               <div class="input" ref="telRepre2">
-                                <label>Teléfono (fijo)<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                                <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg2" @focus="focus($refs.telRepre2[index])" @blur="blur([$refs.telRepre2[index], form.telRepreLegal[index]])" v-model="form.telRepreLegal[index]">
+                                <label>Teléfono (fijo)<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
+                                <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg2" @focus="focus($refs.telRepre2[index])" @blur="blur([$refs.telRepre2[index], form.telRepreLegal[index]])" @keyup="phoneNumberValidation(form.telRepreLegal[index])" v-model="form.telRepreLegal[index]">
                                 <div class="small-text">Use el formato +56 0 0000 0000</div>
                                 <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                               </div>
 
                               <div class="input" ref="celRepre2">
-                                <label>Celular<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                                <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg2" @focus="focus($refs.celRepre2[index])" @blur="blur([$refs.celRepre2[index], form.celRepreLegal[index]])" v-model="form.celRepreLegal[index]">
+                                <label>Celular<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
+                                <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg2" @focus="focus($refs.celRepre2[index])" @blur="blur([$refs.celRepre2[index], form.celRepreLegal[index]])" @keyup="phoneNumberValidation(form.telRepreLegal[index])" v-model="form.celRepreLegal[index]">
                                 <div class="small-text">Use el formato +56 0 0000 0000</div>
                                 <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                               </div>
 
                               <div class="input datepicker"  ref="fechaRepre">
-                            <label>Fecha de nacimiento<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
+                            <label>Fecha de nacimiento<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
                               <date-picker v-model="form.dateRepreLegal[index]" ref="fechaRepreLegal"
                                           :lang="lang"
                                           @focus="dateFocus($refs.fechaRepre)"
@@ -213,14 +167,14 @@
                           </div>
 
                           <div class="input" ref="emailRepre2">
-                            <label>Mail de contacto<i>	(<i class="contador">1</i> de<i class="total">1</i>)</i></label>
-                            <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg2" @focus="focus($refs.emailRepre2[index])" @blur="blur([$refs.emailRepre2[index], form.emailRereLegal[index]])" v-model="form.emailRereLegal[index]">
+                            <label>Mail de contacto<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
+                            <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg2" @focus="focus($refs.emailRepre2[index])" @blur="blur([$refs.emailRepre2[index], form.emailRereLegal[index]])" @keyup="emailValidation(form.emailRereLegal[index])" v-model="form.emailRereLegal[index]">
                             <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                           </div>
                           </div>
-                          </div>
+                          <!--</div> -->
                         </div>
-                      </div><a class="input-remover" type="button" id="repeater-rmv-btn" v-if="inputs.length >= 1" @click="deleteSocio(inputs.length - 1)">Eliminar socio<span>x</span></a><a class="input-repeater"  @click="addInput()" id="repeater-add-btn">Añadir otro representante legal<span>+</span></a>
+                      </div><a class="input-remover" type="button" id="repeater-rmv-btn" v-if="inputs.length > 1" @click="deleteSocio(inputs.length - 1)">Eliminar socio<span>x</span></a><a class="input-repeater"  @click="addInput()" id="repeater-add-btn">Añadir otro representante legal<span>+</span></a>
                     </form>
                   </div>
                 </div>
@@ -290,7 +244,7 @@
                 <div class="row">
                   <div class="col-md-10 col-lg-10 offset-lg-2">
                     <form action="#" id="step06_4">
-                      <button class="link prev btn-blue u-mt50 u-mr30 small" href="#"><i class="fa fa-angle-left"></i>Anterior</button>
+                      <button class="link prev btn-blue u-mt50 u-mr30 small" type="button" @click="anterior"><i class="fa fa-angle-left"></i>Anterior</button>
                       <button type="button" class="link btn-red u-mt50 big" id="submitStep06" style="margin-right: 25px;" @click="save">Guardar<i class="fa fa-angle-right"></i></button>
                       <button type="button" class="link btn-red u-mt50 big" id="submitStep06" @click="saveContinue">Continuar<i class="fa fa-angle-right"></i></button>
                     </form>
@@ -387,9 +341,6 @@ import { mapState, mapMutations } from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 //Vue Datepicker
-/*import datePicker from 'vue-bootstrap-datetimepicker';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';*/
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
@@ -405,15 +356,7 @@ export default {
       return {
       data: [{}],
       dataValidaciones: [],
-      //DatePicker data
-        /*options: {
-          format: 'DD/MM/YYYY',
-          useCurrent: false,
-          showClear: true,
-          showClose: true,
-          toolbarPlacement: 'bottom',
-        }*/
-        lang: {
+      lang: {
         formatLocale: {
           firstDayOfWeek: 1,
           weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
@@ -442,16 +385,31 @@ export default {
         emailContacto: ''
       },
       //Data representante legal
-      inputs: [],
+      inputs: [
+        {
+          form: {
+        rutRepreLegal: [],
+        nomRepreLegal: [],
+        apePatRepreLegal: [],
+        apeMatReprelegal: [],
+        telRepreLegal: [],
+        celRepreLegal: [],
+        dateRepreLegal: [],
+        emailRereLegal: [],
+      }
+
+      }],
       dataRepreLegal: {
-        rutRepreLegal:"",
-        nombreRepreLegal: "",
-        apePatRepreLegal: "",
-        apeMatReprelegal: "",
-        telRepreLegal: "",
-        celRepreLegal: "",
-        dateRepreLegal: "",
-        emailRereLegal: "",
+        form: {
+        rutRepreLegal: [],
+        nomRepreLegal: [],
+        apePatRepreLegal: [],
+        apeMatReprelegal: [],
+        telRepreLegal: [],
+        celRepreLegal: [],
+        dateRepreLegal: [],
+        emailRereLegal: [],
+        }
       },
       form: {
         rutRepreLegal: [],
@@ -480,78 +438,76 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'savePostulacionCompleted', 'dateFocus', 'dateBlur']),
+      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', 'dateFocus', 'dateBlur']),
 
       save() {
-
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
         this.data.push({
 
           //Data form representante
           dataRepresentante:{
-            rutRepre: this.rutRepre,
-            nombreRepre: this.nombreRepre,
-            apellidoRepre: this.apellidoRepre,
-            apellidoRepre2: this.apellidoRepre2,
-            telRepre: this.telRepre,
-            celRepre: this.celRepre,
-            emailRepre: this.emailRepre,
-            date: this.date
+            rutRepre: this.dataRepresentante.rutRepre,
+            nombreRepre: this.dataRepresentante.nombreRepre,
+            apellidoRepre: this.dataRepresentante.apellidoRepre,
+            apellidoRepre2: this.dataRepresentante.apellidoRepre2,
+            telRepre: this.dataRepresentante.telRepre,
+            celRepre: this.dataRepresentante.celRepre,
+            emailRepre: this.dataRepresentante.emailRepre,
+            date: this.dataRepresentante.date
           },
 
            //Data form contacto de cobranza
           dataContactoCobranza: {
-            rutContactoCob: this.rutContactoCob,
-            nombreContactoCob: this.nombreContactoCob,
-            apellidoContacto: this.apellidoContacto,
-            apellidoMatContacto: this.apellidoMatContacto,
-            telContacto: this.telContacto,
-            celContacto: this.celContacto,
-            emailContacto: this.emailContacto,
+            rutContactoCob: this.dataContactoCobranza.rutContactoCob,
+            nombreContactoCob: this.dataContactoCobranza.nombreContactoCob,
+            apellidoContacto: this.dataContactoCobranza.apellidoContacto,
+            apellidoMatContacto: this.dataContactoCobranza.apellidoMatContacto,
+            telContacto: this.dataContactoCobranza.telContacto,
+            celContacto: this.dataContactoCobranza.celContacto,
+            emailContacto: this.dataContactoCobranza.emailContacto,
           },
           
            //Data Representante Legal
            dataRepreLegal: {
-              rutRepreLegal: this.rutRepreLegal,
-              nombreRepreLegal: this.nombreRepreLegal,
-              apePatRepreLegal: this.apePatRepreLegal,
-              apeMatReprelegal: this.apeMatReprelegal,
-              telRepreLegal: this.telRepreLegal,
-              celRepreLegal: this.celRepreLegal,
-              dateRepreLegal: this.dateRepreLegal,
-              emailRereLegal: this.emailRereLegal,
               datosRepreAdd: this.form,
            },
            
            //Data form comites
            dataComites: {
-            contratista: this.contratista,
-            obras: this.obras,
-            concesiones: this.concesiones,
-            inmobiliario: this.inmobiliario,
-            vivienda: this.vivienda,
-            proveedoresa: this.proveedores,
-            industriales: this.industriales,
-            especialidades: this.especialidades
+            contratista: this.dataComites.contratista,
+            obras: this.dataComites.obras,
+            concesiones: this.dataComites.concesiones,
+            inmobiliario: this.dataComites.inmobiliario,
+            vivienda: this.dataComites.vivienda,
+            proveedoresa: this.dataComites.proveedores,
+            industriales: this.dataComites.industriales,
+            especialidades: this.dataComites.especialidades
            } 
       });
 
+      this.saveCompletedForm(this.data);
+      this.savePost();
+      console.log(this.completedForm);
       } else {
         alert("Tiene que ingresar datos válidos");
       }
-      console.log(this.data);
+      ///console.log(this.completedForm);
 
       },
 
       saveContinue() {
         if (this.validateInput()) {
             this.save();
-            this.savePostulacionCompleted(this.data);
+            this.saveCompletedForm(this.data);
             this.$router.push({ name: "StepFive" });
         } else {
           alert("Debe llenar todos los campos");
         }
         
+      },
+
+      anterior() {
+        this.$router.push({ name: "StepTree" });
       },
 
       show (modalName) {
@@ -577,6 +533,7 @@ export default {
       },
 
       validateInput() {
+        
         if (this.dataRepresentante.nombreRepre !== '' 
             && this.dataRepresentante.apellidoRepre !== '' 
             && this.dataRepresentante.apellidoRepre2 !== '' 
@@ -592,13 +549,6 @@ export default {
             && this.dataContactoCobranza.telContacto !== '' 
             && this.dataContactoCobranza.celContacto !== ''
             && this.dataContactoCobranza.emailContacto !== '' 
-            && this.dataRepreLegal.rutRepreLegal !== '' 
-            && this.dataRepreLegal.nombreRepreLegal !== '' 
-            && this.dataRepreLegal.apePatRepreLegal !== '' 
-            && this.dataRepreLegal.telRepreLegal !== ''
-            && this.dataRepreLegal.celRepreLegal !== '' 
-            && this.dataRepreLegal.dateRepreLegal !== '' 
-            && this.dataRepreLegal.emailRereLegal !== '' 
             ) {
 
           if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true && this.dateIsValid == true) {
@@ -699,27 +649,27 @@ export default {
       
       },
 
-      validateRutRepresentanteLegalFormExist(rut) {
-        
+      validateRutRepresentanteLegalFormExist(rut, index) {
+    
         axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
           this.dataValidaciones = response.data;
           
           if (Object.keys(this.dataValidaciones).length !== 0) {
 
             if (this.dataValidaciones[0].ESTADO == "1") {
-           
-              this.form.nomRepreLegal.push(this.dataValidaciones[0].NOMBRE);
-              this.form.apePatRepreLegal.push(this.dataValidaciones[0].APELLIDO_PAT);
-              this.form.apeMatReprelegal.push(this.dataValidaciones[0].APELLIDO_MAT);
+              
+              this.form.nomRepreLegal[index] = this.dataValidaciones[0].NOMBRE;
+              this.form.apePatRepreLegal[index] = this.dataValidaciones[0].APELLIDO_PAT;
+              this.form.apeMatReprelegal[index] = this.dataValidaciones[0].APELLIDO_MAT;
 
             } else {
               alert("El Representante tiene que estar activo");
             }
             
           }else {
-            this.form.nomRepreLegal = "";
-            this.form.apePatRepreLegal= "";
-            this.form.apeMatReprelegal = "";
+            this.form.nomRepreLegal[index] = "";
+            this.form.apePatRepreLegal[index] = "";
+            this.form.apeMatReprelegal[index]  = "";
           }
           
  
@@ -728,6 +678,17 @@ export default {
         });
       
       },
+
+      savePost: function () {
+          
+      let objPatrocinante = this.completedForm;
+      let data = JSON.stringify(objPatrocinante);
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+      console.log(response.data);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+    },
 
       dateValidation(refs) {
       if (this.dataRepresentante.date == "" || this.dataRepresentante.date == null) {
@@ -740,11 +701,12 @@ export default {
 
     },
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid'])
+      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'completedForm'])
     },
 
     created: function () {
       //this.llenar();
+      this.validateInput();
     }
 
     

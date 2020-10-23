@@ -463,7 +463,7 @@
                         @click="checkForm()">
                           Continuar<i class="fa fa-angle-right"></i>
                       </button>
-                      {{completedForm}} <br>
+                      <!-- {{completedForm}} <br> -->
 
                       
                     </form>

@@ -51,7 +51,9 @@ export default new Vuex.Store({
 	fundacionDocs:[],
 	universidadDocs:[],
 	tipoSocDocs: [],
-	completedForm: []
+	completedForm: [], 
+	rutGlobal: '',
+	nroSolicitudGlobal: ''
   },
 
   getters: {
@@ -314,6 +316,18 @@ export default new Vuex.Store({
 
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
+	},
+
+	nroSolicitudObj(state, nro) {
+
+		state.nroSolicitudGlobal = nro;
+		state.completedForm.push({
+			nroSolicitud: nro,
+		});
+	},
+
+	getRutGlobal(state, rut) {
+		state.rutGlobal = rut;
 	},
 
 	tipoSocSendDoc(state, tipo) {

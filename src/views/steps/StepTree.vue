@@ -4,7 +4,6 @@
     <main role="main">
        <StepNumbers></StepNumbers>
     <div class="c-form-steps">
-     
         <div class="c-form-steps__sections" data-step="03">
           <div class="container">
             <div class="c-form-steps__content step-data">
@@ -17,7 +16,7 @@
                       <label>RUT del Patrocinante 1</label>
                       <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante, $refs.rutParticipante.value)" @keyup="rutValidation($refs.rutParticipante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
-                      <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                     </div>
                     <div class="input" ref="nombre">
                       <label>Nombre del Patrocinante 1</label>
@@ -27,12 +26,12 @@
                       <label>Teléfono </label>
                       <input type="text" name="telefonoparticipante_st05" v-model="telefonoParticipante" ref="telefonoParticipante" @focus="focus($refs.telefono)" @blur="blur([$refs.telefono, $refs.telefonoParticipante.value])" @keyup="phoneNumberValidation($refs.telefonoParticipante.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
-                      <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un teléfono Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                     </div>
                     <div class="input u-mb0" ref="email">
                       <label>Email</label>
                       <input type="text" name="emailparticipante_st05" v-model="emailParticipante" ref="emailParticipante" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailParticipante.value])" @keyup="emailValidation($refs.emailParticipante.value)">
-                      <div id="rutst02-error" class="formerror" v-if="!emailIsValid">Ingrese un email Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                     </div>
                   </form>
                 </div>
@@ -58,7 +57,7 @@
                         <label>RUT del Patrocinante 2</label>
                         <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist2(rutParticipante2, $refs.rutParticipante2.value)" @keyup="rutValidation($refs.rutParticipante2.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
-                        <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="nombre2">
                         <label>Nombre del Patrocinante 2</label>
@@ -68,12 +67,12 @@
                         <label>Teléfono </label>
                         <input type="text" name="telefonoparticipante02_st05" v-model="telefonoParticipante2" ref="telefonoParticipante2" @focus="focus($refs.telefono2)" @blur="blur([$refs.telefono2, $refs.telefonoParticipante2.value])" @keyup="phoneNumberValidation($refs.telefonoParticipante2.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
-                        <div id="rutst02-error" class="formerror" v-if="!telIsValid">Ingrese un teléfono Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
                       </div>
                       <div class="input" ref="email2">
                         <label>Email</label>
                         <input type="text" name="emailparticipante02_st05" v-model="emailParticipante2" ref="emailParticipante2" @focus="focus($refs.email2)" @blur="blur([$refs.email2, $refs.emailParticipante2.value])" @keyup="emailValidation($refs.emailParticipante2.value)">
-                        <div id="rutst02-error" class="formerror" v-if="!emailIsValid">Ingrese un email Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
                       </div>
                     </form>
                   </div>
@@ -86,7 +85,7 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12 offset-lg-2">
                     <form action="#" id="step04_3">
-                      <button class="link prev btn-blue u-mt50 u-mr30 small" href="#">
+                      <button class="link prev btn-blue u-mt50 u-mr30 small" type="button" @click="anterior">
                         <i class="fa fa-angle-left"></i>Anterior</button>
                         <button class="link btn-red u-mt50 big u-mr20"  type="button" id="submitStep05" @click="save">Guardar<i class="fa fa-angle-right"></i></button>
                         <button class="link btn-red u-mt50 big" type="button" id="submitStep05" @click="saveContinue">Continuar<i class="fa fa-angle-right"></i></button></form>
@@ -151,9 +150,10 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'savePostulacionCompleted']),
+      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm']),
 
       save() {
+        
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
           
           if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
@@ -196,7 +196,9 @@ export default {
           });
 
         }           
-      console.log(this.dataPatrocinantes);
+      this.saveCompletedForm(this.dataPatrocinantes);
+      this.savePost();
+      console.log(this.completedForm);
       } else {
         alert("Los datos tienen que ser válidos");
       }
@@ -278,24 +280,26 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
-          this.savePostulacionCompleted(this.dataPatrocinantes);
-          this.$router.push({ name: "StepFour" });
-          //this.postParticipante();
+          this.$router.push({ name: "StepFour" });          
         } else {
           alert("Debe llenar todos los campos");
         }
       },
 
-      postParticipante:  function() {
-      let objPatrocinante = this.dataPatrocinantes;
+    anterior() {
+        this.$router.push({ name: "StepTwo" });
+    },
+    
+    savePost: function () {
+          
+      let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);
-      console.log(data);
-      axios.post(this.urlBase + this.$route.path + '/postpatrocinantes', data).then((response) => {
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-	  },
+    },
 
       show () {
             this.$modal.show('help-modal-1');
@@ -303,10 +307,16 @@ export default {
 
       hide () {
             this.$modal.hide('help-modal-1');
-      }
+      },
+    
+    created() {
+    
+    console.log(this.completedForm);
+    console.log(this.nroSolicitudGlobal);
+  }
     },
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid'])
+      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'rutGlobal', 'nroSolicitudGlobal'])
     },
     
 }

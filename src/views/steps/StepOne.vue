@@ -525,7 +525,7 @@
                       >
                         Continuar<i class="fa fa-angle-right"></i>
                       </button>
-                      {{completedForm}}
+                      <!-- {{completedForm}} -->
                     </form>
                   </div>
                 </div>
