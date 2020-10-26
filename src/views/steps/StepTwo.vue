@@ -175,7 +175,10 @@
                   <h2>Antecendentes financieros de la empresa</h2>
                   <p>A continuación ingrese los documentos que acreditan la información de su empresa. Los documentos requeridos son los siguientes:</p>
                   <ul>
-                    <li>Documento carpeta tributaria especial</li>
+                    <!-- <li>Documento carpeta tributaria especial</li> -->
+                    <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
+                      {{docs}}
+                    </li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form> -->
 
@@ -184,7 +187,7 @@
                     :useCustomSlot="true"
                     id="dropzone"
                     @vdropzone-upload-progress="uploadProgress"
-                    :options="dropzoneOptions"
+                    :options="dropzoneOptions2"
                     @vdropzone-file-added="fileAdded"
                     @vdropzone-sending-multiple="sendingFiles"
                     @vdropzone-success-multiple="success"
@@ -327,11 +330,11 @@
 
                           <div class="wrapper-repeater" 
                              v-for="(part, index) in partners" :key="index"> 
-                             part: {{part}} <br>
+                             <!-- part: {{part}} <br>
                              rutPerson: {{part.rutPerson}} <br>
                              name: {{part.name}} <br>
                              value: {{inputsPartner.rutPerson }} <br>
-                             index: {{part[index]}} <br>
+                             index: {{part[index]}} <br> -->
                             <!--  <li v-for="(value, key) in person">
                                {{ key }}: {{ value }}
                              </li> -->
@@ -449,8 +452,8 @@
               <div class="c-form-steps__content step-data">
                 <div class="row">
                   <div class="col-md-12 col-lg-12 offset-lg-2">
-                    <form action="#" id="step04_3">
-                      <button class="link prev btn-blue u-mt50 u-mr30 small" @click="goStepOne">
+                    <form id="step04_3">
+                      <button class="link prev btn-blue u-mt50 u-mr30 small" type="button" @click="goStepOne">
                         <i class="fa fa-angle-left"></i>Anterior</button>
                       <button class="link btn-red u-mt50 big u-mr20" 
                         type="button" 
@@ -486,6 +489,9 @@
   //Vue Dropzone
   import vue2Dropzone from "vue2-dropzone";
   import "vue2-dropzone/dist/vue2Dropzone.min.css";
+
+  import axios from 'axios'
+  import VueAxios from 'vue-axios'
 
   import mixin from "@/mixins/mixin.js";
   export default {
@@ -526,10 +532,10 @@
         societyPercentageIsValid: '',
         formIsValid: '',
 
-        vueDropzoneFile: [],
+        //vueDropzoneFile: [],
         tempAttachments: [],
         attachments: [],
-        dropzoneOptions: {
+        dropzoneOptions2: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
@@ -571,6 +577,10 @@
         "setTotalEmployees",
         "setRange",
         "setRutIsValid",
+        "setStepOneValue",
+        "setStepTwoValue",
+        "setStepThreeValue",
+        "saveCompletedForm",
       ]),
 
       ...mapActions([
@@ -676,7 +686,9 @@
       },
 
       goStepOne() {
-        this.$router.push({ name: "StepOne" });
+        //this.$router.push({ name: "StepOne" });
+        this.setStepOneValue(true);
+        this.setStepTwoValue(false);
       },
 
       checkForm() {
@@ -735,9 +747,12 @@
 
         if (this.formIsValid == true) {
           this.saveSteptwo();
-          this.$router.push({ name: "StepThree" });
+          //this.$router.push({ name: "StepThree" });
+          this.setStepThreeValue(true);
+          this.setStepTwoValue(false);
         } else {
           alert("Debe completar los campos requeridos");
+          this.setStepThreeValue(false);
         }
       },
 
@@ -759,10 +774,10 @@
       },
 
       savePost: function () {
-          
+          console.log(this.URL);
         let stepTwoObject = this.completedForm;
         let data = JSON.stringify(stepTwoObject);
-        axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+        axios.post(this.URL + '/guardarParcial', data).then((response) => {
           console.log(response.data);
         }).catch(function (error) {
           console.log("AXIOS ERROR: ", error);
@@ -779,7 +794,9 @@
         "range",
         "rutIsValid",
         "vueDropzoneFile,",
-        "completedForm"
+        "completedForm",
+        "tipoSocDocs",
+        "URL"
       ]),
     },
 

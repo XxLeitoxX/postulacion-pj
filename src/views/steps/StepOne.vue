@@ -16,7 +16,7 @@
                   </p>
                   <form action="#" id="step03_1">
                     <div class="input" ref="rut">
-                      <label>RUT de la empresa</label> {{this.getStepOne[2].rut}}
+                      <label>RUT de la empresa</label> <!-- {{this.getStepOne[2].rut}} -->
                       <input
                         type="text"
                         name="rutempresa_st03"
@@ -114,7 +114,7 @@
                         </i> -->
 
                       </date-picker>
-                      {{lang.formatLocale.months}}
+                      <!-- {{lang.formatLocale.months}} -->
                       <div
                         id="giro_st03-error"
                         class="errorlogin"
@@ -260,10 +260,13 @@
                     siguientes:
                   </p>
                   <ul>
-                    <li>Memoria o CV de la empresa</li>
+                    <!-- <li>Memoria o CV de la empresa</li>
                     <li>
                       Dependientes de la selección de "Tipo de Sociedad" en fila
                       14
+                    </li> -->
+                    <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
+                      {{docs}}
                     </li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
@@ -487,7 +490,7 @@
               <div class="c-form-steps__content">
                 <div class="row">
                   <div class="col-md-10 col-lg-12 offset-lg-2">
-                    <form action="#" id="step03_3">
+                    <form id="step03_3">
                       <h2>Redes digitales de la empresa</h2>
                       <div class="input" ref="website">
                         <label>Sitio web</label>
@@ -657,6 +660,7 @@ export default {
 
       stepOneObject: [],
       getStepOne: [],
+      societyType: [],
 
       urlBase: this.$store.state.URL,
       datosBasicos: [],
@@ -694,7 +698,10 @@ export default {
       "setRutIsValid",
       "setWebsiteIsValid",
       "saveCompletedForm",
-      "nroSolicitudObj"
+      "nroSolicitudObj",
+      "tipoSocSendDoc",
+      "setStepTwoValue",
+      "setStepOneValue"
     ]),
     ...mapActions([
       "getRegion",
@@ -703,7 +710,6 @@ export default {
       "getActivity",
       "getCategory",
       "companyBackgroundUpload",
-      "getTipoSociedad"
     ]),
 
     //Validation Input error
@@ -940,9 +946,12 @@ export default {
 
       if (this.formIsValid == true) {
         this.saveStepOne();
-        this.$router.push({ name: "StepTwo" });
+        //this.$router.push({ name: "StepTwo" });
+        this.setStepTwoValue(true);
+        this.setStepOneValue(false);
       } else {
         alert("Debe completar los campos requeridos");
+        this.setStepTwoValue(false);
       }
     },
 
@@ -988,9 +997,14 @@ export default {
         this.nroSolicitud = this.datosBasicos[0].nro_solicitud;
         this.nroSolicitudObj(this.nroSolicitud);
         console.log(this.nroSolicitud);
+      setTimeout(this.getStepOneRequest(this.nroSolicitud), 3000);
+      this.getSocietyType(this.nroSolicitud);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
+      console.log(this.nroSolicitud);
+      //this.getStepOneRequest(this.nroSolicitud);
+
     },
 
     savePost: function () {
@@ -1004,11 +1018,12 @@ export default {
       });
     },
 
-    getStepOneRequest () {
+    getStepOneRequest (number) {
       /*let stepOneObject = this.stepOneObject;
       let data = JSON.stringify(stepOneObject);
       console.log(data);*/
-      let requestNumber = this.nroSolicitudGlobal;
+      console.log(number)
+      let requestNumber = number;
       axios.get(this.urlBase + '/paso1/' + requestNumber).then((response) => {
         let stepOneSaved = response.data;
         this.getStepOne = JSON.parse(stepOneSaved[0].object);
@@ -1018,17 +1033,20 @@ export default {
       });
     },
 
-  },
-    /*postStepOne () {
-      let stepOneObject = this.stepOneObject;
-      let data = JSON.stringify(stepOneObject);
-      console.log(data);
-      axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
-      console.log(response.data);
+    getSocietyType (number) {
+      let requestNumber = number;
+      axios.get(this.urlBase + '/tipoSociedad/' + requestNumber).then((response) => {
+        let tipoSociedad = response.data;
+        this.societyType = tipoSociedad;
+        console.log(this.societyType[0].tipo_sociedad);
+        this.tipoSocSendDoc(this.societyType[0].tipo_sociedad);
+        //console.log(this.tipoSocDocs);
       }).catch(function (error) {
-      console.log("AXIOS ERROR: ", error);
+        console.log("AXIOS ERROR: ", error);
       });
-    },*/
+    },
+
+  },
 
   computed: {
     ...mapState([
@@ -1051,7 +1069,9 @@ export default {
       "completedForm",
       "URL",
       "nroSolicitudGlobal",
-      "tipoSocSendDoc"
+      "tipoSocDocs",
+      "showStepTwo"
+
     ]),
 
     /*test: {
@@ -1068,7 +1088,8 @@ export default {
     this.getRegion();
     this.getActivity();
     this.getCategory();
-    this.getStepOneRequest();
+    //this.getStepOneRequest();
+    //this.getSocietyType();
   },
 };
 </script>

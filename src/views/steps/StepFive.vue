@@ -1,7 +1,26 @@
 <template>
     <div>
         <Cabecera />
-        <StepNumbers />
+        <!-- <StepNumbers /> -->
+        <div class="c-steps-numbers">
+        <div class="container">
+          <div class="c-steps-numbers__item success"><span>1</span>
+            <p>Información y<br>antecedentes legales</p>
+          </div>
+          <div class="c-steps-numbers__item success"><span>2</span>
+            <p>Antecedentes<br>financieros</p>
+          </div>
+          <div class="c-steps-numbers__item success"><span>3</span>
+            <p>Patrocinios</p>
+          </div>
+          <div class="c-steps-numbers__item success"><span>4</span>
+            <p>Participación</p>
+          </div>
+          <div class="c-steps-numbers__item active"><span>5</span>
+            <p>Declaraciones<br>y compromisos</p>
+          </div>
+        </div>
+      </div>
         <main role="main">
       <div class="c-form-steps">
         <div class="c-form-steps__sections" data-step="05">
@@ -13,7 +32,7 @@
                   <p>Lea y confirme cada uno de los compromisos obligatorios que los postulantes a socios  deben adquirir con la Cámara Chilena de la Construcción</p>
                   <form action="#">
                     <div class="form-tabs">
-                      <div class="form-tab tab01 active" ref="tab1">
+                      <div :class="tab1" ref="tab1">
                         <div class="tab-number">
                           <p>1</p>
                         </div>
@@ -28,7 +47,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-tab tab02" :class="active">
+                      <div :class="tab2" ref="tab2">
                         <div class="tab-number">
                           <p>2</p>
                         </div>
@@ -43,25 +62,25 @@
                           </ul>
                           <p>Lo anterior a través de las siguientes prácticas:<br>Definir y comunicar a la organización los objetivos en Seguridad y Salud en el trabajo, en adelante “SST”.<br>Identificar los peligros de SST e implementar un plan de mitigación asociados a ellos, con al menos una revisión anual.<br>Implementar un Sistema de Gestión en Seguridad y Salud en el Trabajo que involucre la participación de ejecutivos mandos medios y trabajadores.<br>Desarrollar un plan anual de capacitación en SST para ejecutivos, mandos medios y trabajadores.<br>Implementar un modelo de reporte de incidentes, realizando gestión sobre los hallazgos de riesgos mayores.<br>Reportar a la Comisión de Seguridad y Salud Laboral de la CChC los accidentes graves y/o fatales que se produzcan en la empresa y obras y afecten a trabajadores propios o de contratistas, facilitando información a la Comisión que permita realizar los aprendizajes de cada caso.</p>
                           <div class="md-checkbox">
-                            <input id="tab02" type="checkbox" @click="activeClass()">
+                            <input id="tab02" type="checkbox" @click="activeClass($refs.tab2)">
                             <label for="tab02">Acepto y me comprometo</label>
                           </div>
                         </div>
                       </div>
-                      <div class="form-tab tab03" :class="active">
+                      <div :class="tab3" ref="tab3">
                         <div class="tab-number">
                           <p>3</p>
                         </div>
                         <div class="tab-info">
                           <h3>Declaración de Conocimiento del Modelo de Prevención de Delitos CChC</h3>
                           <p>En cumplimiento de lo dispuesto en la Ley N° 20.393, la Cámara Chilena de la Construcción-CChC, ha adoptado e implementado un Modelo de Prevención de Delitos, que conforme a lo dispuesto en el Artículo 4°, N° 3, letra d), de dicha ley, entre otros elementos, debe incluir la existencia de obligaciones, prohibiciones, sanciones administrativas y procedimientos de denuncia y determinación de responsabilidades en contra de las personas que incumplan el modelo de prevención de delitos. Además, estas obligaciones, prohibiciones y sanciones deben ser incorporadas expresamente en los documentos que la CChC celebre con terceras partes, proveedores, socios y otros que considere necesario.<br>De esta manera, como postulante a socio de la CChC, declaro conocer y a su vez me obligo a cumplir con el Modelo de Prevención de Delitos (disponible en el sitio web www.CCHC.cl, en el Portal del Socio y entregado en este acto) implementado por la CChC, con el objeto de prevenir, evitar y detectar la comisión de los delitos de  Lavado de Activos, Financiamiento del Terrorismo, Cohecho Funcionario Público Nacional o Extranjero, Receptación, Negociación Incompatible, Corrupción entre Particulares, Apropiación Indebida, Administración Desleal, y los artículos 136, 139, 139 bis, 139 ter de la Ley General de Pesca y Acuicultura, como también en relación aquellos delitos que se incorporen en lo sucesivo en la Ley Nº20.393.</p>
-                          <div class="md-checkbox" ref="one">
-                            <input id="tab03" type="checkbox" @click="activeClass($refs.one)">
+                          <div class="md-checkbox">
+                            <input id="tab03" type="checkbox" @click="activeClass($refs.tab3)">
                             <label for="tab03">Acepto y me comprometo											</label>
                           </div>
                         </div>
                       </div>
-                      <div class="form-tab tab04" :class="active">
+                      <div :class="tab4" ref="tab4">
                         <div class="tab-number bg">
                           <p>4</p>
                         </div>
@@ -76,7 +95,7 @@
                             </ul>
                           </p>
                           <div class="md-checkbox">
-                            <input id="tab04" type="checkbox">
+                            <input id="tab04" type="checkbox" @click="activeClass($refs.tab4)">
                             <label for="tab04">Acepto y me comprometo</label>
                           </div>
                         </div>
@@ -129,12 +148,12 @@
                       Ingrese un archivo
                   </div>
                   <br>
-                  <vue-dropzone
+                  <!-- <vue-dropzone
                     ref="myVueDropzone"
                     :useCustomSlot="true"
                     id="dropzone"
                     @vdropzone-upload-progress="uploadProgress"
-                    :options="dropzoneOptions"
+                    :options="dropzoneOptions3"
                     @vdropzone-file-added="fileAdded"
                     @vdropzone-sending-multiple="sendingFiles"
                     @vdropzone-success-multiple="success"
@@ -156,7 +175,7 @@
                     class="errorlogin"
                     v-if="dropzoneIsValid === false">
                       Ingrese un archivo
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -181,7 +200,7 @@
 <script>
 import Cabecera from './../../components/Cabecera';
 import StepNumbers from './../../components/StepNumbers';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
   import vue2Dropzone from "vue2-dropzone";
   import "vue2-dropzone/dist/vue2Dropzone.min.css";
@@ -227,16 +246,39 @@ export default {
           addRemoveLinks: true,
         },
 
+        dropzoneOptions3: {
+          // The Url Where Dropped or Selected files will be sent
+          url: `https://httpbin.org/post`,
+          // File Size allowed in MB
+          maxFilesize: 102400000,
+          // Authentication Headers like Access_Token of your application
+          headers: {
+            Authorization: `Access Token`,
+          },
+          // The way you want to receive the files in the server
+          paramName: function (n) {
+            return "file[]";
+          },
+          dictDefaultMessage: "Upload Files Here xD",
+          includeStyling: false,
+          previewsContainer: false,
+          thumbnailWidth: 250,
+          thumbnailHeight: 140,
+          uploadMultiple: true,
+          parallelUploads: 20,
+          addRemoveLinks: true,
+        },
+
         stepFiveObject: []
      
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', "saveCompletedForm"]),
+      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', "saveCompletedForm", "activeClass", "setVueDropzoneFile",]),
 
-      activeClass(refs) {
-        console.log(refs);
-      },
+      ...mapActions([
+        "companyBackgroundUpload",
+      ]),
 
       saveStepFive() {
         this.stepFiveObject.push({
@@ -266,7 +308,11 @@ export default {
       ...mapState([
         "collapse",
         "vueDropzoneFile,",
-        "completedForm"
+        "completedForm",
+        "tab1",
+        "tab2",
+        "tab3",
+        "tab4"
       ]),
     },
     
