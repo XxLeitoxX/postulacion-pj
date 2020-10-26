@@ -33,10 +33,10 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "about" */ // '../views/About.vue')
   //},
   {
-    path: '/paso1/:id',
-    name: 'StepOne',
+    path: '/pasos/:id',
+    name: 'StepAll',
     //component: StepNumbers
-    component: () => import('@/views/steps/StepOne.vue')
+    component: () => import('@/views/steps/StepAll.vue')
   },
   {
     path: '/paso2/:id',
@@ -47,9 +47,9 @@ Vue.use(VueRouter)
   },
   {
     path: '/paso3/:id',
-    name: 'StepTree',
+    name: 'StepThree',
     //component: StepNumbers
-    component: () => import('@/views/steps/StepTree.vue')
+    component: () => import('@/views/steps/StepThree.vue')
   },
   {
     path: '/paso4/:id',

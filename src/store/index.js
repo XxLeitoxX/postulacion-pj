@@ -51,7 +51,18 @@ export default new Vuex.Store({
 	fundacionDocs:[],
 	universidadDocs:[],
 	tipoSocDocs: [],
-	completedForm: []
+	completedForm: [], 
+	rutGlobal: '',
+	nroSolicitudGlobal: '',
+	showStepOne: true,
+	showStepTwo: false,
+	showStepThree: false,
+	showStepFour: false,
+	showStepFive: true,
+	tab1: 'form-tab tab01 active',
+	tab2: 'form-tab tab02',
+	tab3: 'form-tab tab03',
+	tab4: 'form-tab tab04',
   },
 
   getters: {
@@ -100,8 +111,32 @@ export default new Vuex.Store({
 
 	saveCompletedForm(state, step) {
 		console.log(step);
-		state.completedForm = step;
+		state.completedForm.push(step);
 		console.log(state.completedForm);
+	},
+
+	activeClass (state, refs) {
+  		console.log(refs);
+  		if (refs.className == 'form-tab tab01 active') {
+  			state.tab1 = 'form-tab tab01 success'
+  			state.tab2 = 'form-tab tab02 active'
+  		}
+  		if (refs.className == 'form-tab tab02 active') {
+  			state.tab2 = 'form-tab tab02 success'
+  			state.tab3 = 'form-tab tab03 active'
+  		}
+
+  		if (refs.className == 'form-tab tab03 active') {
+  			state.tab3 = 'form-tab tab02 success'
+  			state.tab4 = 'form-tab tab04 active'
+  		}
+
+  		if (refs.className == 'form-tab tab04 active') {
+  			state.tab4 = 'form-tab tab04 success'
+  		}
+  		
+		
+		//refs.className = 'active'
 	},
   	focus(state, refs) {
   		refs.className = 'input active'
@@ -306,8 +341,46 @@ export default new Vuex.Store({
     	console.log(state.selectedRange);
     },
 
+
+	setStepOneValue(state, newValue) {
+    	state.showStepOne = newValue;
+    	console.log(state.showStepOne);
+    },
+
+    setStepTwoValue(state, newValue) {
+    	state.showStepTwo = newValue;
+    	console.log(state.showStepTwo);
+    },
+
+    setStepThreeValue(state, newValue) {
+    	state.showStepThree = newValue;
+    	console.log(state.showStepThree);
+    },
+
+    setStepFourValue(state, newValue) {
+    	state.showStepFour = newValue;
+    	console.log(state.showStepFour);
+    },
+
+    setStepFiveValue(state, newValue) {
+    	state.showStepFive = newValue;
+    	console.log(state.showStepFive);
+    },
+
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
+	},
+
+	nroSolicitudObj(state, nro) {
+
+		state.nroSolicitudGlobal = nro;
+		state.completedForm.push({
+			nroSolicitud: nro,
+		});
+	},
+
+	getRutGlobal(state, rut) {
+		state.rutGlobal = rut;
 	},
 
 	tipoSocSendDoc(state, tipo) {
@@ -424,7 +497,15 @@ export default new Vuex.Store({
 			state.tipoSocDocs.push(state.universidadDocs);
 		}
 		
-	}
+	},
+
+	nroSolicitudObj(state, nro) {
+
+		state.nroSolicitudGlobal = nro;
+		state.completedForm.push({
+			nroSolicitud: nro,
+		});
+	},
 
 
   },

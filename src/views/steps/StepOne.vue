@@ -16,14 +16,14 @@
                   </p>
                   <form action="#" id="step03_1">
                     <div class="input" ref="rut">
-                      <label>RUT de la empresa</label>
+                      <label>RUT de la empresa</label> <!-- {{this.getStepOne[2].rut}} -->
                       <input
                         type="text"
                         name="rutempresa_st03"
                         v-model="rutCompany"
                         ref="rutCompany"
                         @focus="focus($refs.rut)"
-                        @blur="blur([$refs.rut, $refs.rutCompany.value])"
+                        @blur="blur([$refs.rut, $refs.rutCompany.value]), getNroSolicitud($refs.rutCompany.value)"
                         @keyup="rutValidation($refs.rutCompany.value)"
                       />
                       <div class="small-text">
@@ -114,7 +114,7 @@
                         </i> -->
 
                       </date-picker>
-                      {{lang.formatLocale.months}}
+                      <!-- {{lang.formatLocale.months}} -->
                       <div
                         id="giro_st03-error"
                         class="errorlogin"
@@ -260,10 +260,13 @@
                     siguientes:
                   </p>
                   <ul>
-                    <li>Memoria o CV de la empresa</li>
+                    <!-- <li>Memoria o CV de la empresa</li>
                     <li>
                       Dependientes de la selección de "Tipo de Sociedad" en fila
                       14
+                    </li> -->
+                    <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
+                      {{docs}}
                     </li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
@@ -487,7 +490,7 @@
               <div class="c-form-steps__content">
                 <div class="row">
                   <div class="col-md-10 col-lg-12 offset-lg-2">
-                    <form action="#" id="step03_3">
+                    <form id="step03_3">
                       <h2>Redes digitales de la empresa</h2>
                       <div class="input" ref="website">
                         <label>Sitio web</label>
@@ -525,7 +528,7 @@
                       >
                         Continuar<i class="fa fa-angle-right"></i>
                       </button>
-
+                      <!-- {{completedForm}} -->
                     </form>
                   </div>
                 </div>
@@ -562,6 +565,9 @@ import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 import mixin from "@/mixins/mixin.js";
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 export default {
   name: "StepOne",
@@ -652,7 +658,13 @@ export default {
         addRemoveLinks: true,
       },
 
-      stepOneObject: []
+      stepOneObject: [],
+      getStepOne: [],
+      societyType: [],
+
+      urlBase: this.$store.state.URL,
+      datosBasicos: [],
+      nroSolicitud: '',
     };
   },
 
@@ -685,7 +697,11 @@ export default {
       "setVueDropzoneFile",
       "setRutIsValid",
       "setWebsiteIsValid",
-      "saveCompletedForm"
+      "saveCompletedForm",
+      "nroSolicitudObj",
+      "tipoSocSendDoc",
+      "setStepTwoValue",
+      "setStepOneValue"
     ]),
     ...mapActions([
       "getRegion",
@@ -887,11 +903,7 @@ export default {
         this.streetIsValid = true;
       }
 
-      if (this.streetNumber == "") {
-        this.streetNumberIsValid = false;
-      } else {
-        this.streetNumberIsValid = true;
-      }
+      this.streetNumberValidation()
 
       if (this.office == "") {
         this.officeIsValid = false;
@@ -899,11 +911,7 @@ export default {
         this.officeIsValid = true;
       }
 
-      if (this.reference == "") {
-        this.referenceIsValid = false;
-      } else {
-        this.referenceIsValid = true;
-      }
+      this.referenceValidation();
 
       if (this.website == "" || this.websiteIsValid == false) {
         this.setWebsiteIsValid(false);
@@ -931,16 +939,19 @@ export default {
         || this.website == "") {
         
           this.formIsValid = false;
-        console.log(this.formIsValid);
+          console.log(this.formIsValid);
       } else {
         this.formIsValid = true;
       }
 
       if (this.formIsValid == true) {
         this.saveStepOne();
-        this.$router.push({ name: "StepTwo" });
+        //this.$router.push({ name: "StepTwo" });
+        this.setStepTwoValue(true);
+        this.setStepOneValue(false);
       } else {
         alert("Debe completar los campos requeridos");
+        this.setStepTwoValue(false);
       }
     },
 
@@ -950,40 +961,91 @@ export default {
 
     saveStepOne () {
       this.stepOneObject.push({
-        rut: this.rutCompany,
-        fantasy: this.fantasyName,
-        businessName: this.businessName,
-        date: this.date,
-        giro: this.giro,
-        activity: this.selectedActivity,
-        category: this.selectedCategory,
-        phoneCompany: this.phoneCompany,
-        companyEmail: this.companyEmail,
-        files: this.vueDropzoneFile,
-        region: this.selectedRegion,
-        province: this.selectedProvince,
-        commune: this.selectedCommune,
-        street: this.street,
-        streetNumber: this.streetNumber,
-        office: this.office,
-        reference: this.reference,
-        website: this.website
+        stepOne: {
+          rut: this.rutCompany,
+          fantasy: this.fantasyName,
+          businessName: this.businessName,
+          date: this.date,
+          giro: this.giro,
+          activity: this.selectedActivity,
+          category: this.selectedCategory,
+          phoneCompany: this.phoneCompany,
+          companyEmail: this.companyEmail,
+          files: this.vueDropzoneFile,
+          region: this.selectedRegion,
+          province: this.selectedProvince,
+          commune: this.selectedCommune,
+          street: this.street,
+          streetNumber: this.streetNumber,
+          office: this.office,
+          reference: this.reference,
+          website: this.website
+        }
+        
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
+      this.savePost();
+      console.log(this.completedForm);
       this.stepOneObject = [];
     },
+    
+    getNroSolicitud(rut) {
+      axios.get(this.urlBase+'/buscarPostulante/' + rut).then((response) => {
+        this.datosBasicos = response.data;
+        console.log(this.datosBasicos);
+        this.nroSolicitud = this.datosBasicos[0].nro_solicitud;
+        this.nroSolicitudObj(this.nroSolicitud);
+        console.log(this.nroSolicitud);
+      setTimeout(this.getStepOneRequest(this.nroSolicitud), 3000);
+      this.getSocietyType(this.nroSolicitud);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+      console.log(this.nroSolicitud);
+      //this.getStepOneRequest(this.nroSolicitud);
 
-    postStepOne () {
-      let stepOneObject = this.stepOneObject;
+    },
+
+    savePost: function () {
+          
+      let stepOneObject = this.completedForm;
       let data = JSON.stringify(stepOneObject);
-      console.log(data);
-      axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-    }
+    },
+
+    getStepOneRequest (number) {
+      /*let stepOneObject = this.stepOneObject;
+      let data = JSON.stringify(stepOneObject);
+      console.log(data);*/
+      console.log(number)
+      let requestNumber = number;
+      axios.get(this.urlBase + '/paso1/' + requestNumber).then((response) => {
+        let stepOneSaved = response.data;
+        this.getStepOne = JSON.parse(stepOneSaved[0].object);
+        console.log(this.getStepOne);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
+    getSocietyType (number) {
+      let requestNumber = number;
+      axios.get(this.urlBase + '/tipoSociedad/' + requestNumber).then((response) => {
+        let tipoSociedad = response.data;
+        this.societyType = tipoSociedad;
+        console.log(this.societyType[0].tipo_sociedad);
+        this.tipoSocSendDoc(this.societyType[0].tipo_sociedad);
+        //console.log(this.tipoSocDocs);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
   },
 
   computed: {
@@ -1005,7 +1067,11 @@ export default {
       "communes",
       "vueDropzoneFile",
       "completedForm",
-      "URL"
+      "URL",
+      "nroSolicitudGlobal",
+      "tipoSocDocs",
+      "showStepTwo"
+
     ]),
 
     /*test: {
@@ -1022,6 +1088,8 @@ export default {
     this.getRegion();
     this.getActivity();
     this.getCategory();
+    //this.getStepOneRequest();
+    //this.getSocietyType();
   },
 };
 </script>

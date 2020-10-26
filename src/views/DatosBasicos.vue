@@ -15,9 +15,10 @@
                     name="rutst02"
                     ref="rutInputValue"
                     @focus="focus($refs.rutInput)"
-                    @blur="blur([$refs.rutInput, $refs.rutInputValue.value])"
+                    @blur="blur([$refs.rutInput, $refs.rutInputValue.value]), findPostulanteExist($refs.rutInputValue.value)"
                     v-model="rut"
-                  @keyup="checkInput()"
+                    @keyup="checkInput()"
+                    
                   />
                   <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                   <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
@@ -279,7 +280,8 @@ export default {
       urlBaseMail: this.$store.state.URLEmail,
       urlMail: '',
       showTipSociety: false,
-      emailConfirmIsValidEqual: true
+      emailConfirmIsValidEqual: true,
+      postulanteExistente: []
     };
   },
   methods: {
@@ -422,16 +424,19 @@ export default {
    
    
     sendSolicitudPostulacion() {
-      this.validation();
-      if (this.validation() !== false && this.checkEmail() !== false) {
+     this.validation();
+      if (this.validation() !== false && this.checkEmail() !== false && this.rutExistente !== false) {
         this.generateUrl();
         this.saveSolicitudPostulacion();
         this.postPostulacion();
         this.emailForSendSolicitud(this.emailConfirm);
+        this.getRutGlobal(this.rut);
         this.tipoSocSendDoc(this.tipSelectSoc);
         this.$router.push({ name: "SendSolicitud" });
       } else {
+
         alert("Coloque datos validos");
+        
       }
     },
 
@@ -458,14 +463,31 @@ export default {
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-	  },
+    },
+    
+    findPostulanteExist(rut) {
+        axios.get(this.urlBase+'/buscarPostulante/' + rut).then((response) => {
+          this.postulanteExistente = response.data;
+          if (Object.keys(this.postulanteExistente).length !== 0) {
+              alert("Ya existe una postulación asociada al Rut ingresado");
+              this.rutExistente = false;
+              this.rut = "";
+          } else {
+             this.rutExistente = true;
+          }
+        }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+        });
+      
+      },
+
     
     generateUrl() {
       this.urlMail = `${this.urlBaseMail}/paso1/`; 
     },
 
     ...mapActions(['getCamaras', 'getTipoSociedad']),
-    ...mapMutations(['focus', 'blur', 'emailForSendSolicitud', 'tipoSocSendDoc'])
+    ...mapMutations(['focus', 'blur', 'emailForSendSolicitud', 'tipoSocSendDoc', 'nroSolicitudObj', 'getRutGlobal'])
     //...mapMutations(['focus', 'blur', 'validation'])
   },
 

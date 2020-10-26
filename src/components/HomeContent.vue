@@ -23,7 +23,7 @@
                     <label>RUT DE LA EMPRESA</label>
                     <input type="text" name="loginrut" ref="rutInput" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutInput.value])" v-model="rut" @keyup="rutValidation($refs.rutInput.value)" />
                     <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
-                    <div id="loginrut-error" class="errorlogin" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                    <div id="loginrut-error" class="errorlogin" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                   </div>
                   <div class="input" ref="solicitud">
                     <label>NÚMERO DE SOLICITUD</label>
