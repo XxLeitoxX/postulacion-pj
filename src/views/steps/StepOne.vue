@@ -16,7 +16,7 @@
                   </p>
                   <form action="#" id="step03_1">
                     <div class="input" ref="rut">
-                      <label>RUT de la empresa</label>
+                      <label>RUT de la empresa</label> {{this.getStepOne[2].rut}}
                       <input
                         type="text"
                         name="rutempresa_st03"
@@ -656,6 +656,7 @@ export default {
       },
 
       stepOneObject: [],
+      getStepOne: [],
 
       urlBase: this.$store.state.URL,
       datosBasicos: [],
@@ -702,6 +703,7 @@ export default {
       "getActivity",
       "getCategory",
       "companyBackgroundUpload",
+      "getTipoSociedad"
     ]),
 
     //Validation Input error
@@ -950,24 +952,27 @@ export default {
 
     saveStepOne () {
       this.stepOneObject.push({
-        rut: this.rutCompany,
-        fantasy: this.fantasyName,
-        businessName: this.businessName,
-        date: this.date,
-        giro: this.giro,
-        activity: this.selectedActivity,
-        category: this.selectedCategory,
-        phoneCompany: this.phoneCompany,
-        companyEmail: this.companyEmail,
-        files: this.vueDropzoneFile,
-        region: this.selectedRegion,
-        province: this.selectedProvince,
-        commune: this.selectedCommune,
-        street: this.street,
-        streetNumber: this.streetNumber,
-        office: this.office,
-        reference: this.reference,
-        website: this.website
+        stepOne: {
+          rut: this.rutCompany,
+          fantasy: this.fantasyName,
+          businessName: this.businessName,
+          date: this.date,
+          giro: this.giro,
+          activity: this.selectedActivity,
+          category: this.selectedCategory,
+          phoneCompany: this.phoneCompany,
+          companyEmail: this.companyEmail,
+          files: this.vueDropzoneFile,
+          region: this.selectedRegion,
+          province: this.selectedProvince,
+          commune: this.selectedCommune,
+          street: this.street,
+          streetNumber: this.streetNumber,
+          office: this.office,
+          reference: this.reference,
+          website: this.website
+        }
+        
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
@@ -998,19 +1003,23 @@ export default {
       console.log("AXIOS ERROR: ", error);
       });
     },
-  },
-    /*postStepOne () {
-      let stepOneObject = this.stepOneObject;
+
+    getStepOneRequest () {
+      /*let stepOneObject = this.stepOneObject;
       let data = JSON.stringify(stepOneObject);
-      console.log(data);
-      axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
-      console.log(response.data);
+      console.log(data);*/
+      let requestNumber = this.nroSolicitudGlobal;
+      axios.get(this.urlBase + '/paso1/' + requestNumber).then((response) => {
+        let stepOneSaved = response.data;
+        this.getStepOne = JSON.parse(stepOneSaved[0].object);
+        console.log(this.getStepOne);
       }).catch(function (error) {
-      console.log("AXIOS ERROR: ", error);
+        console.log("AXIOS ERROR: ", error);
       });
     },
 
-    getStepOne () {
+  },
+    /*postStepOne () {
       let stepOneObject = this.stepOneObject;
       let data = JSON.stringify(stepOneObject);
       console.log(data);
@@ -1040,7 +1049,9 @@ export default {
       "communes",
       "vueDropzoneFile",
       "completedForm",
-      "URL"
+      "URL",
+      "nroSolicitudGlobal",
+      "tipoSocSendDoc"
     ]),
 
     /*test: {
@@ -1057,6 +1068,7 @@ export default {
     this.getRegion();
     this.getActivity();
     this.getCategory();
+    this.getStepOneRequest();
   },
 };
 </script>
