@@ -58,7 +58,7 @@ export default new Vuex.Store({
 	showStepTwo: false,
 	showStepThree: false,
 	showStepFour: false,
-	showStepFive: true,
+	showStepFive: false,
 	tab1: 'form-tab tab01 active',
 	tab2: 'form-tab tab02',
 	tab3: 'form-tab tab03',
