@@ -12,13 +12,13 @@
                     <h2>Representante ante la CChC</h2>
                   <p>Será el principal nexo entre la empresa y la Cámara Chilena de la Construcción para todos los eventos de comunicación que se realicen.</p>
                   <form action="#" id="step06_1">
-                    <div class="input" ref="rut">
+                    <div class="input"  ref="rut">
                       <label>RUT del representante</label>
-                      <input type="text" name="rutrepresentante_st06" v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @keyup="rutValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value)">
+                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @keyup="rutValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                       <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                     </div>
-                    <div class="input" ref="nombre">
+                    <div class="input"  ref="nombre">
                       <label>Nombre del representante</label>
                       <input type="text" name="nombrerepresentante_st06" v-model="dataRepresentante.nombreRepre" ref="nombreRepreCChc" @focus="focus($refs.nombre)" @blur="blur([$refs.nombre, $refs.nombreRepreCChc.value])">
                     </div>
@@ -42,7 +42,7 @@
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
                       <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                     </div>
-                    <div class="input datepicker" ref="fecha">
+                    <!--<div class="input datepicker" ref="fecha">
                       <label>Fecha de nacimiento</label>
                         <date-picker v-model="dataRepresentante.date" ref="fechaRepreCChc"
                         :lang="lang"
@@ -50,7 +50,7 @@
                         @change="dateValidation($refs.fecha)"
                         valueType="format">
                       </date-picker>
-                    </div>
+                    </div>-->
                     <div class="input u-mb0" ref="email">
                       <label>Email de contacto</label>
                       <input type="text" name="emailrepresentante_st06" v-model="dataRepresentante.emailRepre" ref="emailRepreCChc" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailRepreCChc.value])" @keyup="emailValidation($refs.emailRepreCChc.value)">
@@ -156,7 +156,7 @@
                                 <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
                               </div>
 
-                              <div class="input datepicker"  ref="fechaRepre">
+                              <!--<div class="input datepicker"  ref="fechaRepre">
                             <label>Fecha de nacimiento<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
                               <date-picker v-model="form.dateRepreLegal[index]" ref="fechaRepreLegal"
                                           :lang="lang"
@@ -164,7 +164,7 @@
                                           @change="dateValidation($refs.fechaRepre)"
                                           valueType="format">
                               </date-picker>
-                          </div>
+                          </div>-->
 
                           <div class="input" ref="emailRepre2">
                             <label>Mail de contacto<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
@@ -394,7 +394,7 @@ export default {
         apeMatReprelegal: [],
         telRepreLegal: [],
         celRepreLegal: [],
-        dateRepreLegal: [],
+        //dateRepreLegal: [],
         emailRereLegal: [],
       }
 
@@ -407,7 +407,7 @@ export default {
         apeMatReprelegal: [],
         telRepreLegal: [],
         celRepreLegal: [],
-        dateRepreLegal: [],
+        //dateRepreLegal: [],
         emailRereLegal: [],
         }
       },
@@ -418,7 +418,7 @@ export default {
         apeMatReprelegal: [],
         telRepreLegal: [],
         celRepreLegal: [],
-        dateRepreLegal: [],
+        //dateRepreLegal: [],
         emailRereLegal: [],
       },
       contador: 1,
@@ -435,6 +435,7 @@ export default {
         especialidades: false
       },
       urlBase: this.$store.state.URL,
+      rutPatrocinateValid: ''
       }
     },
     methods:{
@@ -453,7 +454,7 @@ export default {
             telRepre: this.dataRepresentante.telRepre,
             celRepre: this.dataRepresentante.celRepre,
             emailRepre: this.dataRepresentante.emailRepre,
-            date: this.dataRepresentante.date
+            //date: this.dataRepresentante.date
           },
 
            //Data form contacto de cobranza
@@ -541,7 +542,7 @@ export default {
             && this.dataRepresentante.telRepre !== ''
             && this.dataRepresentante.celRepre !== ''
             && this.dataRepresentante.emailRepre !== '' 
-            && this.dataRepresentante.date !== '' 
+            //&& this.dataRepresentante.date !== '' 
             && this.dataContactoCobranza.rutContactoCob !== '' 
             && this.dataContactoCobranza.nombreContactoCob !== '' 
             && this.dataContactoCobranza.apellidoContacto !== '' 
@@ -559,7 +560,7 @@ export default {
         }
       },
 
-      validateRutRepresentanteCchcExist(rut) {
+      validateRutRepresentanteCchcExist(rut, refsNom, refsApe, refsApe2) {
         
         axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
           this.dataValidaciones = response.data;
@@ -571,6 +572,10 @@ export default {
               this.dataRepresentante.nombreRepre = this.dataValidaciones[0].NOMBRE;
               this.dataRepresentante.apellidoRepre = this.dataValidaciones[0].APELLIDO_PAT;
               this.dataRepresentante.apellidoRepre2 = this.dataValidaciones[0].APELLIDO_MAT;
+              this.focus(refsNom);
+              this.focus(refsApe);
+              this.focus(refsApe2);
+             
 
             } else {
               alert("El Representante tiene que estar activo");
@@ -649,6 +654,7 @@ export default {
       
       },
 
+
       validateRutRepresentanteLegalFormExist(rut, index) {
     
         axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
@@ -690,18 +696,23 @@ export default {
       });
     },
 
-      dateValidation(refs) {
+      /*dateValidation(refs) {
       if (this.dataRepresentante.date == "" || this.dataRepresentante.date == null) {
         this.dateIsValid = false;
         this.dateBlur(refs);
       } else {
         this.dateIsValid = true;
       }
-    },
+    },*/
 
     },
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'completedForm'])
+      ...mapState(['collapse', 
+                  'telIsValid', 
+                  'emailIsValid',
+                  'rutIsValid', 
+                  'completedForm', 
+                  'completedForm']),
     },
 
     created: function () {

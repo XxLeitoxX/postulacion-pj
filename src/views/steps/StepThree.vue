@@ -14,7 +14,7 @@
                   <form action="#" id="step05_1">
                     <div class="input"  ref="rut">
                       <label>RUT del Patrocinante 1</label>
-                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante, $refs.rutParticipante.value)" @keyup="rutValidation($refs.rutParticipante.value)">
+                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante, $refs.nombre)" @keyup="rutValidation($refs.rutParticipante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
                       <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                     </div>
@@ -55,7 +55,7 @@
                       <h2>Patrocinante 2</h2>
                       <div class="input" ref="rut2">
                         <label>RUT del Patrocinante 2</label>
-                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist2(rutParticipante2, $refs.rutParticipante2.value)" @keyup="rutValidation($refs.rutParticipante2.value)">
+                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist2(rutParticipante2, $refs.nombre2)" @keyup="rutValidation($refs.rutParticipante2.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
                         <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                       </div>
@@ -126,7 +126,7 @@ import VueAxios from 'vue-axios';
 import VueRouter from "vue-router";
 
 export default {
-  name: 'StepTree',
+  name: 'StepThree',
   components: {
     Cabecera,
     StepNumbers
@@ -146,7 +146,8 @@ export default {
         urlBase: this.$store.state.URL,
         grupos: {},
         estado: '', 
-        motivo: {}
+        motivo: {},
+        rutPatrocinatnes: []
       }
     },
     methods:{
@@ -176,7 +177,7 @@ export default {
           });
         }
         else {
-          alert("Socio con cuota Pendiente o Morosa");
+          alert("Socio no cumple requisitos");
           this.dataPatrocinantes.push({
             patrocinantes: {
               rutParticipante: this.rutParticipante,
@@ -213,8 +214,9 @@ export default {
           if (Object.keys(this.dataValidaciones).length !== 0) {
             if (this.rutParticipante !== this.rutParticipante2) {
             
-            this.nombreParticipante = this.dataValidaciones.Representante.PER_NOM;
+            this.nombreParticipante = this.dataValidaciones.Representante.nombre;
             this.estado = this.dataValidaciones.Estado;
+            this.focus(ref);
 
             if (this.dataValidaciones.grupos !== '') {
               this.grupos = {
@@ -245,7 +247,8 @@ export default {
           if (Object.keys(this.dataValidaciones).length !== 0
           ) {
             if (this.rutParticipante !== this.rutParticipante2) {
-            this.nombreParticipante2 = this.dataValidaciones.Representante.PER_NOM;
+            this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
+            this.focus(ref);
             this.estado = this.dataValidaciones.Estado;
             this.estado = this.dataValidaciones.Estado;
             this.grupos = {
@@ -280,6 +283,7 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
+          this.rutPatrocinatnes.push({ rut1: this.rutParticipante, rut2: this.rutParticipante2});
           this.$router.push({ name: "StepFour" });          
         } else {
           alert("Debe llenar todos los campos");

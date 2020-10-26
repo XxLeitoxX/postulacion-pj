@@ -47,9 +47,9 @@ Vue.use(VueRouter)
   },
   {
     path: '/paso3/:id',
-    name: 'StepTree',
+    name: 'StepThree',
     //component: StepNumbers
-    component: () => import('@/views/steps/StepTree.vue')
+    component: () => import('@/views/steps/StepThree.vue')
   },
   {
     path: '/paso4/:id',

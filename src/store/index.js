@@ -53,7 +53,9 @@ export default new Vuex.Store({
 	tipoSocDocs: [],
 	completedForm: [], 
 	rutGlobal: '',
-	nroSolicitudGlobal: ''
+	nroSolicitudGlobal: '',
+	
+	
   },
 
   getters: {
