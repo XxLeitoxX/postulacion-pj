@@ -16,14 +16,14 @@
                   </p>
                   <form action="#" id="step03_1">
                     <div class="input" ref="rut">
-                      <label>RUT de la empresa</label>
+                      <label>RUT de la empresa</label> <!-- {{this.getStepOne[2].rut}} -->
                       <input
                         type="text"
                         name="rutempresa_st03"
                         v-model="rutCompany"
                         ref="rutCompany"
                         @focus="focus($refs.rut)"
-                        @blur="blur([$refs.rut, $refs.rutCompany.value])"
+                        @blur="blur([$refs.rut, $refs.rutCompany.value]), getNroSolicitud($refs.rutCompany.value)"
                         @keyup="rutValidation($refs.rutCompany.value)"
                       />
                       <div class="small-text">
@@ -107,12 +107,14 @@
                         :lang="lang"
                         @focus="dateFocus($refs.date)"
                         @change="dateValidation($refs.date)"
+                        :disabled-date="(date) => date >= new Date()"
                         valueType="format">
                         <!-- <i slot="icon-clear" class="mx-icon-clear"
                           @click="test($refs.date)">
                         </i> -->
 
                       </date-picker>
+                      <!-- {{lang.formatLocale.months}} -->
                       <div
                         id="giro_st03-error"
                         class="errorlogin"
@@ -258,10 +260,13 @@
                     siguientes:
                   </p>
                   <ul>
-                    <li>Memoria o CV de la empresa</li>
+                    <!-- <li>Memoria o CV de la empresa</li>
                     <li>
                       Dependientes de la selección de "Tipo de Sociedad" en fila
                       14
+                    </li> -->
+                    <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
+                      {{docs}}
                     </li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
@@ -454,6 +459,26 @@
                           Ingrese una Oficina
                         </div>
                       </div>
+
+                      <div class="input" ref="reference">
+                        <label>Puntos de Referencia</label>
+                        <input
+                          type="text"
+                          name="oficinacomercial_st03"
+                          v-model="reference"
+                          ref="referenceInput"
+                          @focus="focus($refs.reference)"
+                          @blur="blur([$refs.reference, $refs.referenceInput.value])"
+                          @keyup="referenceValidation()"
+                        />
+                        <div
+                          id="email2st02-error"
+                          class="formerror"
+                          v-if="referenceIsValid === false"
+                        >
+                          Ingrese un punto de referencia
+                        </div>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -464,8 +489,8 @@
             <div class="container">
               <div class="c-form-steps__content">
                 <div class="row">
-                  <div class="col-md-10 col-lg-6 offset-lg-2">
-                    <form action="#" id="step03_3">
+                  <div class="col-md-10 col-lg-12 offset-lg-2">
+                    <form id="step03_3">
                       <h2>Redes digitales de la empresa</h2>
                       <div class="input" ref="website">
                         <label>Sitio web</label>
@@ -487,7 +512,7 @@
                         </div>
                       </div>
                       <button
-                        class="btn-red u-mt50 big"
+                        class="link btn-red u-mt50 big u-mr20"
                         id="submitStep03"
                         type="button"
                         @click="saveStepOne()"
@@ -496,15 +521,14 @@
                       </button>
 
                       <button
-                        class="btn-red u-mt50 big"
+                        class="link btn-red u-mt50 big"
                         id="submitStep04"
                         type="button"
                         @click="checkForm()"
                       >
                         Continuar<i class="fa fa-angle-right"></i>
                       </button>
-
-
+                      <!-- {{completedForm}} -->
                     </form>
                   </div>
                 </div>
@@ -542,6 +566,9 @@ import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 import mixin from "@/mixins/mixin.js";
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 export default {
   name: "StepOne",
   mixins: [mixin],
@@ -565,6 +592,7 @@ export default {
       street: '',
       streetNumber: '',
       office: '',
+      reference: '',
       website: '',
 
       //Validation variables
@@ -582,6 +610,7 @@ export default {
       streetIsValid: '',
       streetNumberIsValid: '',
       officeIsValid: '',
+      referenceIsValid: '',
 
       //DatePicker data
       date: '',
@@ -595,13 +624,15 @@ export default {
 
       lang: {
         formatLocale: {
-          firstDayOfWeek: 1,
-          weekdaysShort: ['Dom', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          firstDayOfWeek: 0,
+          weekdaysMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
         },
+
+        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
       },
 
       //Vue Dropzone data
-      vueDropzoneFile: [],
+      //vueDropzoneFile: [],
       tempAttachments: [],
       attachments: [],
       dropzoneOptions: {
@@ -627,7 +658,13 @@ export default {
         addRemoveLinks: true,
       },
 
-      stepOneObject: []
+      stepOneObject: [],
+      getStepOne: [],
+      societyType: [],
+
+      urlBase: this.$store.state.URL,
+      datosBasicos: [],
+      nroSolicitud: '',
     };
   },
 
@@ -660,7 +697,11 @@ export default {
       "setVueDropzoneFile",
       "setRutIsValid",
       "setWebsiteIsValid",
-      "saveCompletedForm"
+      "saveCompletedForm",
+      "nroSolicitudObj",
+      "tipoSocSendDoc",
+      "setStepTwoValue",
+      "setStepOneValue"
     ]),
     ...mapActions([
       "getRegion",
@@ -671,6 +712,7 @@ export default {
       "companyBackgroundUpload",
     ]),
 
+    //Validation Input error
     fantasyValidation() {
       if (this.fantasyName == "") {
         this.fantasyIsValid = false;
@@ -777,13 +819,20 @@ export default {
       }
     },
 
+    referenceValidation() {
+      if (this.reference == "") {
+        this.referenceIsValid = false;
+      } else {
+        this.referenceIsValid = true;
+      }
+    },
+
+    //Step One Inputs Validation
     checkForm() {
-      if (this.rutCompany == "") {
+      if (this.rutCompany == "" || this.rutIsValid == false) {
         this.setRutIsValid(false);
-        this.formIsValid = false;
       } else {
         this.setRutIsValid(true);
-        this.formIsValid = true;
       }
 
       /*if (this.fantasyName == "") {
@@ -796,112 +845,113 @@ export default {
 
       if (this.businessName == "") {
         this.businessIsValid = false;
-        this.formIsValid = false;
       } else {
         this.businessIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.date == "" || this.date == null) {
+      if (this.date == "" || this.date == null || this.dateIsValid == false) {
         this.dateIsValid = false;
-        this.formIsValid = false;
       } else {
         this.dateIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.giro == "") {
         this.giroIsValid = false;
-        this.formIsValid = false;
       } else {
         this.giroIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedActivity == "") {
         this.activityIsValid = false;
-        this.formIsValid = false;
       } else {
         this.activityIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedCategory == "") {
         this.categoryIsValid = false;
-        this.formIsValid = false;
       } else {
         this.categoryIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.vueDropzoneFile === "") {
+      if (this.vueDropzoneFile == "") {
         this.dropzoneIsValid = false;
-        this.formIsValid = false;
       } else {
         this.dropzoneIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedRegion == "") {
         this.regionIsValid = false;
-        this.formIsValid = false;
       } else {
         this.regionIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedProvince == "") {
         this.provinceIsValid = false;
-        this.formIsValid = false;
       } else {
         this.provinceIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.selectedCommune == "") {
         this.communeIsValid = false;
-        this.formIsValid = false;
       } else {
         this.communesIsValid = true;
-        this.formIsValid = true;
       }
 
       if (this.street == "") {
         this.streetIsValid = false;
-        this.formIsValid = false;
       } else {
         this.streetIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.streetNumber == "") {
-        this.streetNumberIsValid = false;
-        this.formIsValid = false;
-      } else {
-        this.streetNumberIsValid = true;
-        this.formIsValid = true;
-      }
+      this.streetNumberValidation()
 
       if (this.office == "") {
         this.officeIsValid = false;
-        this.formIsValid = false;
       } else {
         this.officeIsValid = true;
-        this.formIsValid = true;
       }
 
-      if (this.website == "") {
+      this.referenceValidation();
+
+      if (this.website == "" || this.websiteIsValid == false) {
         this.setWebsiteIsValid(false);
-        this.formIsValid = false;
       } else {
         this.setWebsiteIsValid(true);
+      }
+
+      if (this.rutCompany == "" 
+        || this.rutIsValid == false 
+        || this.websiteIsValid == false 
+        || this.dateIsValid == false
+        || this.businessName == ""
+        || this.date == ""
+        || this.giro == ""
+        || this.selectedActivity == ""
+        || this.selectedCategory == ""
+        || this.vueDropzoneFile == ""
+        || this.selectedRegion == ""
+        || this.selectedProvince == ""
+        || this.selectedCommune == ""
+        || this.street == ""
+        || this.streetNumber == ""
+        || this.office == ""
+        || this.reference == ""
+        || this.website == "") {
+        
+          this.formIsValid = false;
+          console.log(this.formIsValid);
+      } else {
         this.formIsValid = true;
       }
 
       if (this.formIsValid == true) {
         this.saveStepOne();
+        //this.$router.push({ name: "StepTwo" });
+        this.setStepTwoValue(true);
+        this.setStepOneValue(false);
       } else {
         alert("Debe completar los campos requeridos");
+        this.setStepTwoValue(false);
       }
     },
 
@@ -911,38 +961,91 @@ export default {
 
     saveStepOne () {
       this.stepOneObject.push({
-        rut: this.rutCompany,
-        fantasy: this.fantasyName,
-        businessName: this.businessName,
-        date: this.date,
-        giro: this.giro,
-        activity: this.selectedActivity,
-        category: this.selectedCategory,
-        phoneCompany: this.phoneCompany,
-        companyEmail: this.companyEmail,
-        files: this.vueDropzoneFile,
-        region: this.selectedRegion,
-        province: this.selectedProvince,
-        commune: this.selectedCommune,
-        street: this.street,
-        streetNumber: this.streetNumber,
-        office: this.office,
-        website: this.website
+        stepOne: {
+          rut: this.rutCompany,
+          fantasy: this.fantasyName,
+          businessName: this.businessName,
+          date: this.date,
+          giro: this.giro,
+          activity: this.selectedActivity,
+          category: this.selectedCategory,
+          phoneCompany: this.phoneCompany,
+          companyEmail: this.companyEmail,
+          files: this.vueDropzoneFile,
+          region: this.selectedRegion,
+          province: this.selectedProvince,
+          commune: this.selectedCommune,
+          street: this.street,
+          streetNumber: this.streetNumber,
+          office: this.office,
+          reference: this.reference,
+          website: this.website
+        }
+        
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
+      this.savePost();
+      console.log(this.completedForm);
+      this.stepOneObject = [];
+    },
+    
+    getNroSolicitud(rut) {
+      axios.get(this.urlBase+'/buscarPostulante/' + rut).then((response) => {
+        this.datosBasicos = response.data;
+        console.log(this.datosBasicos);
+        this.nroSolicitud = this.datosBasicos[0].nro_solicitud;
+        this.nroSolicitudObj(this.nroSolicitud);
+        console.log(this.nroSolicitud);
+      setTimeout(this.getStepOneRequest(this.nroSolicitud), 3000);
+      this.getSocietyType(this.nroSolicitud);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+      console.log(this.nroSolicitud);
+      //this.getStepOneRequest(this.nroSolicitud);
+
     },
 
-    postStepOne () {
-      let stepOneObject = this.stepOneObject;
+    savePost: function () {
+          
+      let stepOneObject = this.completedForm;
       let data = JSON.stringify(stepOneObject);
-      console.log(data);
-      /*axios.post(this.URL+'/solicitudDePostulacion', data).then((response) => {
+      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
       console.log(response.data);
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
-      });*/
-    }
+      });
+    },
+
+    getStepOneRequest (number) {
+      /*let stepOneObject = this.stepOneObject;
+      let data = JSON.stringify(stepOneObject);
+      console.log(data);*/
+      console.log(number)
+      let requestNumber = number;
+      axios.get(this.urlBase + '/paso1/' + requestNumber).then((response) => {
+        let stepOneSaved = response.data;
+        this.getStepOne = JSON.parse(stepOneSaved[0].object);
+        console.log(this.getStepOne);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
+    getSocietyType (number) {
+      let requestNumber = number;
+      axios.get(this.urlBase + '/tipoSociedad/' + requestNumber).then((response) => {
+        let tipoSociedad = response.data;
+        this.societyType = tipoSociedad;
+        console.log(this.societyType[0].tipo_sociedad);
+        this.tipoSocSendDoc(this.societyType[0].tipo_sociedad);
+        //console.log(this.tipoSocDocs);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
   },
 
   computed: {
@@ -962,8 +1065,13 @@ export default {
       "regions",
       "provinces",
       "communes",
+      "vueDropzoneFile",
       "completedForm",
-      "URL"
+      "URL",
+      "nroSolicitudGlobal",
+      "tipoSocDocs",
+      "showStepTwo"
+
     ]),
 
     /*test: {
@@ -980,6 +1088,8 @@ export default {
     this.getRegion();
     this.getActivity();
     this.getCategory();
+    //this.getStepOneRequest();
+    //this.getSocietyType();
   },
 };
 </script>

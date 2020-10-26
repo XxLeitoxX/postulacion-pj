@@ -2,7 +2,26 @@
   <div>
     <Cabecera></Cabecera>
     <main role="main">
-       <StepNumbers></StepNumbers>
+       <!-- <StepNumbers></StepNumbers> -->
+       <div class="c-steps-numbers">
+        <div class="container">
+          <div class="c-steps-numbers__item success"><span>1</span>
+            <p>Información y<br>antecedentes legales</p>
+          </div>
+          <div class="c-steps-numbers__item success"><span>2</span>
+            <p>Antecedentes<br>financieros</p>
+          </div>
+          <div class="c-steps-numbers__item active"><span>3</span>
+            <p>Patrocinios</p>
+          </div>
+          <div class="c-steps-numbers__item"><span>4</span>
+            <p>Participación</p>
+          </div>
+          <div class="c-steps-numbers__item"><span>5</span>
+            <p>Declaraciones<br>y compromisos</p>
+          </div>
+        </div>
+      </div>
     <div class="c-form-steps">
         <div class="c-form-steps__sections" data-step="03">
           <div class="container">
@@ -151,7 +170,7 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm']),
+      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', "setStepTwoValue", "setStepThreeValue" ,"setStepFourValue"]),
 
       save() {
         
@@ -283,15 +302,19 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
-          this.rutPatrocinatnes.push({ rut1: this.rutParticipante, rut2: this.rutParticipante2});
-          this.$router.push({ name: "StepFour" });          
+          //this.$router.push({ name: "StepFour" });  
+          this.setStepFourValue(true);
+          this.setStepThreeValue(false);
         } else {
           alert("Debe llenar todos los campos");
+          this.setStepFourValue(false);
         }
       },
 
     anterior() {
-        this.$router.push({ name: "StepTwo" });
+        //this.$router.push({ name: "StepTwo" });
+        this.setStepTwoValue(true);
+        this.setStepThreeValue(false);
     },
     
     savePost: function () {

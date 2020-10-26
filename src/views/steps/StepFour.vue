@@ -2,7 +2,26 @@
 <div>
 <Cabecera></Cabecera>
 <main role="main">
-<StepNumbers></StepNumbers>
+<!-- <StepNumbers></StepNumbers> -->
+<div class="c-steps-numbers">
+        <div class="container">
+          <div class="c-steps-numbers__item success"><span>1</span>
+            <p>Información y<br>antecedentes legales</p>
+          </div>
+          <div class="c-steps-numbers__item success"><span>2</span>
+            <p>Antecedentes<br>financieros</p>
+          </div>
+          <div class="c-steps-numbers__item success"><span>3</span>
+            <p>Patrocinios</p>
+          </div>
+          <div class="c-steps-numbers__item active"><span>4</span>
+            <p>Participación</p>
+          </div>
+          <div class="c-steps-numbers__item"><span>5</span>
+            <p>Declaraciones<br>y compromisos</p>
+          </div>
+        </div>
+      </div>
    <div class="c-form-steps">
         <div class="c-form-steps__sections greybg" data-step="04">
           <div class="container u-pb0">
@@ -439,7 +458,7 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', 'dateFocus', 'dateBlur']),
+      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', 'dateFocus', 'dateBlur', "setStepThreeValue", "setStepFourValue", "setStepFiveValue"]),
 
       save() {
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
@@ -500,15 +519,20 @@ export default {
         if (this.validateInput()) {
             this.save();
             this.saveCompletedForm(this.data);
-            this.$router.push({ name: "StepFive" });
+            //this.$router.push({ name: "StepFive" });
+            this.setStepFiveValue(true);
+            this.setStepFourValue(false);  
         } else {
           alert("Debe llenar todos los campos");
+          this.setStepFiveValue(false);
         }
         
       },
 
       anterior() {
-        this.$router.push({ name: "StepTree" });
+        //this.$router.push({ name: "StepTree" });
+        this.setStepThreeValue(true);
+        this.setStepFourValue(false);
       },
 
       show (modalName) {

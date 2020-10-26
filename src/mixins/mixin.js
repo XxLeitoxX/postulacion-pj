@@ -17,7 +17,8 @@ export default {
       fileAdded(file) {
         console.log("File Dropped => ", file);
         console.log(file.type);
-        this.dropzoneOptions.dictDefaultMessage = file;
+        console.log(this.VueDropzoneFile);
+        //this.dropzoneOptions.dictDefaultMessage = file;
         if (file.type == "application/pdf" || 
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
