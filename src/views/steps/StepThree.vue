@@ -191,7 +191,17 @@ export default {
 
       save() {
         
-        if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+
+
+
+
+
+        if (this.rutPatrocinanteIsValid == true 
+            && this.rutPatrocinante2IsValid == true 
+            && this.telPatrocinanteIsValid == true
+            && this.telPatrocinante2IsValid == true
+            && this.emailPatrocinanteIsValid == true
+            && this.emailPatrocinante2IsValid == true) {
           
           if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA NACIONAL'
