@@ -78,6 +78,7 @@
                     v-model="tel"
                     @keyup="checkInput()"
                   />
+                  <div class="small-text">Use el formato +56 0 0000 0000</div>
                   <div
                     id="phonest02-error"
                     class="formerror"

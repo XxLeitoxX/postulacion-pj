@@ -33,9 +33,9 @@
                   <form action="#" id="step06_1">
                     <div class="input"  ref="rut">
                       <label>RUT del representante</label>
-                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @keyup="rutValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)">
+                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @keyup="rutRepresentanteCChCIsValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                      <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="rutRepresentanteCChCIsValid === false">Ingrese un rut Válido</div>
                     </div>
                     <div class="input"  ref="nombre">
                       <label>Nombre del representante</label>
@@ -51,15 +51,15 @@
                     </div>
                     <div class="input" ref="tel">
                       <label>Teléfono (fijo)</label>
-                      <input type="text" name="telefonorepresentante_st06" v-model="dataRepresentante.telRepre" ref="telRepreCChc" @focus="focus($refs.tel)" @blur="blur([$refs.tel, $refs.telRepreCChc.value])" @keyup="phoneNumberValidation($refs.telRepreCChc.value)">
+                      <input type="text" name="telefonorepresentante_st06" v-model="dataRepresentante.telRepre" ref="telRepreCChc" @focus="focus($refs.tel)" @blur="blur([$refs.tel, $refs.telRepreCChc.value])" @keyup="telRepresentanteCChCIsValidation($refs.telRepreCChc.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
-                      <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="telRepresentanteCChCIsValid === false">Ingrese un teléfono Válido</div>
                     </div>
                     <div class="input" ref="cel">
                       <label>Celular</label>
-                      <input type="text" name="celularrepresentante_st06" v-model="dataRepresentante.celRepre" ref="celRepreCChc" @focus="focus($refs.cel)" @blur="blur([$refs.cel, $refs.celRepreCChc.value])" @keyup="phoneNumberValidation($refs.celRepreCChc.value)">
+                      <input type="text" name="celularrepresentante_st06" v-model="dataRepresentante.celRepre" ref="celRepreCChc" @focus="focus($refs.cel)" @blur="blur([$refs.cel, $refs.celRepreCChc.value])" @keyup="celRepresentanteCChCIsValidation($refs.celRepreCChc.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
-                      <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="celRepresentanteCChCIsValid === false">Ingrese un celular Válido</div>
                     </div>
                     <!--<div class="input datepicker" ref="fecha">
                       <label>Fecha de nacimiento</label>
@@ -72,8 +72,8 @@
                     </div>-->
                     <div class="input u-mb0" ref="email">
                       <label>Email de contacto</label>
-                      <input type="text" name="emailrepresentante_st06" v-model="dataRepresentante.emailRepre" ref="emailRepreCChc" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailRepreCChc.value])" @keyup="emailValidation($refs.emailRepreCChc.value)">
-                      <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
+                      <input type="text" name="emailrepresentante_st06" v-model="dataRepresentante.emailRepre" ref="emailRepreCChc" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailRepreCChc.value])" @keyup="emailRepresentanteCChCIsValidation($refs.emailRepreCChc.value)">
+                      <div id="rutst02-error" class="formerror" v-if="emailRepresentanteCChCIsValid === false">Ingrese un email Válido</div>
                     </div>
                   </form>
                 </div>
@@ -90,9 +90,9 @@
                       <p>Será la persona encargada de gestionar el pago de cuotas sociales ante la CChC.</p>
                       <div class="input" ref="rutContacto">
                         <label>RUT del contacto</label>
-                        <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value])" @keyup="validateRutContactoCobranzaExist($refs.rutContactoCob.value) , rutValidation($refs.rutContactoCob.value)">
+                        <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value])" @keyup="validateRutContactoCobranzaExist($refs.rutContactoCob.value) , rutContactoCobIsValidation($refs.rutContactoCob.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                        <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="rutContactoCobIsValid === false">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="nombreContacto">
                         <label>Nombre del contacto</label>
@@ -108,20 +108,20 @@
                       </div>
                       <div class="input" ref="telContacto">
                         <label>Teléfono (fijo)</label>
-                        <input type="text" name="telefonorepresentante02_st06" v-model="dataContactoCobranza.telContacto" ref="telContactoCob" @focus="focus($refs.telContacto)" @blur="blur([$refs.telContacto, $refs.telContactoCob.value])"  @keyup="phoneNumberValidation($refs.telContactoCob.value)">
+                        <input type="text" name="telefonorepresentante02_st06" v-model="dataContactoCobranza.telContacto" ref="telContactoCob" @focus="focus($refs.telContacto)" @blur="blur([$refs.telContacto, $refs.telContactoCob.value])"  @keyup="telContactoCobIsValidation($refs.telContactoCob.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
-                        <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="telContactoCobIsValid === false">Ingrese un teléfono Válido</div>
                       </div>
                       <div class="input" ref="celContacto">
                         <label>Celular</label>
-                        <input type="text" name="celularrepresentante02_st06" v-model="dataContactoCobranza.celContacto" ref="celContactoCob" @focus="focus($refs.celContacto)" @blur="blur([$refs.celContacto, $refs.celContactoCob.value])"  @keyup="phoneNumberValidation($refs.celContactoCob.value)">
+                        <input type="text" name="celularrepresentante02_st06" v-model="dataContactoCobranza.celContacto" ref="celContactoCob" @focus="focus($refs.celContacto)" @blur="blur([$refs.celContacto, $refs.celContactoCob.value])"  @keyup="celContactoCobIsValidation($refs.celContactoCob.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
-                        <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="celContactoCobIsValid === false">Ingrese un celular Válido</div>
                       </div>
                       <div class="input" ref="emailContacto">
                         <label>Email de contacto</label>
-                         <input type="text" name="emailrepresentante02_st06" v-model="dataContactoCobranza.emailContacto" ref="emailContactoCob" @focus="focus($refs.emailContacto)" @blur="blur([$refs.emailContacto, $refs.emailContactoCob.value])" @keyup="emailValidation($refs.emailContactoCob.value)">
-                        <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
+                         <input type="text" name="emailrepresentante02_st06" v-model="dataContactoCobranza.emailContacto" ref="emailContactoCob" @focus="focus($refs.emailContacto)" @blur="blur([$refs.emailContacto, $refs.emailContactoCob.value])" @keyup="emailContactoCobIsValidation($refs.emailContactoCob.value)">
+                        <div id="rutst02-error" class="formerror" v-if="emailContactoCobIsValid === false">Ingrese un email Válido</div>
                       </div>
                     </form>
                   </div>
@@ -141,9 +141,9 @@
                             <div v-for="(item, index) in inputs" :key="index">
                               <div class="input" ref="rutRepre2">
                                 <label>RUT del representante<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
-                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index)" v-model="form.rutRepreLegal[index]">
+                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutRepreLegalIsValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index)" v-model="form.rutRepreLegal[index]">
                                 <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                                <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
+                                <div id="rutst02-error" class="formerror" v-if="rutRepreLegalIsValid === false">Ingrese un rut Válido</div>
                               </div>
 
                               <div class="input" ref="nombreRepre2">
@@ -163,16 +163,16 @@
 
                               <div class="input" ref="telRepre2">
                                 <label>Teléfono (fijo)<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
-                                <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg2" @focus="focus($refs.telRepre2[index])" @blur="blur([$refs.telRepre2[index], form.telRepreLegal[index]])" @keyup="phoneNumberValidation(form.telRepreLegal[index])" v-model="form.telRepreLegal[index]">
+                                <input type="text" name="telefonorepresentante03_st06" ref="telRepreLeg2" @focus="focus($refs.telRepre2[index])" @blur="blur([$refs.telRepre2[index], form.telRepreLegal[index]])" @keyup="telRepreLegalIsValidation(form.telRepreLegal[index])" v-model="form.telRepreLegal[index]">
                                 <div class="small-text">Use el formato +56 0 0000 0000</div>
-                                <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
+                                <div id="rutst02-error" class="formerror" v-if="telRepreLegalIsValid === false">Ingrese un teléfono Válido</div>
                               </div>
 
                               <div class="input" ref="celRepre2">
                                 <label>Celular<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
-                                <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg2" @focus="focus($refs.celRepre2[index])" @blur="blur([$refs.celRepre2[index], form.celRepreLegal[index]])" @keyup="phoneNumberValidation(form.telRepreLegal[index])" v-model="form.celRepreLegal[index]">
+                                <input type="text" name="celularrepresentante03_st06" ref="celRepreLeg2" @focus="focus($refs.celRepre2[index])" @blur="blur([$refs.celRepre2[index], form.celRepreLegal[index]])" @keyup="celRepreLegalIsValidation(form.telRepreLegal[index])" v-model="form.celRepreLegal[index]">
                                 <div class="small-text">Use el formato +56 0 0000 0000</div>
-                                <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un celular Válido</div>
+                                <div id="rutst02-error" class="formerror" v-if="celRepreLegalIsValid === false">Ingrese un celular Válido</div>
                               </div>
 
                               <!--<div class="input datepicker"  ref="fechaRepre">
@@ -187,8 +187,8 @@
 
                           <div class="input" ref="emailRepre2">
                             <label>Mail de contacto<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
-                            <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg2" @focus="focus($refs.emailRepre2[index])" @blur="blur([$refs.emailRepre2[index], form.emailRereLegal[index]])" @keyup="emailValidation(form.emailRereLegal[index])" v-model="form.emailRereLegal[index]">
-                            <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
+                            <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg2" @focus="focus($refs.emailRepre2[index])" @blur="blur([$refs.emailRepre2[index], form.emailRereLegal[index]])" @keyup="emailRepreLegalIsValidation(form.emailRereLegal[index])" v-model="form.emailRereLegal[index]">
+                            <div id="rutst02-error" class="formerror" v-if="emailRepreLegalIsValid === false">Ingrese un email Válido</div>
                           </div>
                           </div>
                           <!--</div> -->
@@ -458,7 +458,31 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', 'dateFocus', 'dateBlur', "setStepThreeValue", "setStepFourValue", "setStepFiveValue"]),
+      ...mapMutations(['focus', 
+                        'blur', 
+                        'collapseClick', 
+                        'rutValidation', 
+                        'phoneNumberValidation', 
+                        'emailValidation', 
+                        'saveCompletedForm', 
+                        'dateFocus', 
+                        'dateBlur', 
+                        "setStepThreeValue", 
+                        "setStepFourValue", 
+                        "setStepFiveValue",
+                        'rutRepresentanteCChCIsValidation',
+                        'rutContactoCobIsValidation',
+                        'rutRepreLegalIsValidation',
+                        'telRepresentanteCChCIsValidation',
+                        'telContactoCobIsValidation',
+                        'telRepreLegalIsValidation',
+                        'celRepresentanteCChCIsValidation',
+                        'celContactoCobIsValidation',
+                        'celRepreLegalIsValidation',
+                        'emailRepresentanteCChCIsValidation',
+                        'emailContactoCobIsValidation',
+                        'emailRepreLegalIsValidation'
+                        ]),
 
       save() {
         if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
@@ -585,8 +609,11 @@ export default {
       },
 
       validateRutRepresentanteCchcExist(rut, refsNom, refsApe, refsApe2) {
-        
-        axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
+      
+        if (this.rutPatrocinanteGlobal.length > 0) {
+          if (this.rutPatrocinanteGlobal[0].rut1 !== rut && this.rutPatrocinanteGlobal[0].rut2 !== rut) {
+
+          axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
           this.dataValidaciones = response.data;
           
           if (Object.keys(this.dataValidaciones).length !== 0) {
@@ -606,6 +633,7 @@ export default {
             }
             
           }else {
+            
             this.dataRepresentante.nombreRepre = "";
             this.dataRepresentante.apellidoRepre = "";
             this.dataRepresentante.apellidoRepre2 = "";
@@ -615,6 +643,21 @@ export default {
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
         });
+
+        } else {
+          alert("El Rut no puede ser el de un patrocinante");
+            this.dataRepresentante.rutRepre = "";
+            this.dataRepresentante.nombreRepre = "";
+            this.dataRepresentante.apellidoRepre = "";
+            this.dataRepresentante.apellidoRepre2 = "";
+        }
+
+        } else {
+          alert("Debe ingresar los RUT de los patrocinantes del paso anterior");
+          this.dataRepresentante.rutRepre = "";
+        }
+        
+        
       
       },
 
@@ -736,7 +779,21 @@ export default {
                   'emailIsValid',
                   'rutIsValid', 
                   'completedForm', 
-                  'completedForm']),
+                  'completedForm',
+                  'rutPatrocinanteGlobal',
+                  'rutRepresentanteCChCIsValid',
+                  'telRepresentanteCChCIsValid',
+                  'celRepresentanteCChCIsValid',
+                  'emailRepresentanteCChCIsValid',
+                  'rutContactoCobIsValid',
+                  'telContactoCobIsValid',
+                  'celContactoCobIsValid',
+                  'emailContactoCobIsValid',
+                  'rutRepreLegalIsValid',
+                  'telRepreLegalIsValid',
+                  'celRepreLegalIsValid',
+                  'emailRepreLegalIsValid',
+                  ]),
     },
 
     created: function () {

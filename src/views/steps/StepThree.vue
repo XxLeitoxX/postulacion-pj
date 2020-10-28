@@ -33,9 +33,9 @@
                   <form action="#" id="step05_1">
                     <div class="input"  ref="rut">
                       <label>RUT del Patrocinante 1</label>
-                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante, $refs.nombre)" @keyup="rutValidation($refs.rutParticipante.value)">
+                      <input type="text" name="rutparticipante_st05" v-model="rutParticipante" ref="rutParticipante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutParticipante.value]), validateRutExist(rutParticipante, $refs.nombre)" @keyup="rutPatrocinanteValidation($refs.rutParticipante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
-                      <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="rutPatrocinanteIsValid === false">Ingrese un rut Válido</div>
                     </div>
                     <div class="input" ref="nombre">
                       <label>Nombre del Patrocinante 1</label>
@@ -43,14 +43,14 @@
                     </div>
                     <div class="input" ref="telefono">
                       <label>Teléfono </label>
-                      <input type="text" name="telefonoparticipante_st05" v-model="telefonoParticipante" ref="telefonoParticipante" @focus="focus($refs.telefono)" @blur="blur([$refs.telefono, $refs.telefonoParticipante.value])" @keyup="phoneNumberValidation($refs.telefonoParticipante.value)">
+                      <input type="text" name="telefonoparticipante_st05" v-model="telefonoParticipante" ref="telefonoParticipante" @focus="focus($refs.telefono)" @blur="blur([$refs.telefono, $refs.telefonoParticipante.value])" @keyup="telPatrocinanteValidation($refs.telefonoParticipante.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
-                      <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
+                      <div id="rutst02-error" class="formerror" v-if="telPatrocinanteIsValid === false">Ingrese un teléfono Válido</div>
                     </div>
                     <div class="input u-mb0" ref="email">
                       <label>Email</label>
-                      <input type="text" name="emailparticipante_st05" v-model="emailParticipante" ref="emailParticipante" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailParticipante.value])" @keyup="emailValidation($refs.emailParticipante.value)">
-                      <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
+                      <input type="text" name="emailparticipante_st05" v-model="emailParticipante" ref="emailParticipante" @focus="focus($refs.email)" @blur="blur([$refs.email, $refs.emailParticipante.value])" @keyup="emailPatrocinanteValidation($refs.emailParticipante.value)">
+                      <div id="rutst02-error" class="formerror" v-if="emailPatrocinanteIsValid === false">Ingrese un email Válido</div>
                     </div>
                   </form>
                 </div>
@@ -74,9 +74,9 @@
                       <h2>Patrocinante 2</h2>
                       <div class="input" ref="rut2">
                         <label>RUT del Patrocinante 2</label>
-                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist2(rutParticipante2, $refs.nombre2)" @keyup="rutValidation($refs.rutParticipante2.value)">
+                        <input type="text" name="rutparticipante02_st05" v-model="rutParticipante2" ref="rutParticipante2" @focus="focus($refs.rut2)" @blur="blur([$refs.rut2, $refs.rutParticipante2.value]), validateRutExist2(rutParticipante2, $refs.nombre2)" @keyup="rutPatrocinante2Validation($refs.rutParticipante2.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
-                        <div id="rutst02-error" class="formerror" v-if="rutIsValid === false">Ingrese un rut Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="rutPatrocinante2IsValid === false">Ingrese un rut Válido</div>
                       </div>
                       <div class="input" ref="nombre2">
                         <label>Nombre del Patrocinante 2</label>
@@ -84,14 +84,14 @@
                       </div>
                       <div class="input" ref="telefono2">
                         <label>Teléfono </label>
-                        <input type="text" name="telefonoparticipante02_st05" v-model="telefonoParticipante2" ref="telefonoParticipante2" @focus="focus($refs.telefono2)" @blur="blur([$refs.telefono2, $refs.telefonoParticipante2.value])" @keyup="phoneNumberValidation($refs.telefonoParticipante2.value)">
+                        <input type="text" name="telefonoparticipante02_st05" v-model="telefonoParticipante2" ref="telefonoParticipante2" @focus="focus($refs.telefono2)" @blur="blur([$refs.telefono2, $refs.telefonoParticipante2.value])" @keyup="telPatrocinante2Validation($refs.telefonoParticipante2.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
-                        <div id="rutst02-error" class="formerror" v-if="telIsValid === false">Ingrese un teléfono Válido</div>
+                        <div id="rutst02-error" class="formerror" v-if="telPatrocinante2IsValid === false">Ingrese un teléfono Válido</div>
                       </div>
                       <div class="input" ref="email2">
                         <label>Email</label>
-                        <input type="text" name="emailparticipante02_st05" v-model="emailParticipante2" ref="emailParticipante2" @focus="focus($refs.email2)" @blur="blur([$refs.email2, $refs.emailParticipante2.value])" @keyup="emailValidation($refs.emailParticipante2.value)">
-                        <div id="rutst02-error" class="formerror" v-if="emailIsValid === false">Ingrese un email Válido</div>
+                        <input type="text" name="emailparticipante02_st05" v-model="emailParticipante2" ref="emailParticipante2" @focus="focus($refs.email2)" @blur="blur([$refs.email2, $refs.emailParticipante2.value])" @keyup="emailPatrocinante2Validation($refs.emailParticipante2.value)">
+                        <div id="rutst02-error" class="formerror" v-if="emailPatrocinante2IsValid === false">Ingrese un email Válido</div>
                       </div>
                     </form>
                   </div>
@@ -170,7 +170,24 @@ export default {
       }
     },
     methods:{
-      ...mapMutations(['focus', 'blur', 'collapseClickStep3', 'rutValidation', 'phoneNumberValidation', 'emailValidation', 'saveCompletedForm', "setStepTwoValue", "setStepThreeValue" ,"setStepFourValue"]),
+      ...mapMutations(['focus', 
+                       'blur', 
+                       'collapseClickStep3', 
+                       'rutValidation', 
+                       'phoneNumberValidation', 
+                       'emailValidation', 
+                       'saveCompletedForm', 
+                       "setStepTwoValue", 
+                       "setStepThreeValue" ,
+                       "setStepFourValue", 
+                       'rutPatrocinates',
+                       'rutPatrocinanteValidation',
+                       'rutPatrocinante2Validation',
+                       'telPatrocinanteValidation',
+                       'telPatrocinante2Validation',
+                       'emailPatrocinanteValidation',
+                       'emailPatrocinante2Validation'
+                       ]),
 
       save() {
         
@@ -226,64 +243,96 @@ export default {
       },
 
       validateRutExist(rut, ref) {
-        
-        axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
-          this.dataValidaciones = response.data;
-        
-          if (Object.keys(this.dataValidaciones).length !== 0) {
-            if (this.rutParticipante !== this.rutParticipante2) {
-            
-            this.nombreParticipante = this.dataValidaciones.Representante.nombre;
-            this.estado = this.dataValidaciones.Estado;
-            this.focus(ref);
+       
+        if (this.rutPartnersGlobal.length !== 0) {
+          for (let i=0; i < this.rutPartnersGlobal[0].length; i++) {
+          //console.log(this.rutPartnersGlobal[0][i].rutPerson);
+            if (this.rutPartnersGlobal[0][i].rutPerson !== rut ) {
 
-            if (this.dataValidaciones.grupos !== '') {
-              this.grupos = {
-              name: this.dataValidaciones.grupos.GRUPO,
-              perId: this.dataValidaciones.grupos.PER_ID
+              axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
+                this.dataValidaciones = response.data;
+              
+                if (Object.keys(this.dataValidaciones).length !== 0) {
+                  if (this.rutParticipante !== this.rutParticipante2) {
+                  
+                  this.nombreParticipante = this.dataValidaciones.Representante.nombre;
+                  this.estado = this.dataValidaciones.Estado;
+                  this.focus(ref);
+
+                  if (this.dataValidaciones.grupos !== '') {
+                    this.grupos = {
+                    name: this.dataValidaciones.grupos.GRUPO,
+                    perId: this.dataValidaciones.grupos.PER_ID
+                  }
+                  }
+                  
+                } else {
+                  alert("Los participantes deben tener rut distinto");
+                  
+                }
+                } else {
+                  alert("El patrocinante no existe");
+                }
+      
+              }).catch(function (error) {
+              console.log("AXIOS ERROR: ", error);
+              });
+
+            } else {
+              alert("No puede tener el mismo RUT de un Accionista");
+              this.rutParticipante = "";
             }
-            }
-            
-          } else {
-            alert("Los participantes deben tener rut distinto");
-            
-          }
-          } else {
-            alert("El patrocinante no existe");
-          }
- 
-        }).catch(function (error) {
-        console.log("AXIOS ERROR: ", error);
-        });
+        }
+
+        } else {
+          alert("Debe llenar composición accionaria del paso anterior");
+          this.rutParticipante = "";
+        }
+        
       
       },
 
       validateRutExist2(rut, ref) {
         
-        axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
-          console.log(response.data[0]);
-          this.dataValidaciones = response.data;
-          if (Object.keys(this.dataValidaciones).length !== 0
-          ) {
-            if (this.rutParticipante !== this.rutParticipante2) {
-            this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
-            this.focus(ref);
-            this.estado = this.dataValidaciones.Estado;
-            this.estado = this.dataValidaciones.Estado;
-            this.grupos = {
-              name: this.dataValidaciones.grupos.GRUPO,
-              perId: this.dataValidaciones.grupos.PER_ID
-            }
-          } else {
-            alert("Los participantes deben tener rut distinto");
-          }
-          } else {
-            alert("El Patrocinante no existe");
-          }
+        if (this.rutPartnersGlobal.length !== 0) {
+        for (let i=0; i < this.rutPartnersGlobal[0].length; i++) {
 
-        }).catch(function (error) {
-        console.log("AXIOS ERROR: ", error);
-        });
+          if (this.rutPartnersGlobal[0][i].rutPerson !== rut ) { 
+
+            axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
+        
+              this.dataValidaciones = response.data;
+              if (Object.keys(this.dataValidaciones).length !== 0
+              ) {
+                if (this.rutParticipante !== this.rutParticipante2) {
+                this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
+                this.focus(ref);
+                this.estado = this.dataValidaciones.Estado;
+                this.estado = this.dataValidaciones.Estado;
+                this.grupos = {
+                  name: this.dataValidaciones.grupos.GRUPO,
+                  perId: this.dataValidaciones.grupos.PER_ID
+                }
+              } else {
+                alert("Los participantes deben tener rut distinto");
+              }
+              } else {
+                alert("El Patrocinante no existe");
+              }
+
+            }).catch(function (error) {
+            console.log("AXIOS ERROR: ", error);
+            });
+
+          } else {
+            alert("No puede tener el mismo RUT de un Accionista");
+            this.rutParticipante2 = "";
+          }
+        }
+        } else {
+          alert("Debe llenar composición accionaria del paso anterior");
+          this.rutParticipante2 = "";
+        }
       
       },
 
@@ -291,7 +340,8 @@ export default {
         if (this.rutParticipante !== '' && this.nombreParticipante !== '' && this.emailParticipante !== '' 
             && this.telefonoParticipante !== '' && this.rutParticipante2 !== '' && this.nombreParticipante2 !== ''
             && this.emailParticipante2 !== '' && this.telefonoParticipante2 !== '') {
-          if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+          if (this.rutPatrocinanteIsValid == true && this.rutParticipante2 == true 
+              && this.telPatrocinanteIsValid == true && this.telPatrocinante2IsValid == true && this.emailIsValid == true) {
             return true;
           }
         } else {
@@ -302,7 +352,10 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
           this.save();
-          //this.$router.push({ name: "StepFour" });  
+          //this.$router.push({ name: "StepFour" });
+          console.log({rut1: this.rutParticipante, rut2: this.rutParticipante2});
+          this.rutPatrocinatnes.push({rut1: this.rutParticipante, rut2: this.rutParticipante2});
+          this.rutPatrocinates(this.rutPatrocinatnes);  
           this.setStepFourValue(true);
           this.setStepThreeValue(false);
         } else {
@@ -335,15 +388,30 @@ export default {
       hide () {
             this.$modal.hide('help-modal-1');
       },
+
     
     created() {
-    
+
     console.log(this.completedForm);
     console.log(this.nroSolicitudGlobal);
   }
     },
     computed: {
-      ...mapState(['collapse', 'telIsValid', 'emailIsValid','rutIsValid', 'completedForm', 'rutGlobal', 'nroSolicitudGlobal'])
+      ...mapState(['collapse', 
+                  'telIsValid', 
+                  'emailIsValid',
+                  'rutIsValid', 
+                  'completedForm', 
+                  'rutGlobal', 
+                  'nroSolicitudGlobal',
+                  'rutPartnersGlobal',
+                  'rutPatrocinanteIsValid',
+                  'rutPatrocinante2IsValid',
+                  'telPatrocinanteIsValid',
+                  'telPatrocinante2IsValid',
+                  'emailPatrocinanteIsValid',
+                  'emailPatrocinante2IsValid'
+                  ])
     },
     
 }

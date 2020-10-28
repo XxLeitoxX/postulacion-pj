@@ -63,6 +63,33 @@ export default new Vuex.Store({
 	tab2: 'form-tab tab02',
 	tab3: 'form-tab tab03',
 	tab4: 'form-tab tab04',
+	rutPatrocinanteGlobal: [],
+	rutPartnersGlobal:[],
+	/* Step 3 validation*/
+	rutPatrocinanteIsValid: '',
+	rutPatrocinante2IsValid: '',
+	telPatrocinanteIsValid: '',
+	telPatrocinante2IsValid: '',
+	emailPatrocinanteIsValid: '',
+	emailPatrocinante2IsValid: '',
+	/* Step 4 validation*/
+	rutRepresentanteCChCIsValid: '',
+	telRepresentanteCChCIsValid: '',
+	celRepresentanteCChCIsValid: '',
+	emailRepresentanteCChCIsValid: '',
+
+	rutContactoCobIsValid: '',
+	telContactoCobIsValid: '',
+	celContactoCobIsValid: '',
+	emailContactoCobIsValid: '',
+
+	rutRepreLegalIsValid: '',
+	telRepreLegalIsValid: '',
+	celRepreLegalIsValid: '',
+	emailRepreLegalIsValid: '',
+
+	emailRecoveryCodeGlobal: ''
+
   },
 
   getters: {
@@ -251,7 +278,131 @@ export default new Vuex.Store({
 			console.log(rut);
 			validaRut(rut) ? state.rutIsValid = true : state.rutIsValid = false; 
 		}
-    },
+	},
+	
+	rutPatrocinanteValidation(state, rut) {
+
+		if (rut !== '') {
+			validaRut(rut) ? state.rutPatrocinanteIsValid = true : state.rutPatrocinanteIsValid = false; 
+		}
+	},
+	
+	rutPatrocinante2Validation(state, rut) {
+
+		if (rut !== '') {
+			validaRut(rut) ? state.rutPatrocinante2IsValid = true : state.rutPatrocinante2IsValid = false; 
+		}
+	},
+	
+	telPatrocinanteValidation(state, tel) {
+
+		if (tel !== '') {
+			telValidate(tel) ? state.telPatrocinanteIsValid = true : state.telPatrocinanteIsValid = false; 
+		}
+	},
+	
+	telPatrocinante2Validation(state, tel) {
+
+		if (tel !== '') {
+			telValidate(tel) ? state.telPatrocinante2IsValid = true : state.telPatrocinante2IsValid = false; 
+		}
+	},
+	
+	emailPatrocinanteValidation(state, email) {
+
+		if (email !== '') {
+			emailValidate(email) ? state.emailPatrocinanteIsValid = true : state.emailPatrocinanteIsValid = false; 
+		}
+	},
+	
+	emailPatrocinante2Validation(state, email) {
+
+		if (email !== '') {
+			emailValidate(email) ? state.emailPatrocinante2IsValid = true : state.emailPatrocinante2IsValid = false; 
+		}
+	},
+
+	rutRepresentanteCChCIsValidation(state, rut) {
+		if (rut !== '') {
+			validaRut(rut) ? state.rutRepresentanteCChCIsValid = true : state.rutRepresentanteCChCIsValid = false; 
+		}
+	},
+
+	rutContactoCobIsValidation(state, rut) {
+		if (rut !== '') {
+			validaRut(rut) ? state.rutContactoCobIsValid = true : state.rutContactoCobIsValid = false; 
+		}
+	},
+
+	rutRepreLegalIsValidation(state, rut) {
+		if (rut !== '') {
+			validaRut(rut) ? state.rutRepreLegalIsValid = true : state.rutRepreLegalIsValid = false; 
+		}
+	},
+
+	telRepresentanteCChCIsValidation(state, tel) {
+
+		if (tel !== '') {
+			telValidate(tel) ? state.telRepresentanteCChCIsValid = true : state.telRepresentanteCChCIsValid = false; 
+		}
+	},
+
+	telContactoCobIsValidation(state, tel) {
+
+		if (tel !== '') {
+			telValidate(tel) ? state.telContactoCobIsValid = true : state.telContactoCobIsValid = false; 
+		}
+	},
+
+	telRepreLegalIsValidation(state, tel) {
+
+		if (tel !== '') {
+			telValidate(tel) ? state.telRepreLegalIsValid = true : state.telRepreLegalIsValid = false; 
+		}
+	},
+
+	celRepresentanteCChCIsValidation(state, cel) {
+
+		if (cel !== '') {
+			telValidate(cel) ? state.celRepresentanteCChCIsValid = true : state.celRepresentanteCChCIsValid = false; 
+		}
+	},
+
+	celContactoCobIsValidation(state, cel) {
+
+		if (cel !== '') {
+			telValidate(cel) ? state.celContactoCobIsValid = true : state.celContactoCobIsValid = false; 
+		}
+	},
+
+
+	celRepreLegalIsValidation(state, cel) {
+
+		if (cel !== '') {
+			telValidate(cel) ? state.celRepreLegalIsValid = true : state.celRepreLegalIsValid = false; 
+		}
+	},
+	
+	emailRepresentanteCChCIsValidation(state, email) {
+
+		if (email !== '') {
+			emailValidate(email) ? state.emailRepresentanteCChCIsValid = true : state.emailRepresentanteCChCIsValid = false; 
+		}
+	},
+
+	emailContactoCobIsValidation(state, email) {
+
+		if (email !== '') {
+			emailValidate(email) ? state.emailContactoCobIsValid = true : state.emailContactoCobIsValid = false; 
+		}
+	},
+
+	emailRepreLegalIsValidation(state, email) {
+
+		if (email !== '') {
+			emailValidate(email) ? state.emailRepreLegalIsValid = true : state.emailRepreLegalIsValid = false; 
+		}
+	},
 
     phoneNumberValidation (state, phone) {
     	if (phone !== '') {
@@ -377,6 +528,23 @@ export default new Vuex.Store({
 		state.completedForm.push({
 			nroSolicitud: nro,
 		});
+	},
+
+	emailRecoveryCode(state, email) {
+		state.emailRecoveryCodeGlobal = email;
+	},
+
+	rutPatrocinates(state, rutPatrocinantes) {
+
+		console.log(rutPatrocinantes);
+		state.rutPatrocinanteGlobal = rutPatrocinantes;
+		/*state.rutPatrocinanteGlobal.push({
+			rut: rutPatrocinantes,
+		});*/
+	},
+
+	getRutParnersGlobal(state, parners) {
+		state.rutPartnersGlobal = parners;
 	},
 
 	getRutGlobal(state, rut) {

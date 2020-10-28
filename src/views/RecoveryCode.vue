@@ -43,16 +43,19 @@ export default {
     return {
      rutRecovery: '',
      urlBase: this.$store.state.URL,
-     nroSolicitud: ''
+     nroSolicitud: '',
+     email: ''
     }
   },
   methods: {
-    ...mapMutations(['focus', 'blur', 'validation']),
+    ...mapMutations(['focus', 'blur', 'validation', 'emailRecoveryCode']),
 
     getNumSolicitud(rut) {
 
         axios.get(this.urlBase+'/recuperarNroSolicitud/' + rut).then((response) => {
-          this.nroSolicitud = response.data;          
+          this.nroSolicitud = response.data;
+          this.email = response.data[0].email;
+          this.emailRecoveryCode(this.email);        
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
         });

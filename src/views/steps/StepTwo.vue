@@ -581,6 +581,7 @@
         "setStepTwoValue",
         "setStepThreeValue",
         "saveCompletedForm",
+        "getRutParnersGlobal"
       ]),
 
       ...mapActions([
@@ -767,6 +768,7 @@
           partners: this.partners,
         });
         console.log(this.stepTwoObject);
+        this.getRutParnersGlobal(this.partners);
         this.saveCompletedForm(this.stepTwoObject);
         this.savePost();
         console.log(this.completedForm);
