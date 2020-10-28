@@ -760,6 +760,11 @@
               alert("El porcentaje no debe ser mayor a 100");
             }
           }
+        } else {
+          if (this.total > 100) {
+            this.societyPercentageIsValid = false;
+            alert("El porcentaje no debe ser mayor a 100");
+          }
         }
         
       },
@@ -863,6 +868,8 @@
         }).catch(function (error) {
           console.log("AXIOS ERROR: ", error);
         });
+        this.completedForm.pop();
+        console.log(this.completedForm);
       },
     },
 

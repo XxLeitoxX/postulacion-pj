@@ -367,6 +367,11 @@ export default new Vuex.Store({
     	console.log(state.showStepFive);
     },
 
+    setCompletedForm(state, newCompletedForm) {
+    	state.completedForm = newCompletedForm;
+    	console.log(state.completedForm);
+    },
+
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
 	},
