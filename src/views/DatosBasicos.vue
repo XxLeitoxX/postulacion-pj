@@ -15,7 +15,9 @@
                     name="rutst02"
                     ref="rutInputValue"
                     @focus="focus($refs.rutInput)"
-                    @blur="blur([$refs.rutInput, $refs.rutInputValue.value]), findPostulanteExist($refs.rutInputValue.value)"
+                    @blur="blur([$refs.rutInput, $refs.rutInputValue.value]), 
+                           findPostulanteExist($refs.rutInputValue.value),
+                           rutSocioActivo($refs.rutInputValue.value)"
                     v-model="rut"
                     @keyup="checkInput()"
                     
@@ -78,6 +80,7 @@
                     v-model="tel"
                     @keyup="checkInput()"
                   />
+                  <div class="small-text">Use el formato +56 0 0000 0000</div>
                   <div
                     id="phonest02-error"
                     class="formerror"
@@ -281,7 +284,8 @@ export default {
       urlMail: '',
       showTipSociety: false,
       emailConfirmIsValidEqual: true,
-      postulanteExistente: []
+      postulanteExistente: [],
+      socioExistente: []
     };
   },
   methods: {
@@ -470,6 +474,22 @@ export default {
           this.postulanteExistente = response.data;
           if (Object.keys(this.postulanteExistente).length !== 0) {
               alert("Ya existe una postulación asociada al Rut ingresado");
+              this.rutExistente = false;
+              this.rut = "";
+          } else {
+             this.rutExistente = true;
+          }
+        }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+        });
+      
+      },
+
+      rutSocioActivo(rut) {
+        axios.get(this.urlBase+'/validarSocioActivo/' + rut).then((response) => {
+          this.socioExistente = response.data;
+          if (Object.keys(this.socioExistente).length !== 0) {
+              alert("Ya existe el socio activo con el Rut ingresado no puede postular");
               this.rutExistente = false;
               this.rut = "";
           } else {
