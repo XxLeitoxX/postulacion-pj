@@ -233,7 +233,7 @@ export default {
           });
 
         }           
-      this.saveCompletedForm(this.dataPatrocinantes);
+      this.saveCompletedForm([this.dataPatrocinantes, 3]);
       this.savePost();
       console.log(this.completedForm);
       } else {

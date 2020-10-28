@@ -529,7 +529,7 @@ export default {
            } 
       });
 
-      this.saveCompletedForm(this.data);
+      this.saveCompletedForm([this.data, 4]);
       this.savePost();
       console.log(this.completedForm);
       } else {
@@ -542,7 +542,7 @@ export default {
       saveContinue() {
         if (this.validateInput()) {
             this.save();
-            this.saveCompletedForm(this.data);
+            //this.saveCompletedForm(this.data);
             //this.$router.push({ name: "StepFive" });
             this.setStepFiveValue(true);
             this.setStepFourValue(false);  
