@@ -485,7 +485,20 @@ export default {
                         ]),
 
       save() {
-        if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true) {
+        
+        if (this.rutRepresentanteCChCIsValid == true 
+            && this.telRepresentanteCChCIsValid == true 
+            && this.celRepresentanteCChCIsValid == true
+            && this.emailRepresentanteCChCIsValid == true
+            && this.rutContactoCobIsValid == true
+            && this.telContactoCobIsValid == true
+            && this.celContactoCobIsValid == true 
+            && this.emailContactoCobIsValid == true
+            && this.rutRepreLegalIsValid == true
+            && this.telRepreLegalIsValid == true
+            && this.celRepreLegalIsValid == true
+            && this.emailRepreLegalIsValid == true ) {
+
         this.data.push({
 
           //Data form representante
@@ -600,7 +613,20 @@ export default {
             && this.dataContactoCobranza.emailContacto !== '' 
             ) {
 
-          if (this.rutIsValid == true && this.telIsValid == true && this.emailIsValid == true && this.dateIsValid == true) {
+          if (this.rutRepresentanteCChCIsValid == true 
+            && this.telRepresentanteCChCIsValid == true 
+            && this.celRepresentanteCChCIsValid == true
+            && this.emailRepresentanteCChCIsValid == true
+            && this.rutContactoCobIsValid == true
+            && this.telContactoCobIsValid == true
+            && this.celContactoCobIsValid == true 
+            && this.emailContactoCobIsValid == true
+            && this.rutRepreLegalIsValid == true
+            && this.telRepreLegalIsValid == true
+            && this.celRepreLegalIsValid == true
+            && this.emailRepreLegalIsValid == true 
+            && this.dateIsValid == true) {
+              
             return true;
           }
         } else {
