@@ -483,7 +483,7 @@ export default {
 
     
     generateUrl() {
-      this.urlMail = `${this.urlBaseMail}/paso1/`; 
+      this.urlMail = `${this.urlBaseMail}/pasos/`; 
     },
 
     ...mapActions(['getCamaras', 'getTipoSociedad']),

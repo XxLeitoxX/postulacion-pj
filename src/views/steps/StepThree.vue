@@ -216,7 +216,7 @@ export default {
 
         }           
       this.saveCompletedForm(this.dataPatrocinantes);
-      this.savePost();
+      this.savePostStepThree();
       console.log(this.completedForm);
       } else {
         alert("Los datos tienen que ser válidos");
@@ -314,7 +314,7 @@ export default {
         this.setStepThreeValue(false);
     },
     
-    savePost: function () {
+    savePostStepThree: function () {
           
       let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);

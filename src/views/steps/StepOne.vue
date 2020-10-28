@@ -109,9 +109,13 @@
                         @change="dateValidation($refs.date)"
                         :disabled-date="(date) => date >= new Date()"
                         valueType="format">
-                        <!-- <i slot="icon-clear" class="mx-icon-clear"
-                          @click="test($refs.date)">
-                        </i> -->
+                         <i slot="icon-clear" class="mx-icon-clear">
+                          <font-awesome-icon :icon="['far', 'calendar']" />
+                        </i> 
+                        <i slot="icon-calendar" class="mx-icon-calendar"
+                          @click="dateValidation($refs.date)">
+                          <font-awesome-icon :icon="['far', 'calendar']" />
+                        </i>  
 
                       </date-picker>
                       <!-- {{lang.formatLocale.months}} -->
@@ -524,7 +528,7 @@
                         class="link btn-red u-mt50 big"
                         id="submitStep04"
                         type="button"
-                        @click="checkForm()"
+                        @click="checkFormStepOne()"
                       >
                         Continuar<i class="fa fa-angle-right"></i>
                       </button>
@@ -828,7 +832,7 @@ export default {
     },
 
     //Step One Inputs Validation
-    checkForm() {
+    checkFormStepOne() {
       if (this.rutCompany == "" || this.rutIsValid == false) {
         this.setRutIsValid(false);
       } else {
@@ -985,7 +989,7 @@ export default {
       });
       console.log(this.stepOneObject);
       this.saveCompletedForm(this.stepOneObject);
-      this.savePost();
+      this.savePostStepOne();
       console.log(this.completedForm);
       this.stepOneObject = [];
     },
@@ -1007,7 +1011,7 @@ export default {
 
     },
 
-    savePost: function () {
+    savePostStepOne: function () {
           
       let stepOneObject = this.completedForm;
       let data = JSON.stringify(stepOneObject);
@@ -1148,7 +1152,7 @@ export default {
 }
 
 .mx-input {
-  width: 90% !important;
+  width: 100% !important;
   border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.0); 
   box-shadow: inset 0 1px 1px rgba(0,0,0,.0);
@@ -1167,6 +1171,8 @@ export default {
 .mx-calendar:hover .mx-calendar-panel-date:hover {
   border-color: black;
 }
+
+
 
 .pointer {
   cursor: pointer !important;

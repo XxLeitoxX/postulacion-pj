@@ -115,7 +115,7 @@
                           <option value="default">Patrimonio según último balance o capital inicial para empresas < 1 año</option>
                         </select>
                       </div> -->
-                      <label>Porcentaje de la sociedad dedicado a la construcción</label>
+                      <label>Patrimonio según último balance o capital inicial para empresas < 1 año</label>
                       <input type="text" name="patrimonio_st04" ref="percentage"
                         v-model="firstPercentage"
                         @focus="focus($refs.input)"
@@ -176,9 +176,16 @@
                   <p>A continuación ingrese los documentos que acreditan la información de su empresa. Los documentos requeridos son los siguientes:</p>
                   <ul>
                     <!-- <li>Documento carpeta tributaria especial</li> -->
-                    <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
+                    <!-- <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
                       {{docs}}
-                    </li>
+                    </li> -->
+                    <li>Representante Legal</li>
+                    <li>Conformación de la Sociedad</li>
+                    <li>Participación de la Sociedad</li>
+                    <li>Sucursales</li>
+                    <li>Formulario 29 (12 meses)</li>
+                    <li>Formulario 22 (2 años)</li>
+                    <li>"SE EXIMEN DE ESTOS ANTECEDENTES LAS FUNDACIONES Y CORPORACIONES"</li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form> -->
 
@@ -308,7 +315,8 @@
                               v-model="inputsPartner[0].societyPercentage"
                               ref="societyPercentageInput"
                               @focus="focus($refs.societyPercentage)"
-                              @blur="blur([$refs.societyPercentage, $refs.societyPercentageInput.value])"
+                              @blur="blur([$refs.societyPercentage, $refs.societyPercentageInput.value]), 
+                                percentageValidation($refs.societyPercentageInput.value)"
                               @keyup="societyValidation($refs.societyPercentageInput.value)">
                               <div
                                 id="giro_st03-error"
@@ -317,10 +325,10 @@
                                   Ingrese un porcentaje
                               </div>
                           </div>
-                          <a class="input-remover pointer" @click="deletePartner(index)" v-if="partners.length > 1" 
+                          <!-- <a class="input-remover pointer" @click="deletePartner(index)" v-if="partners.length > 1" 
                             id="repeater-rmv-btn">
                             Eliminar socio<span>x</span>
-                          </a>
+                          </a> -->
                           <hr>
                         </div>
 
@@ -422,7 +430,7 @@
                                 v-model="part[index+1].societyPercentage"
                                 ref="societyPercentageInput"
                                 @focus="focus($refs.societyPercentage[index])"
-                                @blur="blur([$refs.societyPercentage[index], $refs.societyPercentageInput[index].value])"
+                                @blur="blur([$refs.societyPercentage[index], $refs.societyPercentageInput[index].value]), percentageValidation($refs.societyPercentageInput[index].value)"
                                 @keyup="societyValidation($refs.societyPercentageInput[index].value)">
                                 <div
                                   id="giro_st03-error"
@@ -431,7 +439,7 @@
                                     Ingrese un porcentaje
                                 </div>
                             </div>
-                            <a class="input-remover pointer" @click="deletePartner(index)" v-if="partners.length > 1" 
+                            <a class="input-remover pointer" @click="deletePartner(index)" v-if="partners.length >= 1" 
                               id="repeater-rmv-btn">
                               Eliminar socio<span>x</span>
                             </a>
@@ -463,7 +471,7 @@
                       <button class="link btn-red u-mt50 big" 
                         id="submitStep04"
                         type="button" 
-                        @click="checkForm()">
+                        @click="checkFormStepTwo()">
                           Continuar<i class="fa fa-angle-right"></i>
                       </button>
                       <!-- {{completedForm}} <br> -->
@@ -520,6 +528,8 @@
           societyPercentage: '',
         }],
         partners: [],
+        total: 0,
+        totalPercentage: 0,
         totalEmployeesIsValid: '',
         rangeIsValid: '',
         firstPercentageIsValid: '',
@@ -630,31 +640,31 @@
       },
 
       nameValidation(name) {
-        if (name == "") {
+        if (this.inputsPartner[0].name == "") {
           this.nameIsValid = false;
         } else {
             this.nameIsValid = true;
         }
       },
 
-      fatherLastnameValidation(value) {
-        if (value == "") {
+      fatherLastnameValidation() {
+        if (this.inputsPartner[0].fatherLastname == "") {
           this.fatherLastnameIsValid = false;
         } else {
             this.fatherLastnameIsValid = true;
         }
       },
 
-      motherLastnameValidation(value) {
-        if (value == "") {
+      motherLastnameValidation() {
+        if (this.inputsPartner[0].motherLastname == "") {
           this.motherLastnameIsValid = false;
         } else {
             this.motherLastnameIsValid = true;
         }
       },
 
-      societyValidation(value) {
-        if (value == "") {
+      societyValidation() {
+        if (this.inputsPartner[0].societyPercentage == "") {
           this.societyPercentageIsValid = false;
         } else {
             this.societyPercentageIsValid = true;
@@ -662,27 +672,96 @@
       },
 
       addPartner() {
-        console.log(this.inputsPartner);
-          this.inputsPartner.push({
-            rutPerson: '',
-            name: '',
-            fatherLastname: '',
-            motherLastname: '',
-            societyPercentage: '',
-          });
+        /*if (this.inputsPartner[0].rutPerson == ""
+          || this.rutIsValid == false
+          || this.inputsPartner[0].name == ""
+          || this.nameIsValid == false
+          || this.inputsPartner[0].fatherLastname == ""
+          || this.fatherLastnameIsValid == false
+          || this.inputsPartner[0].motherLastname == ""
+          || this.motherLastnameIsValid == false
+          || this.inputsPartner[0].societyPercentage == ""
+          || this.societyPercentageIsValid == false) {
+            alert("Debe completar los campos del socio");
 
-          console.log(this.inputsPartner);
-          this.partners.push(
-            this.inputsPartner);
+        } else {
+            console.log(this.inputsPartner);
+            this.inputsPartner.push({
+              rutPerson: '',
+              name: '',
+              fatherLastname: '',
+              motherLastname: '',
+              societyPercentage: '',
+            });
+
+            console.log(this.inputsPartner);
+            this.partners.push(
+              this.inputsPartner);
+            //this.partners.shift();
+          
+          //console.log(this.partners);
+          console.log(this.partners);
+
+          let objeto = {
+            uno: 'Uno',
+            dos: 'test'
+          }
+
+          let objeto2 = {
+            tres: 'test',
+            cuatro: 'test2'
+          }
+
+          const total = Object.assign(objeto, objeto2);
+          console.log(total);
+        }*/
+
+        console.log(this.inputsPartner);
+            this.inputsPartner.push({
+              rutPerson: '',
+              name: '',
+              fatherLastname: '',
+              motherLastname: '',
+              societyPercentage: '',
+            });
+
+            console.log(this.inputsPartner);
+            this.partners.push(
+              this.inputsPartner);
+            //this.inputsPartner.pop();
+          
+          //console.log(this.partners);
+          console.log(this.partners);
+          console.log(this.partners.length);
         
-        
-        //console.log(this.partners);
-        console.log(this.partners);
       },
 
       deletePartner(index) {
+        console.log(index);
         this.partners.splice(index, 1);
         console.log(this.partners);
+        this.inputsPartner.splice(index+1, 1);
+        console.log(this.inputsPartner);
+      },
+
+      percentageValidation(percentage) {
+        console.log(percentage);
+            console.log(this.inputsPartner.length);
+            this.total = this.inputsPartner[0].societyPercentage;
+        if (this.inputsPartner.length > 1) {
+          for(var i = 2; i <= this.inputsPartner.length; i++) {
+            console.log(this.inputsPartner[0].societyPercentage);
+            console.log(i);
+            this.totalPercentage = parseInt(this.inputsPartner[i-1].societyPercentage);
+            this.total = parseInt(this.totalPercentage) + parseInt(this.total);
+            console.log(this.total);
+            if (this.total > 100) {
+              this.societyPercentageIsValid = false;
+              alert("El porcentaje no debe ser mayor a 100");
+            }
+          }
+        }
+        
       },
 
       goStepOne() {
@@ -691,8 +770,8 @@
         this.setStepTwoValue(false);
       },
 
-      checkForm() {
-        if (this.rutPerson == "" || this.rutIsValid == false) {
+      checkFormStepTwo() {
+        if (this.inputsPartner[0].rutPerson == "" || this.rutIsValid == false) {
           this.setRutIsValid(false);
         } else {
           this.setRutIsValid(true);
@@ -727,7 +806,7 @@
         this.motherLastnameValidation();
         this.societyValidation();
 
-        if (this.rutPerson == "" 
+        if (this.inputsPartner[0].rutPerson == "" 
           || this.rutIsValid == false
           || this.selectedRange == ""
           || this.firstPercentage == ""
@@ -735,10 +814,10 @@
           || this.volume == ""
           || this.vueDropzoneFile == ""
           || this.partners == ""
-          || this.name == ""
-          || this.fatherLastname == ""
-          || this.motherLastname == ""
-          || this.societyPercentage == "") {
+          || this.inputsPartner[0].name == ""
+          || this.inputsPartner[0].fatherLastname == ""
+          || this.inputsPartner[0].motherLastname == ""
+          || this.inputsPartner[0].societyPercentage == "") {
             this.formIsValid = false;
             console.log(this.formIsValid);
         } else {
@@ -757,6 +836,7 @@
       },
 
       saveSteptwo() {
+        //this.addPartner();
         this.stepTwoObject.push({
           totalEmployees: this.selectedTotalEmployees,
           range: this.selectedRange,
@@ -765,15 +845,16 @@
           volume: this.volume,
           files: this.vueDropzoneFile,
           partners: this.partners,
+          inputs: this.inputsPartner
         });
         console.log(this.stepTwoObject);
         this.saveCompletedForm(this.stepTwoObject);
-        this.savePost();
+        this.savePostStepTwo();
         console.log(this.completedForm);
         this.stepTwoObject = [];
       },
 
-      savePost: function () {
+      savePostStepTwo: function () {
           console.log(this.URL);
         let stepTwoObject = this.completedForm;
         let data = JSON.stringify(stepTwoObject);

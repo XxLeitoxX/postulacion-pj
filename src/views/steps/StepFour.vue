@@ -505,7 +505,7 @@ export default {
       });
 
       this.saveCompletedForm(this.data);
-      this.savePost();
+      this.savePostStepFour();
       console.log(this.completedForm);
       } else {
         alert("Tiene que ingresar datos válidos");
@@ -703,7 +703,7 @@ export default {
       
       },
 
-      savePost: function () {
+      savePostStepFour: function () {
           
       let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);
@@ -737,7 +737,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .vm--modal {
     position: relative;
     overflow: hidden;
@@ -757,37 +757,5 @@ export default {
     top: 10px;
     right: 20px;
     color: #fff;
-}
-
-.datepickerr {
-  margin-bottom: 35px;
-  border-bottom: 1px solid #333;
-  max-width: 360px;
-}
-
-.mx-datepicker {
-  position: relative !important;
-  display: inline;
-}
-
-.mx-input {
-  width: 90% !important;
-  border-radius: 0px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.0); 
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.0);
-  border-bottom: 1px solid #333;
-  padding: 0;
-  padding-left: 0;
-}
-
-.mx-input:hover {
-  border-color: black;
-}
-.mx-input:focus {
-  border-color: black;
-}
-
-.mx-calendar:hover .mx-calendar-panel-date:hover {
-  border-color: black;
 }
 </style>
