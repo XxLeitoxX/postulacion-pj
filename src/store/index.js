@@ -110,9 +110,41 @@ export default new Vuex.Store({
   mutations: {
 
 	saveCompletedForm(state, step) {
+		/*state.completedForm.push(step);
+		console.log(state.completedForm);*/
 		console.log(step);
-		state.completedForm.push(step);
+		/*var object = [];
+		object.push(step);
+		console.log(object[0]);*/
+		console.log(step[0][0]);
+		console.log(step[1]);
 		console.log(state.completedForm);
+		//console.log(state.completedForm.length);
+		if (step[1] == 1) {
+			state.completedForm.splice(1, 1, step[0][0]);
+			console.log(state.completedForm);
+		}
+
+		if (step[1] == 2) {
+			state.completedForm.splice(2, 1, step[0][0]);
+			console.log(state.completedForm);
+		}
+
+		if (step[1] == 3) {
+			state.completedForm.splice(3, 1, step[0][0]);
+			console.log(state.completedForm);
+		}
+
+		if (step[1] == 4) {
+			state.completedForm.splice(4, 1, step[0][0]);
+			console.log(state.completedForm);
+		}
+
+		
+
+		/*var addMay=state.completedForm.splice(4, 0, step);
+		console.log(months);
+		console.log(addMay);*/
 	},
 
 	activeClass (state, refs) {
@@ -504,13 +536,13 @@ export default new Vuex.Store({
 		
 	},
 
-	nroSolicitudObj(state, nro) {
+	/*nroSolicitudObj(state, nro) {
 
 		state.nroSolicitudGlobal = nro;
 		state.completedForm.push({
 			nroSolicitud: nro,
 		});
-	},
+	},*/
 
 
   },

@@ -843,25 +843,27 @@
       saveSteptwo() {
         //this.addPartner();
         this.stepTwoObject.push({
-          totalEmployees: this.selectedTotalEmployees,
-          range: this.selectedRange,
-          firstPercentage: this.firstPercentage,
-          secondPercentage: this.secondPercentage,
-          volume: this.volume,
-          files: this.vueDropzoneFile,
-          partners: this.partners,
-          inputs: this.inputsPartner
+          stepTwo: {
+            totalEmployees: this.selectedTotalEmployees,
+            range: this.selectedRange,
+            firstPercentage: this.firstPercentage,
+            secondPercentage: this.secondPercentage,
+            volume: this.volume,
+            files: this.vueDropzoneFile,
+            partners: this.partners,
+            inputs: this.inputsPartner
+          }
         });
         console.log(this.stepTwoObject);
-        this.saveCompletedForm(this.stepTwoObject);
+        this.saveCompletedForm([this.stepTwoObject, 2]);
         this.savePostStepTwo();
         console.log(this.completedForm);
-        this.stepTwoObject = [];
+        //this.stepTwoObject = [];
       },
 
       savePostStepTwo: function () {
-          console.log(this.URL);
         let stepTwoObject = this.completedForm;
+        console.log(this.completedForm[2]);
         let data = JSON.stringify(stepTwoObject);
         axios.post(this.URL + '/guardarParcial', data).then((response) => {
           console.log(response.data);

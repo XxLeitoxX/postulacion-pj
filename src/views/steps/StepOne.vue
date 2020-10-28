@@ -989,7 +989,7 @@ export default {
         
       });
       console.log(this.stepOneObject);
-      this.saveCompletedForm(this.stepOneObject);
+      this.saveCompletedForm([this.stepOneObject, 1]);
       this.savePostStepOne();
       console.log(this.completedForm);
       this.stepOneObject = [];
@@ -1007,7 +1007,7 @@ export default {
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-      console.log(this.nroSolicitud);
+      //console.log(this.nroSolicitud);
       //this.getStepOneRequest(this.nroSolicitud);
 
     },
@@ -1021,8 +1021,8 @@ export default {
       }).catch(function (error) {
       console.log("AXIOS ERROR: ", error);
       });
-      this.completedForm.pop();
-      console.log(this.completedForm);
+      /*this.completedForm.pop();
+      console.log(this.completedForm);*/
       /*this.setCompletedForm('')
       console.log(this.completedForm);*/
     },
