@@ -542,7 +542,7 @@ export default {
            } 
       });
 
-      this.saveCompletedForm([this.data, 4]);
+      this.saveCompletedForm([this.data[1], 4]);
       this.savePostStepFour();
       console.log(this.completedForm);
       } else {

@@ -243,7 +243,8 @@ export default {
           });
 
         }           
-      this.saveCompletedForm([this.dataPatrocinantes, 3]);
+      console.log(this.dataPatrocinantes[1]);
+      this.saveCompletedForm([this.dataPatrocinantes[1], 3]);
       this.savePostStepThree();
       console.log(this.completedForm);
       } else {
@@ -399,12 +400,6 @@ export default {
             this.$modal.hide('help-modal-1');
       },
 
-    
-    created() {
-
-    console.log(this.completedForm);
-    console.log(this.nroSolicitudGlobal);
-  }
     },
     computed: {
       ...mapState(['collapse', 
@@ -423,6 +418,12 @@ export default {
                   'emailPatrocinante2IsValid'
                   ])
     },
+
+    created() {
+
+      console.log(this.completedForm);
+      console.log(this.nroSolicitudGlobal);
+    }
     
 }
 </script>

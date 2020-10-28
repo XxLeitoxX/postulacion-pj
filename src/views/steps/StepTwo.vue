@@ -872,8 +872,8 @@
         }).catch(function (error) {
           console.log("AXIOS ERROR: ", error);
         });
-        this.completedForm.pop();
-        console.log(this.completedForm);
+        /*this.completedForm.pop();
+        console.log(this.completedForm);*/
       },
     },
 

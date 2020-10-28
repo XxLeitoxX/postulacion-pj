@@ -185,7 +185,10 @@
               <div class="c-form-steps__content step-data">
                 <div class="row">
                   <div class="col-md-12 col-lg-6 offset-lg-2">
-                    <button class="btn-grey" id="submitEnd">ENVIAR POSTULACIÓN<i class="fa fa-angle-right"></i></button>
+                    <button class="btn-grey" type="button" 
+                      id="submitEnd" @click="saveStepFive()">
+                        ENVIAR POSTULACIÓN<i class="fa fa-angle-right"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -286,12 +289,12 @@ export default {
         });
         console.log(this.stepFiveObject);
         this.saveCompletedForm(this.stepFiveObject);
-        this.savePost();
+        this.savePostFive();
         console.log(this.completedForm);
         this.stepFiveObject = [];
       },
 
-      savePost: function () {
+      savePostFive: function () {
           
         let stepFiveObject = this.completedForm;
         let data = JSON.stringify(stepFiveObject);

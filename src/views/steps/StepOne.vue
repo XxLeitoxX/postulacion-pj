@@ -1099,6 +1099,7 @@ export default {
     this.getCategory();
     //this.getStepOneRequest();
     //this.getSocietyType();
+    console.log(this.completedForm);
   },
 };
 </script>
