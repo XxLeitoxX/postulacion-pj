@@ -190,7 +190,7 @@
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form> -->
 
                   <vue-dropzone
-                    ref="myVueDropzone"
+                    ref="myVueDropzone2"
                     :useCustomSlot="true"
                     id="dropzone"
                     @vdropzone-upload-progress="uploadProgress"
@@ -528,6 +528,8 @@
           societyPercentage: '',
         }],
         partners: [],
+        lengthPartners: '',
+        sumPartners: 0,
         total: 0,
         totalPercentage: 0,
         totalEmployeesIsValid: '',
@@ -734,6 +736,9 @@
           //console.log(this.partners);
           console.log(this.partners);
           console.log(this.partners.length);
+          this.sumPartners = this.partners.length;
+          console.log(this.sumPartners);
+ 
         
       },
 
@@ -850,8 +855,8 @@
             firstPercentage: this.firstPercentage,
             secondPercentage: this.secondPercentage,
             volume: this.volume,
-            files: this.vueDropzoneFile,
-            partners: this.partners,
+            filesStepTwo: this.vueDropzoneFile,
+            partners: this.sumPartners,
             inputs: this.inputsPartner
           }
         });
