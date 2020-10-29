@@ -190,11 +190,6 @@ export default {
                        ]),
 
       save() {
-        
-
-
-
-
 
         if (this.rutPatrocinanteIsValid == true 
             && this.rutPatrocinante2IsValid == true 

@@ -33,7 +33,7 @@
                   <form action="#" id="step06_1">
                     <div class="input"  ref="rut">
                       <label>RUT del representante</label>
-                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @keyup="rutRepresentanteCChCIsValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)">
+                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @change="validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)" @keyup="rutRepresentanteCChCIsValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                       <div id="rutst02-error" class="formerror" v-if="rutRepresentanteCChCIsValid === false">Ingrese un rut Válido</div>
                     </div>
@@ -90,7 +90,7 @@
                       <p>Será la persona encargada de gestionar el pago de cuotas sociales ante la CChC.</p>
                       <div class="input" ref="rutContacto">
                         <label>RUT del contacto</label>
-                        <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value])" @keyup="validateRutContactoCobranzaExist($refs.rutContactoCob.value) , rutContactoCobIsValidation($refs.rutContactoCob.value)">
+                        <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value])" @keyup="validateRutContactoCobranzaExist($refs.rutContactoCob.value, $refs.nombreContacto, $refs.apellidoContacto, $refs.apellidoMaContacto) , rutContactoCobIsValidation($refs.rutContactoCob.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                         <div id="rutst02-error" class="formerror" v-if="rutContactoCobIsValid === false">Ingrese un rut Válido</div>
                       </div>
@@ -141,7 +141,7 @@
                             <div v-for="(item, index) in inputs" :key="index">
                               <div class="input" ref="rutRepre2">
                                 <label>RUT del representante<i>	(<i class="contador">{{ index + 1 }}</i> de<i class="total">{{ inputs.length }}</i>)</i></label>
-                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutRepreLegalIsValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index)" v-model="form.rutRepreLegal[index]">
+                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutRepreLegalIsValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index, $refs.nombreRepre2[index], $refs.apePatRepre2[index], $refs.apeMatRepre2[index])" v-model="form.rutRepreLegal[index]">
                                 <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                                 <div id="rutst02-error" class="formerror" v-if="rutRepreLegalIsValid === false">Ingrese un rut Válido</div>
                               </div>
@@ -382,7 +382,7 @@ export default {
         },
       }, 
       //Data form representante
-      dataRepresentante:[{
+      dataRepresentante:{
         rutRepre: '',
         nombreRepre: '',
         apellidoRepre: '',
@@ -391,7 +391,7 @@ export default {
         celRepre: '',
         emailRepre: '',
         date: '',
-      }],
+      },
       dateIsValid: '',
       //Data form contacto de cobranza
       dataContactoCobranza: {
@@ -553,6 +553,7 @@ export default {
       },
 
       saveContinue() {
+        console.log(this.validateInput());
         if (this.validateInput()) {
             this.save();
             //this.saveCompletedForm(this.data);
@@ -603,7 +604,7 @@ export default {
             && this.dataRepresentante.telRepre !== ''
             && this.dataRepresentante.celRepre !== ''
             && this.dataRepresentante.emailRepre !== '' 
-            //&& this.dataRepresentante.date !== '' 
+
             && this.dataContactoCobranza.rutContactoCob !== '' 
             && this.dataContactoCobranza.nombreContactoCob !== '' 
             && this.dataContactoCobranza.apellidoContacto !== '' 
@@ -624,8 +625,7 @@ export default {
             && this.rutRepreLegalIsValid == true
             && this.telRepreLegalIsValid == true
             && this.celRepreLegalIsValid == true
-            && this.emailRepreLegalIsValid == true 
-            && this.dateIsValid == true) {
+            && this.emailRepreLegalIsValid == true) {
             return true;
           }
         } else {
@@ -634,7 +634,6 @@ export default {
       },
 
       validateRutRepresentanteCchcExist(rut, refsNom, refsApe, refsApe2) {
-      
         if (this.rutPatrocinanteGlobal.length > 0) {
           if (this.rutPatrocinanteGlobal[0].rut1 !== rut && this.rutPatrocinanteGlobal[0].rut2 !== rut) {
 
@@ -642,12 +641,12 @@ export default {
           this.dataValidaciones = response.data;
           
           if (Object.keys(this.dataValidaciones).length !== 0) {
-
             if (this.dataValidaciones[0].ESTADO == "1") {
 
               this.dataRepresentante.nombreRepre = this.dataValidaciones[0].NOMBRE;
               this.dataRepresentante.apellidoRepre = this.dataValidaciones[0].APELLIDO_PAT;
               this.dataRepresentante.apellidoRepre2 = this.dataValidaciones[0].APELLIDO_MAT;
+              
               this.focus(refsNom);
               this.focus(refsApe);
               this.focus(refsApe2);
@@ -686,7 +685,7 @@ export default {
       
       },
 
-      validateRutContactoCobranzaExist(rut) {
+      validateRutContactoCobranzaExist(rut, refsNom, refsApe, refsApe2) {
         
         axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
           this.dataValidaciones = response.data;
@@ -698,6 +697,10 @@ export default {
               this.dataContactoCobranza.nombreContactoCob = this.dataValidaciones[0].NOMBRE;
               this.dataContactoCobranza.apellidoContacto = this.dataValidaciones[0].APELLIDO_PAT;
               this.dataContactoCobranza.apellidoMatContacto = this.dataValidaciones[0].APELLIDO_MAT;
+
+              this.focus(refsNom);
+              this.focus(refsApe);
+              this.focus(refsApe2);
 
             } else {
               alert("El Representante tiene que estar activo");
@@ -716,38 +719,8 @@ export default {
       
       },
 
-      validateRutRepresentanteLegalExist(rut) {
-        
-        axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
-          this.dataValidaciones = response.data;
-          
-          if (Object.keys(this.dataValidaciones).length !== 0) {
 
-            if (this.dataValidaciones[0].ESTADO == "1") {
-            
-              this.dataRepreLegal.nombreRepreLegal = this.dataValidaciones[0].NOMBRE;
-              this.dataRepreLegal.apePatRepreLegal = this.dataValidaciones[0].APELLIDO_PAT;
-              this.dataRepreLegal.apeMatReprelegal = this.dataValidaciones[0].APELLIDO_MAT;
-
-            } else {
-              alert("El Representante tiene que estar activo");
-            }
-            
-          }else {
-            this.dataRepreLegal.nombreRepreLegal = "";
-            this.dataRepreLegal.apePatRepreLegal= "";
-            this.dataRepreLegal.apeMatReprelegal = "";
-          }
-          
- 
-        }).catch(function (error) {
-        console.log("AXIOS ERROR: ", error);
-        });
-      
-      },
-
-
-      validateRutRepresentanteLegalFormExist(rut, index) {
+      validateRutRepresentanteLegalFormExist(rut, index, refsNom, refsApe, refsApe2) {
     
         axios.get(this.urlBase+'/validarRepresentantes/' + rut).then((response) => {
           this.dataValidaciones = response.data;
@@ -759,6 +732,10 @@ export default {
               this.form.nomRepreLegal[index] = this.dataValidaciones[0].NOMBRE;
               this.form.apePatRepreLegal[index] = this.dataValidaciones[0].APELLIDO_PAT;
               this.form.apeMatReprelegal[index] = this.dataValidaciones[0].APELLIDO_MAT;
+              
+              this.focus(refsNom);
+              this.focus(refsApe);
+              this.focus(refsApe2);
 
             } else {
               alert("El Representante tiene que estar activo");
@@ -823,7 +800,6 @@ export default {
 
     created: function () {
       //this.llenar();
-      this.validateInput();
     }
 
     
