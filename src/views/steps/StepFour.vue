@@ -626,7 +626,6 @@ export default {
             && this.celRepreLegalIsValid == true
             && this.emailRepreLegalIsValid == true 
             && this.dateIsValid == true) {
-              
             return true;
           }
         } else {

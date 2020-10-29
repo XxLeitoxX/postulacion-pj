@@ -347,11 +347,18 @@ export default {
       },
 
       validateInput() {
+        
+
+        //console.log(this.rutPatrocinanteIsValid, this.rutPatrocinante2IsValid, this.telPatrocinanteIsValid, this.telPatrocinante2IsValid, this.emailIsValid);
         if (this.rutParticipante !== '' && this.nombreParticipante !== '' && this.emailParticipante !== '' 
             && this.telefonoParticipante !== '' && this.rutParticipante2 !== '' && this.nombreParticipante2 !== ''
             && this.emailParticipante2 !== '' && this.telefonoParticipante2 !== '') {
-          if (this.rutPatrocinanteIsValid == true && this.rutParticipante2 == true 
-              && this.telPatrocinanteIsValid == true && this.telPatrocinante2IsValid == true && this.emailIsValid == true) {
+          if (this.rutPatrocinanteIsValid == true 
+              && this.rutPatrocinante2IsValid == true 
+              && this.telPatrocinanteIsValid == true 
+              && this.telPatrocinante2IsValid == true 
+              && this.emailPatrocinanteIsValid == true
+              && this.emailPatrocinante2IsValid == true) {
             return true;
           }
         } else {
@@ -360,6 +367,7 @@ export default {
       },
 
       saveContinue() {
+        console.log(this.validateInput());
         if (this.validateInput()) {
           this.save();
           //this.$router.push({ name: "StepFour" });
