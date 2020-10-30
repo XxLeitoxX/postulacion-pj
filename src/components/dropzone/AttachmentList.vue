@@ -14,7 +14,7 @@
             
           </div>
         </div>
-      <button title="Delete this file" @click="removeThisFile(tempAttachment)">Borrar archivo</button>
+      <button title="Delete this file" @click="removeFile()">Borrar archivo</button>
       </li>
     </ul>
   </div>
@@ -27,10 +27,10 @@ export default {
     checkProgress(attachment) {
       return attachment.progress === null ? false : true;
     },
-    removeThisFile: function(thisFile){
+    removeFile: function(){
       //thisFile = '';
-      console.log("File removed!")
-      console.log(thisFile)
+      console.log(this.$refs.myVueDropzone2)
+
     }
   },
   props: {

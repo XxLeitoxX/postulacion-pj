@@ -93,6 +93,12 @@ export default {
           }
         }
       },
+
+      removeFile(file, error, xhr) {
+        console.log("File removed! Test")
+        console.log(this.$refs.myVueDropzone2)
+        this.$refs.myVueDropzone2.removeFile();
+      }
    },
 
    computed: {

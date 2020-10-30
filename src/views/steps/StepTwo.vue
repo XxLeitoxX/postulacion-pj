@@ -198,6 +198,7 @@
                     @vdropzone-file-added="fileAdded"
                     @vdropzone-sending-multiple="sendingFiles"
                     @vdropzone-success-multiple="success"
+                    @vdropzone-removed-file="removeFile"
                     class="border"
                   >
                     <div class="dropzone-custom-content svg">
@@ -207,10 +208,10 @@
                       </div>
                     </div>
                   </vue-dropzone>
-                  <AttachmentList
+                  <!-- <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
-                  />
+                  /> -->
                   <div
                     id="email2st02-errord"
                     class="errorlogin"
@@ -218,9 +219,16 @@
                       Ingrese un archivo
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
+          <!-- <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions2">
+             <div class="dropzone-custom-content">
+        <h3 class="dropzone-custom-title">Drag and drop to upload content!</h3>
+        <div class="subtitle">...or click to select a file from your computer</div>
+      </div>
+          </vue-dropzone> -->
           <div class="c-form-steps whitebg small" ref="collapseC">
             <div class="container">
               <a class="section-minimizar pointer" ref="collapseComp"
@@ -560,14 +568,16 @@
           paramName: function (n) {
             return "file[]";
           },
-          dictDefaultMessage: "Upload Files Here xD",
-          includeStyling: false,
-          previewsContainer: false,
+          //dictDefaultMessage: "Upload Files Here xD",
+          //includeStyling: false,
+          //previewsContainer: false,
           thumbnailWidth: 250,
           thumbnailHeight: 140,
           uploadMultiple: true,
           parallelUploads: 20,
           addRemoveLinks: true,
+          dictRemoveFile: 'Eliminar archivo',
+          dictCancelUpload: 'Cancelar subida'
         },
 
         stepTwoObject: [],

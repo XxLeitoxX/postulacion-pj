@@ -293,10 +293,10 @@
                         </div>
                       </div>
                     </vue-dropzone>
-                    <AttachmentList
+                    <!-- <AttachmentList
                       :tempAttachments="getTempAttachments"
                       :attachments="getAttachments"
-                    />
+                    /> -->
                     <div
                       id="email2st02-errord"
                       class="errorlogin"
@@ -652,14 +652,16 @@ export default {
         paramName: function (n) {
           return "file[]";
         },
-        dictDefaultMessage: "Upload Files Here xD",
-        includeStyling: false,
-        previewsContainer: false,
+        //dictDefaultMessage: "Upload Files Here xD",
+        //includeStyling: false,
+        //previewsContainer: false,
         thumbnailWidth: 250,
         thumbnailHeight: 140,
         uploadMultiple: true,
         parallelUploads: 20,
         addRemoveLinks: true,
+        dictRemoveFile: 'Eliminar archivo',
+        dictCancelUpload: 'Cancelar subida'
       },
 
       stepOneObject: [],
