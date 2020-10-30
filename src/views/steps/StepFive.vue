@@ -120,14 +120,15 @@
                   <!-- <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
                   <form class="dropzone dropzone-custom small-drop02" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span></form> -->
                   <vue-dropzone
-                    ref="myVueDropzone"
+                    ref="myVueDropzone4"
                     :useCustomSlot="true"
                     id="dropzone"
                     @vdropzone-upload-progress="uploadProgress"
-                    :options="dropzoneOptions"
+                    :options="dropzoneOptions3"
                     @vdropzone-file-added="fileAdded"
                     @vdropzone-sending-multiple="sendingFiles"
                     @vdropzone-success-multiple="success"
+                    @vdropzone-removed-file="removeFile"
                     class="border"
                   >
                     <div class="dropzone-custom-content svg">
@@ -137,10 +138,10 @@
                       </div>
                     </div>
                   </vue-dropzone>
-                  <AttachmentList
+                 <!--  <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
-                  />
+                  /> -->
                   <div
                     id="email2st02-errord"
                     class="errorlogin"
@@ -153,7 +154,7 @@
                     :useCustomSlot="true"
                     id="dropzone"
                     @vdropzone-upload-progress="uploadProgress"
-                    :options="dropzoneOptions3"
+                    :options="dropzoneOptions4"
                     @vdropzone-file-added="fileAdded"
                     @vdropzone-sending-multiple="sendingFiles"
                     @vdropzone-success-multiple="success"
@@ -226,29 +227,6 @@ export default {
       vueDropzoneFile: [],
         tempAttachments: [],
         attachments: [],
-        dropzoneOptions: {
-          // The Url Where Dropped or Selected files will be sent
-          url: `https://httpbin.org/post`,
-          // File Size allowed in MB
-          maxFilesize: 102400000,
-          // Authentication Headers like Access_Token of your application
-          headers: {
-            Authorization: `Access Token`,
-          },
-          // The way you want to receive the files in the server
-          paramName: function (n) {
-            return "file[]";
-          },
-          dictDefaultMessage: "Upload Files Here xD",
-          includeStyling: false,
-          previewsContainer: false,
-          thumbnailWidth: 250,
-          thumbnailHeight: 140,
-          uploadMultiple: true,
-          parallelUploads: 20,
-          addRemoveLinks: true,
-        },
-
         dropzoneOptions3: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
@@ -262,14 +240,41 @@ export default {
           paramName: function (n) {
             return "file[]";
           },
-          dictDefaultMessage: "Upload Files Here xD",
-          includeStyling: false,
-          previewsContainer: false,
+          //dictDefaultMessage: "Upload Files Here xD",
+          //includeStyling: false,
+          //previewsContainer: false,
           thumbnailWidth: 250,
           thumbnailHeight: 140,
           uploadMultiple: true,
           parallelUploads: 20,
           addRemoveLinks: true,
+          dictRemoveFile: 'Eliminar archivo',
+          dictCancelUpload: 'Cancelar subida'
+        },
+
+        dropzoneOptions4: {
+          // The Url Where Dropped or Selected files will be sent
+          url: `https://httpbin.org/post`,
+          // File Size allowed in MB
+          maxFilesize: 102400000,
+          // Authentication Headers like Access_Token of your application
+          headers: {
+            Authorization: `Access Token`,
+          },
+          // The way you want to receive the files in the server
+          paramName: function (n) {
+            return "file[]";
+          },
+          //dictDefaultMessage: "Upload Files Here xD",
+          //includeStyling: false,
+          //previewsContainer: false,
+          thumbnailWidth: 250,
+          thumbnailHeight: 140,
+          uploadMultiple: true,
+          parallelUploads: 20,
+          addRemoveLinks: true,
+          dictRemoveFile: 'Eliminar archivo',
+          dictCancelUpload: 'Cancelar subida'
         },
 
         stepFiveObject: []
