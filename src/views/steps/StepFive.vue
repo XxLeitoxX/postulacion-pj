@@ -119,7 +119,7 @@
                   <p class="u-mb50">La Cámara insta a sus socios a comprometerse con las mejores prácticas empresariales y de la industria. Es por ello que pedimos acreditarlas con los siguientes documentos</p>
                   <!-- <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
                   <form class="dropzone dropzone-custom small-drop02" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span></form> -->
-                 <!--  <vue-dropzone
+                  <vue-dropzone
                     ref="myVueDropzone3"
                     :useCustomSlot="true"
                     id="dropzone3"
@@ -137,7 +137,7 @@
 
                       </div>
                     </div>
-                  </vue-dropzone> -->
+                  </vue-dropzone>
                  <!--  <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
@@ -227,7 +227,7 @@ export default {
       //vueDropzoneFile: [],
         /*tempAttachments: [],
         attachments: [],*/
-        /*dropzoneOptions3: {
+        dropzoneOptions3: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
@@ -250,7 +250,7 @@ export default {
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida'
-        },*/
+        },
 
         /*dropzoneOptions4: {
           // The Url Where Dropped or Selected files will be sent

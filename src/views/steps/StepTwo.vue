@@ -189,7 +189,7 @@
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form> -->
 
-                  <!-- <vue-dropzone
+                  <vue-dropzone
                     ref="myVueDropzone2"
                     :useCustomSlot="true"
                     id="dropzone2"
@@ -207,7 +207,7 @@
 
                       </div>
                     </div>
-                  </vue-dropzone> -->
+                  </vue-dropzone>
                   <!-- <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
@@ -555,7 +555,7 @@
         //vueDropzoneFile: [],
         /*tempAttachments: [],
         attachments: [],*/
-        /*dropzoneOptions2: {
+        dropzoneOptions2: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
@@ -578,7 +578,7 @@
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida'
-        },*/
+        },
 
         stepTwoObject: [],
       }
