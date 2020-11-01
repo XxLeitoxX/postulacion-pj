@@ -189,10 +189,10 @@
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload" id="dz-form"></form> -->
 
-                  <vue-dropzone
+                  <!-- <vue-dropzone
                     ref="myVueDropzone2"
                     :useCustomSlot="true"
-                    id="dropzone"
+                    id="dropzone2"
                     @vdropzone-upload-progress="uploadProgress"
                     :options="dropzoneOptions2"
                     @vdropzone-file-added="fileAdded"
@@ -207,7 +207,7 @@
 
                       </div>
                     </div>
-                  </vue-dropzone>
+                  </vue-dropzone> -->
                   <!-- <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
@@ -553,9 +553,9 @@
         formIsValid: '',
 
         //vueDropzoneFile: [],
-        tempAttachments: [],
-        attachments: [],
-        dropzoneOptions2: {
+        /*tempAttachments: [],
+        attachments: [],*/
+        /*dropzoneOptions2: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
@@ -578,7 +578,7 @@
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida'
-        },
+        },*/
 
         stepTwoObject: [],
       }
@@ -834,7 +834,7 @@
           || this.secondPercentage == ""
           || this.volume == ""
           || this.vueDropzoneFile == ""
-          || this.partners == ""
+          //|| this.partners == ""
           || this.inputsPartner[0].name == ""
           || this.inputsPartner[0].fatherLastname == ""
           || this.inputsPartner[0].motherLastname == ""

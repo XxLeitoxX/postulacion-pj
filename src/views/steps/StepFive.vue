@@ -119,10 +119,10 @@
                   <p class="u-mb50">La Cámara insta a sus socios a comprometerse con las mejores prácticas empresariales y de la industria. Es por ello que pedimos acreditarlas con los siguientes documentos</p>
                   <!-- <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
                   <form class="dropzone dropzone-custom small-drop02" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span></form> -->
-                  <vue-dropzone
-                    ref="myVueDropzone4"
+                 <!--  <vue-dropzone
+                    ref="myVueDropzone3"
                     :useCustomSlot="true"
-                    id="dropzone"
+                    id="dropzone3"
                     @vdropzone-upload-progress="uploadProgress"
                     :options="dropzoneOptions3"
                     @vdropzone-file-added="fileAdded"
@@ -137,7 +137,7 @@
 
                       </div>
                     </div>
-                  </vue-dropzone>
+                  </vue-dropzone> -->
                  <!--  <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
@@ -150,9 +150,9 @@
                   </div>
                   <br>
                   <!-- <vue-dropzone
-                    ref="myVueDropzone"
+                    ref="myVueDropzone4"
                     :useCustomSlot="true"
-                    id="dropzone"
+                    id="dropzone4"
                     @vdropzone-upload-progress="uploadProgress"
                     :options="dropzoneOptions4"
                     @vdropzone-file-added="fileAdded"
@@ -224,10 +224,10 @@ export default {
       data: [{}],
       active: '',
       dropzoneIsValid: '',
-      vueDropzoneFile: [],
-        tempAttachments: [],
-        attachments: [],
-        dropzoneOptions3: {
+      //vueDropzoneFile: [],
+        /*tempAttachments: [],
+        attachments: [],*/
+        /*dropzoneOptions3: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
@@ -250,9 +250,9 @@ export default {
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida'
-        },
+        },*/
 
-        dropzoneOptions4: {
+        /*dropzoneOptions4: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
@@ -275,7 +275,7 @@ export default {
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida'
-        },
+        },*/
 
         stepFiveObject: []
      

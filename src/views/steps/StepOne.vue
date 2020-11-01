@@ -23,7 +23,7 @@
                         v-model="rutCompany"
                         ref="rutCompany"
                         @focus="focus($refs.rut)"
-                        @blur="blur([$refs.rut, $refs.rutCompany.value]), getNroSolicitud($refs.rutCompany.value)"
+                        @blur="blur([$refs.rut, $refs.rutCompany.value]), getNroSolicitud($refs.rutCompany.value), companyRutValidation($refs.rutCompany.value)"
                         @keyup="rutValidation($refs.rutCompany.value)"
                       />
                       <div class="small-text">
@@ -284,7 +284,7 @@
                       @vdropzone-file-added="fileAdded"
                       @vdropzone-sending-multiple="sendingFiles"
                       @vdropzone-success-multiple="success"
-                      @drag="dropZoneValidation($event)"
+                      @vdropzone-removed-file="removeFile"
                       class="border">
                       <div class="dropzone-custom-content svg">
                         
@@ -587,6 +587,7 @@ export default {
     return {
       //Step One Variables
       rutCompany: '',
+      rutCompanyValidation: '',
       fantasyName: '',
       businessName: '',
       date: '',
@@ -718,6 +719,10 @@ export default {
       "getCategory",
       "companyBackgroundUpload",
     ]),
+
+    click() {
+      alert("hey");
+    },
 
     //Validation Input error
     fantasyValidation() {
@@ -1037,6 +1042,8 @@ export default {
       let requestNumber = number;
       axios.get(this.urlBase + '/paso1/' + requestNumber).then((response) => {
         let stepOneSaved = response.data;
+        console.log(stepOneSaved);
+        console.log(stepOneSaved[0].object);
         this.getStepOne = JSON.parse(stepOneSaved[0].object);
         console.log(this.getStepOne);
       }).catch(function (error) {
@@ -1056,6 +1063,24 @@ export default {
         console.log("AXIOS ERROR: ", error);
       });
     },
+
+    companyRutValidation (rut) {
+      let rutCompany = rut;
+      axios.get(this.urlBase + '/rutEmpresa/' + rutCompany).then((response) => {
+        let rutEmpresa = response.data;
+        this.rutCompanyValidation = rutEmpresa;
+        console.log(this.rutCompanyValidation);
+        console.log(this.rutCompanyValidation.length);
+        //console.log(this.rutCompanyValidation[0]);
+        if (this.rutCompanyValidation.length > 0) {
+          alert("Rut ingresado no corresponde a rut de empresa");
+          this.setRutIsValid(false);
+        }
+        //console.log(this.tipoSocDocs);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    }
 
   },
 

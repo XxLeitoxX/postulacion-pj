@@ -4,7 +4,10 @@ export default {
     AttachmentList: AttachmentList
   },
    data () {
-      msg: ''
+      return {
+        msg: '',
+        fileAttacthed: []
+      }
    },
    created: function () {
       console.log('Printing from the Mixin')
@@ -17,7 +20,8 @@ export default {
       fileAdded(file) {
         console.log("File Dropped => ", file);
         console.log(file.type);
-        console.log(this.VueDropzoneFile);
+        this.fileAttacthed.push(file);
+        console.log(this.fileAttacthed);
         //this.dropzoneOptions.dictDefaultMessage = file;
         if (file.type == "application/pdf" || 
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
@@ -85,6 +89,7 @@ export default {
             console.log("File uploaded successfully");
             console.log("Response is ->", response);
             console.log("file is ->", file[i]);
+            console.log("file sin i ->", file);
             this.setVueDropzoneFile(file);
             this.companyBackgroundUpload();
             //this.test(response);
@@ -95,9 +100,16 @@ export default {
       },
 
       removeFile(file, error, xhr) {
-        console.log("File removed! Test")
-        console.log(this.$refs.myVueDropzone2)
-        this.$refs.myVueDropzone2.removeFile();
+        console.log(this.fileAttacthed)
+        console.log(this.fileAttacthed.length)
+        for(var i=0; i<this.fileAttacthed.length; i++) {
+          console.log(this.fileAttacthed[i]);
+          this.fileAttacthed.splice(i, 1, '');
+          console.log(this.fileAttacthed[i]);
+        }
+        console.log(this.$refs.myVueDropzone)
+        //console.log(this.$refs.myVueDropzone2)
+        //this.$refs.myVueDropzone2.removeFile();
       }
    },
 
