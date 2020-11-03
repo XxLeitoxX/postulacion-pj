@@ -69,10 +69,8 @@
                         @focus="focus($refs.businessName)"
                         @blur="
                           blur([
-                            $refs.businessName,
-                            $refs.businessNameClass.value,
-                          ])
-                        "
+                            $refs.businessName, $refs.businessNameClass.value,]), 
+                            getGlobalBusinessName($refs.businessNameClass.value)"
                         @keyup="businessNameValidation()"
                       />
                       <div
@@ -709,7 +707,9 @@ export default {
       "tipoSocSendDoc",
       "setStepTwoValue",
       "setStepOneValue",
-      "setCompletedForm"
+      "setCompletedForm",
+      "getRutGlobal",
+      "getGlobalBusinessName"
     ]),
     ...mapActions([
       "getRegion",
@@ -969,9 +969,11 @@ export default {
 
     test() {
       console.log("test");
+      //this.companyBackgroundUpload();
     },
 
     saveStepOne () {
+      this.companyBackgroundUpload();
       this.stepOneObject.push({
         stepOne: {
           rut: this.rutCompany,
@@ -1075,6 +1077,8 @@ export default {
         if (this.rutCompanyValidation.length > 0) {
           alert("Rut ingresado no corresponde a rut de empresa");
           this.setRutIsValid(false);
+        } else {
+          this.getRutGlobal(rutCompany);
         }
         //console.log(this.tipoSocDocs);
       }).catch(function (error) {
@@ -1106,7 +1110,8 @@ export default {
       "URL",
       "nroSolicitudGlobal",
       "tipoSocDocs",
-      "showStepTwo"
+      "showStepTwo",
+      "fileAttacthed"
 
     ]),
 
@@ -1131,7 +1136,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .background {
   background: #f0f0f0;
 }
@@ -1159,8 +1164,8 @@ export default {
 }
 
 .border {
-  background: url(../../assets/img/draganddrop.png) no-repeat !important;
-  border: 0;
+  /*background: url(../../assets/img/draganddrop.png) no-repeat !important;*/
+  border: 1;
   height: 194px;
   width: 652px;
 }

@@ -40,6 +40,10 @@ export default new Vuex.Store({
 	emailGlobal: '',
 	collapse: 'EXPANDIR',
 	vueDropzoneFile: [],
+	vueDropzoneFileTwo: [],
+	vueDropzoneFileThree: [],
+	vueDropzoneFileFour: [],
+	fileAttacthed: [],
 	//resLimitadaDocsShow: false,
 	resLimitadaDocs: [],
 	socResLimitadaDocs: [],
@@ -53,12 +57,14 @@ export default new Vuex.Store({
 	tipoSocDocs: [],
 	completedForm: [], 
 	rutGlobal: '',
+	globalBusinessName: '',
 	nroSolicitudGlobal: '',
 	showStepOne: true,
 	showStepTwo: false,
 	showStepThree: false,
 	showStepFour: false,
 	showStepFive: false,
+	showStepSix: false,
 	tab1: 'form-tab tab01 active',
 	tab2: 'form-tab tab02',
 	tab3: 'form-tab tab03',
@@ -164,6 +170,9 @@ export default new Vuex.Store({
 			console.log(state.completedForm);
 		} else if (step[1] == 4) {
 			state.completedForm.splice(4, 1, step[0]);
+			console.log(state.completedForm);
+		} else if (step[1] == 5){
+			state.completedForm.splice(5, 1, step[0][0]);
 			console.log(state.completedForm);
 		}
 	},
@@ -488,6 +497,25 @@ export default new Vuex.Store({
     setVueDropzoneFile(state, newFile) {
     	console.log(newFile);
       state.vueDropzoneFile = newFile;
+    	console.log(state.vueDropzoneFile);
+    },
+
+    setVueDropzoneFileTwo(state, newFile) {
+    	console.log(newFile);
+      state.vueDropzoneFileTwo = newFile;
+    	console.log(state.vueDropzoneFileTwo);
+    },
+
+    setVueDropzoneFileThree(state, newFile) {
+    	console.log(newFile);
+      state.vueDropzoneFileThree = newFile;
+    	console.log(state.vueDropzoneFileThree);
+    },
+
+    setVueDropzoneFileFour(state, newFile) {
+    	console.log(newFile);
+      state.vueDropzoneFileFour = newFile;
+    	console.log(state.vueDropzoneFileFour);
     },
 
     setRutIsValid(state, newRutIsValid) {
@@ -544,6 +572,11 @@ export default new Vuex.Store({
     	console.log(state.showStepFive);
     },
 
+    setStepSixValue(state, newValue) {
+    	state.showStepSix = newValue;
+    	console.log(state.showStepSix);
+    },
+
     setCompletedForm(state, newCompletedForm) {
     	state.completedForm = newCompletedForm;
     	console.log(state.completedForm);
@@ -578,8 +611,14 @@ export default new Vuex.Store({
 		state.rutPartnersGlobal = parners;
 	},
 
-	getRutGlobal(state, rut) {
-		state.rutGlobal = rut;
+	getRutGlobal(state, newRut) {
+		state.rutGlobal = newRut;
+		console.log("Rut global: " + newRut);
+	},
+
+	getGlobalBusinessName(state, newBusinessName) {
+		state.globalBusinessName = newBusinessName;
+		console.log("Business Name: " + newBusinessName);
 	},
 
 	tipoSocSendDoc(state, tipo) {
@@ -780,13 +819,118 @@ export default new Vuex.Store({
 		for( var i = 0; i < state.vueDropzoneFile.length; i++ ){
 		  console.log("inside for");
 		  let file = state.vueDropzoneFile[i];
-
-		  formData.append('files[' + i + ']', file);
 		  console.log(file);
+		  formData.append('files[' + i + ']', file);
+		  console.log(formData);
 		}
 
 		//let fd = new FormData();
       	//fd.append('file', state.vueDropzoneFile)
+		axios.post( state.URL+'/uploadfile',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+	  },
+
+	  companyBackgroundUploadTwo: async function({state}) {
+		console.log(state.vueDropzoneFileTwo);
+
+		let formData = new FormData();
+		/*
+		  Iteate over any file sent over appending the files
+		  to the form data.
+		*/
+		  console.log("before for");
+		  console.log(state.vueDropzoneFileTwo.length);
+		for( var i = 0; i < state.vueDropzoneFileTwo.length; i++ ){
+		  console.log("inside for");
+		  let file = state.vueDropzoneFileTwo[i];
+		  console.log(file);
+		  formData.append('files[' + i + ']', file);
+		  console.log(formData);
+		}
+
+		//let fd = new FormData();
+      	//fd.append('file', state.vueDropzoneFileTwo)
+		axios.post( state.URL+'/uploadfile',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+	  },
+
+	  companyBackgroundUploadThree: async function({state}) {
+		console.log(state.vueDropzoneFileThree);
+
+		let formData = new FormData();
+		/*
+		  Iteate over any file sent over appending the files
+		  to the form data.
+		*/
+		  console.log("before for");
+		  console.log(state.vueDropzoneFileThree.length);
+		for( var i = 0; i < state.vueDropzoneFileThree.length; i++ ){
+		  console.log("inside for");
+		  let file = state.vueDropzoneFileThree[i];
+		  console.log(file);
+		  formData.append('files[' + i + ']', file);
+		  console.log(formData);
+		}
+
+		//let fd = new FormData();
+      	//fd.append('file', state.vueDropzoneFileThree)
+		axios.post( state.URL+'/uploadfile',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+	  },
+
+	  companyBackgroundUploadFour: async function({state}) {
+		console.log(state.vueDropzoneFileFour);
+
+		let formData = new FormData();
+		/*
+		  Iteate over any file sent over appending the files
+		  to the form data.
+		*/
+		  console.log("before for");
+		  console.log(state.vueDropzoneFileFour.length);
+		for( var i = 0; i < state.vueDropzoneFileFour.length; i++ ){
+		  console.log("inside for");
+		  let file = state.vueDropzoneFileFour[i];
+		  console.log(file);
+		  formData.append('files[' + i + ']', file);
+		  console.log(formData);
+		}
+
+		//let fd = new FormData();
+      	//fd.append('file', state.vueDropzoneFileFour)
 		axios.post( state.URL+'/uploadfile',
                 formData,
                 {

@@ -195,11 +195,11 @@
                     id="dropzone2"
                     @vdropzone-upload-progress="uploadProgress"
                     :options="dropzoneOptions2"
-                    @vdropzone-file-added="fileAdded"
+                    @vdropzone-file-added="fileAdded2"
                     @vdropzone-sending-multiple="sendingFiles"
-                    @vdropzone-success-multiple="success"
-                    @vdropzone-removed-file="removeFile"
-                    class="border"
+                    @vdropzone-success-multiple="success2"
+                    @vdropzone-removed-file="removeFile2"
+                    class="border2"
                   >
                     <div class="dropzone-custom-content svg">
                       
@@ -208,6 +208,7 @@
                       </div>
                     </div>
                   </vue-dropzone>
+                  
                   <!-- <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
@@ -215,7 +216,7 @@
                   <div
                     id="email2st02-errord"
                     class="errorlogin"
-                    v-if="dropzoneIsValid === false">
+                    v-if="dropzoneTwoIsValid === false">
                       Ingrese un archivo
                   </div>
                 </div>
@@ -545,16 +546,15 @@
         firstPercentageIsValid: '',
         secondPercentageIsValid: '',
         volumeIsValid: '',
-        dropzoneIsValid: '',
+        dropzoneTwoIsValid: '',
         nameIsValid: '',
         fatherLastnameIsValid: '',
         motherLastnameIsValid: '',
         societyPercentageIsValid: '',
         formIsValid: '',
 
-        //vueDropzoneFile: [],
-        /*tempAttachments: [],
-        attachments: [],*/
+        tempAttachments: [],
+        attachments: [],
         dropzoneOptions2: {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
@@ -603,11 +603,12 @@
         "setStepTwoValue",
         "setStepThreeValue",
         "saveCompletedForm",
-        "getRutParnersGlobal"
+        "getRutParnersGlobal",
+        "setVueDropzoneFileTwo"
       ]),
 
       ...mapActions([
-        "companyBackgroundUpload",
+        "companyBackgroundUploadTwo",
         "getTotalEmployees",
         "getRange",
       ]),
@@ -808,10 +809,10 @@
 
         this.volumeValidation();
 
-        if (this.vueDropzoneFile == "") {
-          this.dropzoneIsValid = false;
+        if (this.vueDropzoneFileTwo == "") {
+          this.dropzoneTwoIsValid = false;
         } else {
-          this.dropzoneIsValid = true;
+          this.dropzoneTwoIsValid = true;
         }
 
         /*if (this.partners == "") {
@@ -833,7 +834,7 @@
           || this.firstPercentage == ""
           || this.secondPercentage == ""
           || this.volume == ""
-          || this.vueDropzoneFile == ""
+          || this.vueDropzoneFileTwo == ""
           //|| this.partners == ""
           || this.inputsPartner[0].name == ""
           || this.inputsPartner[0].fatherLastname == ""
@@ -858,6 +859,7 @@
 
       saveSteptwo() {
         //this.addPartner();
+        this.companyBackgroundUploadTwo();
         this.stepTwoObject.push({
           stepTwo: {
             totalEmployees: this.selectedTotalEmployees,
@@ -865,7 +867,7 @@
             firstPercentage: this.firstPercentage,
             secondPercentage: this.secondPercentage,
             volume: this.volume,
-            filesStepTwo: this.vueDropzoneFile,
+            filesStepTwo: this.vueDropzoneFileTwo,
             partners: this.sumPartners,
             inputs: this.inputsPartner
           }
@@ -875,7 +877,7 @@
         this.savePostStepTwo();
         this.getRutParnersGlobal(this.partners);
         console.log(this.completedForm);
-        //this.stepTwoObject = [];
+        this.stepTwoObject = [];
       },
 
       savePostStepTwo: function () {
@@ -890,6 +892,10 @@
         /*this.completedForm.pop();
         console.log(this.completedForm);*/
       },
+
+      test() {
+        //this.companyBackgroundUpload();
+      }
     },
 
     computed: {
@@ -900,7 +906,7 @@
         "totalEmployees",
         "range",
         "rutIsValid",
-        "vueDropzoneFile,",
+        "vueDropzoneFileTwo",
         "completedForm",
         "tipoSocDocs",
         "URL"
@@ -941,9 +947,9 @@
   height: 100px;
 }
 
-.border {
-  background: url(../../assets/img/draganddrop.png) no-repeat !important;
-  border: 0;
+.border2 {
+  /*background: url(../../assets/img/draganddrop.png) no-repeat !important;*/
+  border: 1;
   height: 194px;
   width: 652px;
 }
