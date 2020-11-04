@@ -58,7 +58,11 @@ export default new Vuex.Store({
 	completedForm: [], 
 	rutGlobal: '',
 	globalBusinessName: '',
+	globalRequestNumber: '',
 	nroSolicitudGlobal: '',
+	statusRequestGlobal: [],
+	processStageRequest: [],
+	finalStatus: '',
 	showStepOne: true,
 	showStepTwo: false,
 	showStepThree: false,
@@ -594,6 +598,11 @@ export default new Vuex.Store({
 		});
 	},
 
+	saveRequestNumber(state, number) {
+		state.globalRequestNumber = number;
+		console.log(state.globalRequestNumber);
+	},
+
 	emailRecoveryCode(state, email) {
 		state.emailRecoveryCodeGlobal = email;
 	},
@@ -618,7 +627,35 @@ export default new Vuex.Store({
 
 	getGlobalBusinessName(state, newBusinessName) {
 		state.globalBusinessName = newBusinessName;
-		console.log("Business Name: " + newBusinessName);
+		console.log("Business Name: " + state.globalBusinessName);
+	},
+
+	saveStatusRequest(state, newStatusRequest) {
+		console.log("Status Request: " + newStatusRequest);
+		state.statusRequestGlobal.push(newStatusRequest);
+		console.log("Status Request: " + state.statusRequestGlobal[0].id_conecta);
+	},
+
+	saveProcessStage(state, newProcess) {
+		state.processStageRequest.push(newProcess);
+		console.log("Stage: " + state.processStageRequest[0].SOL_ID);
+		if (state.processStageRequest[0].SOL_ID == 3) {
+			state.finalStatus = "Postulación enviada";
+		} else if (state.processStageRequest[0].SOL_ID == 11) {
+			state.finalStatus = "Verificación de Antecedentes";
+		} else if (state.processStageRequest[0].SOL_ID == 12) {
+			state.finalStatus = "Verificación de Antecedentes";
+		} else if (state.processStageRequest[0].SOL_ID == 13) {
+			state.finalStatus = "Verificación de Antecedentes";
+		} else if (state.processStageRequest[0].SOL_ID == 4) {
+			state.finalStatus = "Evaluación de comisión de socios";
+		} else if (state.processStageRequest[0].SOL_ID == 5) {
+			state.finalStatus = "Revisión del Directorio";
+		} else if (state.processStageRequest[0].SOL_ID == 6) {
+			state.finalStatus = "El Área Socios se contactará telefónicamente con usted";
+		} else if (state.processStageRequest[0].SOL_ID == 8) {
+			state.finalStatus = "Corrección de antecedentes";
+		}
 	},
 
 	tipoSocSendDoc(state, tipo) {

@@ -1,5 +1,6 @@
 <template>
- <main role="main">
+  <div>
+    <main role="main" v-if="homeContent">
       <div class="c-login">
         <div class="container">
           <div class="row">
@@ -21,15 +22,22 @@
                 <form action="#" id="loginform">
                   <div class="input" ref="rut">
                     <label>RUT DE LA EMPRESA</label>
-                    <input type="text" name="loginrut" ref="rutInput" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutInput.value])" v-model="rut" @keyup="rutValidation($refs.rutInput.value)" />
+                    <input type="text" name="loginrut" ref="rutInput" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutInput.value]), getRequestNumber($refs.rutInput.value)" 
+                      v-model="rut" @keyup="rutValidation($refs.rutInput.value)" />
                     <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
                     <div id="loginrut-error" class="errorlogin" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                   </div>
                   <div class="input" ref="solicitud">
                     <label>NÚMERO DE SOLICITUD</label>
-                    <input type="text" name="loginsolicitud" ref="requestInput" @focus="focus($refs.solicitud)" @blur="blur([$refs.solicitud, $refs.requestInput.value])" v-model="numeroSolicitud"><span aria-label="Este número fue enviado al correo electrónico de la persona que inició el proceso" data-microtip-position="right" role="tooltip">?</span>
+                    <input type="text" name="loginsolicitud" ref="requestInput" @focus="focus($refs.solicitud)" @blur="blur([$refs.solicitud, $refs.requestInput.value])" v-model="numeroSolicitud" 
+                    @keyup="requestNumberValidation()">
+                    <div id="loginrut-error" class="errorlogin" v-if="requestNumberIsValid === false">Ingrese un número</div>
+                    <span aria-label="Este número fue enviado al correo electrónico de la persona que inició el proceso" data-microtip-position="right" role="tooltip">?</span>
+                    
                   </div>
-                  <button class="btn-blue" id="loginSubmit">Continuar proceso<i class="fa fa-angle-right"></i></button>
+                  <button class="btn-blue" id="loginSubmit" type="button" @click="validationProcess()">
+                      Continuar proceso<i class="fa fa-angle-right"></i>
+                  </button>
                 </form><router-link to="/recovery-form" class="recovery">Recuperar código de seguimiento</router-link>
               </div>
             </div>
@@ -37,18 +45,32 @@
         </div>
       </div>
     </main>
+
+    <RequestStatus v-if="showStatus"></RequestStatus>
+  </div>
 </template>
 
 <script>
 
 import { mapState, mapMutations } from 'vuex'
+import RequestStatus from './../views/RequestStatus.vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 export default {
   name: 'HomeContent',
+  components: {
+    RequestStatus
+  },
   data () {
     return {
       rut: '',
       numeroSolicitud: '',
-      //rutIsValid: true
+      requestNumberIsValid: '',
+      requestNumber: '',
+      data: '',
+      homeContent: true,
+      showStatus: '',
+      statusRequest: '',
     }
   },
   methods: {
@@ -61,11 +83,95 @@ export default {
       console.log("test");
     },
     
-    ...mapMutations(['focus', 'blur', 'rutValidation']),
+    ...mapMutations(['focus', 'blur', 'rutValidation', 'setRutIsValid', 'saveRequestNumber', 
+        'getRutGlobal', 'saveStatusRequest', 'saveProcessStage']),
+
+    requestNumberValidation() {
+      if (this.numeroSolicitud == "") {
+        this.requestNumberIsValid = false;
+      } else {
+        this.requestNumberIsValid = true;
+      }
+    },
+
+    getRequestNumber(rut) {
+      console.log("rut: " + rut);
+      axios.get(this.URL + '/buscarPostulante/' + rut).then((response) => {
+        this.data = response.data;
+        console.log(this.data);
+        this.requestNumber = this.data[0].nro_solicitud;
+        console.log(this.requestNumber);
+        this.saveRequestNumber(this.requestNumber);
+        this.getStatusRequest(this.requestNumber);
+      }).catch(function (error) {
+      console.log("AXIOS ERROR: ", error);
+      });
+    },
+
+    getStatusRequest (number) {
+      console.log(number)
+      let requestNumber = number;
+      axios.get(this.URL + '/status/' + requestNumber).then((response) => {
+        let status = response.data;
+        console.log(status);
+        //console.log(status[0].object);
+        //this.statusRequest = JSON.parse(status[0].id_conecta);
+        this.statusRequest = status;
+        console.log(this.statusRequest);
+        console.log(this.statusRequest[0].id_conecta);
+        this.saveStatusRequest(this.statusRequest[0]);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
+    validationProcess() {
+      console.log(this.rut);
+      console.log(this.globalRequestNumber);
+      this.requestNumberValidation();
+      if (this.rut == "" || this.numeroSolicitud == "" 
+        || this.rutIsValid == false || this.requestNumberIsValid == false) {
+          //this.setRutIsValid(false);
+          //this.requestNumberIsValid = false;
+          this.showStatus = false;
+          alert("Debe completar los campos.");
+      } else if (this.numeroSolicitud !== this.globalRequestNumber){
+          this.requestNumberIsValid = false;
+          alert("El número de solicitud es inválido.");
+      } else {
+          if (this.statusRequest[0].id_conecta == null && this.statusRequest[0].status == 1) {
+            this.$router.push({ path: "pasos/" + this.globalRequestNumber });
+          } else if (this.statusRequest[0].id_conecta == null && this.statusRequest[0].status == 0){
+            alert("Su solicitud ha expirado.");
+          } else if (this.statusRequest[0].id_conecta !== null && this.statusRequest[0].status == 1) {
+            this.processStage(this.statusRequest[0].id_conecta);
+            this.getRutGlobal(this.rut);
+            this.homeContent = false;
+            this.showStatus = true;
+          }
+      }
+    },
+
+    processStage(idConecta) {
+      console.log(idConecta)
+      axios.get(this.URL + '/stage/' + idConecta).then((response) => {
+        let stage = response.data;
+        console.log(stage);
+        //console.log(status[0].object);
+        //this.statusRequest = JSON.parse(status[0].id_conecta);
+        this.stageRequest = stage;
+        console.log(this.stageRequest);
+        console.log(this.stageRequest[0]);
+        this.saveProcessStage(this.stageRequest[0]);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    }
   },
 
   computed: {
-    ...mapState(['rutIsValid']),
+    ...mapState(['rutIsValid', 'URL', 'globalRequestNumber', 'rutGlobal', 'statusRequestGlobal', 
+      'processStageRequest']),
   },
 
 

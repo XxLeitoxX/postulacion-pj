@@ -64,17 +64,23 @@ Vue.use(VueRouter)
     //component: StepNumbers
     component: () => import('@/views/steps/StepFive.vue')
   },
+
+  {
+    path: '/estado-postulacion',
+    name: 'RequestStatus',
+    component: () => import('@/views/RequestStatus.vue')
+  },
   
   {
     path: '/datos-basicos-validacion',
     name: 'SendSolicitud',
     component: () => import('../views/SendSolicitud.vue')
   },
-  {
+  /*{
     path: '/estado-de-postulacion/:id',
     name: 'StateSolicitud',
     component: () => import('../views/StateSolicitud.vue')
-  },
+  },*/
   {
     path: '/exito/:id',
     name: 'SuccessForm',

@@ -1,27 +1,28 @@
 <template>
+  <div>
     <main role="main">
-        <Cabecera />
+        <!-- <Cabecera /> -->
       <div class="c-steps-stepper">
         <div class="container">
           <div class="row">
             <div class="col-md-12 col-lg-8 offset-lg-2 stepper-content">
               <div class="c-steps-numbers__item orange"><span>?</span>
-                <p>Preparación de <br>documentación</p>
+                <p>Postulación <br> enviada</p>
               </div>
               <div class="c-steps-numbers__item yellow"><span>?</span>
-                <p>Envío de  <br>postulación <br>por email</p>
+                <p>Verificación de <br> antecedentes <br> técnicos</p>
               </div>
               <div class="c-steps-numbers__item blue"><span>?</span>
-                <p>Revisión de <br>comisión de <br>socios</p>
+                <p>Evaluación <br> de comisión <br> de socios</p>
               </div>
               <div class="c-steps-numbers__item green"><span>?</span>
-                <p>Aprobación <br>del directorio</p>
+                <p>Revisión del <br> Directorio</p>
               </div>
               <div class="c-steps-numbers__item purple"><span>?</span>
                 <p>Notificación <br>del acuerdo</p>
               </div>
               <div class="c-steps-numbers__item lightorange"><span>?</span>
-                <p>Formalización <br>de la <br>afiliación                            </p>
+                <p>Formalización <br>de la <br>afiliación                          </p>
               </div>
             </div>
           </div>
@@ -37,17 +38,17 @@
                   <p>ENVÍO DE POSTULACIÓN POR EMAIL</p>
                 </div>
                 <div class="estado-id"> 
-                  <p>SOLICITUD Nº 18768763287</p>
+                  <p>SOLICITUD Nº {{globalRequestNumber}}</p>
                 </div>
                 <div class="estado-data">
                   <div class="box-data"><span>Postulante</span>
-                    <p>Gustavo Andrés González Urrutia</p>
+                    <p>{{}}</p>
                   </div>
                   <div class="box-data"><span>RUT</span>
-                    <p>11111111-1</p>
+                    <p>{{rutGlobal}}</p>
                   </div>
                   <div class="box-data"><span>Estado</span>
-                    <p>Pendiente</p>
+                    <p>{{finalStatus}}</p>
                   </div>
                 </div>
                 <div class="estado-list">
@@ -63,13 +64,18 @@
         </div>
       </div>
     </main>
+  </div>
+    
 </template>
 
 <script>
 import Cabecera from './../components/Cabecera.vue'
+import { mapState, mapMutations } from 'vuex'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 export default {
-  name: 'StateSolicitud',
+  name: 'RequestStatus',
   components: {
     Cabecera,
   },
@@ -83,8 +89,21 @@ export default {
 
   },
 
+  computed: {
+    ...mapState(['globalRequestNumber', 'rutGlobal', 'processStageRequest', 'finalStatus']),
+  },
+
    created: function () {
     
   }
 }
 </script>
+
+<style scoped>
+  /*.c-steps-stepper .container .c-steps-numbers__item.orange span {
+    background: url(/img/icon-check.934cbfc2.svg) center center no-repeat #fd7900;
+    color: #fd7900;
+    text-indent: -9999px;
+    overflow: hidden;
+  }*/
+</style>
