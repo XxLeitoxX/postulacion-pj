@@ -59,9 +59,12 @@ export default new Vuex.Store({
 	rutGlobal: '',
 	globalBusinessName: '',
 	globalRequestNumber: '',
+	requestNumber: '',
 	nroSolicitudGlobal: '',
 	statusRequestGlobal: [],
+	statusRequest: '',
 	processStageRequest: [],
+	stageRequest: '',
 	finalStatus: '',
 	showStepOne: true,
 	showStepTwo: false,
@@ -638,22 +641,22 @@ export default new Vuex.Store({
 
 	saveProcessStage(state, newProcess) {
 		state.processStageRequest.push(newProcess);
-		console.log("Stage: " + state.processStageRequest[0].SOL_ID);
-		if (state.processStageRequest[0].SOL_ID == 3) {
+		console.log("Stage: " + state.processStageRequest[0].ID_ESTADO);
+		if (state.processStageRequest[0].ID_ESTADO == 3) {
 			state.finalStatus = "Postulación enviada";
-		} else if (state.processStageRequest[0].SOL_ID == 11) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 11) {
 			state.finalStatus = "Verificación de Antecedentes";
-		} else if (state.processStageRequest[0].SOL_ID == 12) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 12) {
 			state.finalStatus = "Verificación de Antecedentes";
-		} else if (state.processStageRequest[0].SOL_ID == 13) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 13) {
 			state.finalStatus = "Verificación de Antecedentes";
-		} else if (state.processStageRequest[0].SOL_ID == 4) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 4) {
 			state.finalStatus = "Evaluación de comisión de socios";
-		} else if (state.processStageRequest[0].SOL_ID == 5) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 5) {
 			state.finalStatus = "Revisión del Directorio";
-		} else if (state.processStageRequest[0].SOL_ID == 6) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 6) {
 			state.finalStatus = "El Área Socios se contactará telefónicamente con usted";
-		} else if (state.processStageRequest[0].SOL_ID == 8) {
+		} else if (state.processStageRequest[0].ID_ESTADO == 8) {
 			state.finalStatus = "Corrección de antecedentes";
 		}
 	},
@@ -995,6 +998,53 @@ export default new Vuex.Store({
 		state.range = await data.json();
 	  	console.log(state.range);
 	  },
+
+	  getRequestNumber({state, commit, dispatch}, rut) {
+	      console.log("rut: " + rut);
+	      axios.get(state.URL + '/buscarPostulante/' + rut).then((response) => {
+	        let data = response.data;
+	        console.log(data);
+	        state.requestNumber = data[0].nro_solicitud;
+	        console.log(state.requestNumber);
+	        commit('saveRequestNumber', state.requestNumber);
+	        dispatch('getStatusRequest', state.requestNumber);
+	      }).catch(function (error) {
+	      console.log("AXIOS ERROR: ", error);
+	      });
+      },
+
+      getStatusRequest({state, commit}, number) {
+	      console.log(number)
+	      let requestNumber = number;
+	      axios.get(state.URL + '/status/' + requestNumber).then((response) => {
+	        let status = response.data;
+	        console.log(status);
+	        //console.log(status[0].object);
+	        //this.statusRequest = JSON.parse(status[0].id_conecta);
+	        state.statusRequest = status;
+	        console.log(state.statusRequest);
+	        console.log(state.statusRequest[0].id_conecta);
+	        commit('saveStatusRequest', state.statusRequest[0]);
+	      }).catch(function (error) {
+	        console.log("AXIOS ERROR: ", error);
+	      });
+      },
+
+      processStage: async function ({state, commit}, idConecta) {
+	      console.log(idConecta)
+	      axios.get(state.URL + '/stage/' + idConecta).then((response) => {
+	        let stage = response.data;
+	        console.log(stage);
+	        //console.log(status[0].object);
+	        //this.statusRequest = JSON.parse(status[0].id_conecta);
+	        state.stageRequest = stage;
+	        console.log(state.stageRequest);
+	        console.log(state.stageRequest[0]);
+	        commit('saveProcessStage', state.stageRequest[0]);
+	      }).catch(function (error) {
+	        console.log("AXIOS ERROR: ", error);
+	      });
+      }
 
 
   },

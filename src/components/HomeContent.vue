@@ -52,7 +52,7 @@
 
 <script>
 
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import RequestStatus from './../views/RequestStatus.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -70,7 +70,7 @@ export default {
       data: '',
       homeContent: true,
       showStatus: '',
-      statusRequest: '',
+      //statusRequest: '',
     }
   },
   methods: {
@@ -86,6 +86,8 @@ export default {
     ...mapMutations(['focus', 'blur', 'rutValidation', 'setRutIsValid', 'saveRequestNumber', 
         'getRutGlobal', 'saveStatusRequest', 'saveProcessStage']),
 
+    ...mapActions(['processStage', 'getRequestNumber']),
+
     requestNumberValidation() {
       if (this.numeroSolicitud == "") {
         this.requestNumberIsValid = false;
@@ -93,38 +95,7 @@ export default {
         this.requestNumberIsValid = true;
       }
     },
-
-    getRequestNumber(rut) {
-      console.log("rut: " + rut);
-      axios.get(this.URL + '/buscarPostulante/' + rut).then((response) => {
-        this.data = response.data;
-        console.log(this.data);
-        this.requestNumber = this.data[0].nro_solicitud;
-        console.log(this.requestNumber);
-        this.saveRequestNumber(this.requestNumber);
-        this.getStatusRequest(this.requestNumber);
-      }).catch(function (error) {
-      console.log("AXIOS ERROR: ", error);
-      });
-    },
-
-    getStatusRequest (number) {
-      console.log(number)
-      let requestNumber = number;
-      axios.get(this.URL + '/status/' + requestNumber).then((response) => {
-        let status = response.data;
-        console.log(status);
-        //console.log(status[0].object);
-        //this.statusRequest = JSON.parse(status[0].id_conecta);
-        this.statusRequest = status;
-        console.log(this.statusRequest);
-        console.log(this.statusRequest[0].id_conecta);
-        this.saveStatusRequest(this.statusRequest[0]);
-      }).catch(function (error) {
-        console.log("AXIOS ERROR: ", error);
-      });
-    },
-
+    
     validationProcess() {
       console.log(this.rut);
       console.log(this.globalRequestNumber);
@@ -151,27 +122,11 @@ export default {
           }
       }
     },
-
-    processStage(idConecta) {
-      console.log(idConecta)
-      axios.get(this.URL + '/stage/' + idConecta).then((response) => {
-        let stage = response.data;
-        console.log(stage);
-        //console.log(status[0].object);
-        //this.statusRequest = JSON.parse(status[0].id_conecta);
-        this.stageRequest = stage;
-        console.log(this.stageRequest);
-        console.log(this.stageRequest[0]);
-        this.saveProcessStage(this.stageRequest[0]);
-      }).catch(function (error) {
-        console.log("AXIOS ERROR: ", error);
-      });
-    }
   },
 
   computed: {
     ...mapState(['rutIsValid', 'URL', 'globalRequestNumber', 'rutGlobal', 'statusRequestGlobal', 
-      'processStageRequest']),
+      'processStageRequest', 'statusRequest', 'stageRequest']),
   },
 
 

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<main role="main">
+		<main role="main" v-if="stepSix">
 			<div class="c-form-steps">
 				<div class="container">
 				  <div class="row">
@@ -22,38 +22,69 @@
 				            <p>Pendiente</p>
 				          </div>
 				        </div>
-				        <p>Puedes consultar el estado de tu solicitud en el siguiente link:</p><a class="btn-blue">CONSULTAR ESTADO<i>?</i></a>
+				        <p>Puedes consultar el estado de tu solicitud en el siguiente link:</p><a class="btn-blue" @click="viewStatus">CONSULTAR ESTADO<i>?</i></a>
 				      </div>
 				    </div>
 				  </div>
 				</div>
 			</div>
 	    </main>
+	    <RequestStatus v-if="showStatus"></RequestStatus>
 	</div>
 </template>
 
 <script>
-	import { mapState } from 'vuex';
-
+	import { mapState, mapMutations, mapActions } from 'vuex';
+	import RequestStatus from '@/views/RequestStatus.vue'
+	import axios from 'axios'
+	import VueAxios from 'vue-axios'
 	export default {
 		name: 'StepSixSuccess',
 		components: {
-
+			RequestStatus
 		},
 		data () {
 			return {
-
+				stepSix: true,
+				showStatus: '',
 			}
 		},
 		methods: {
+			...mapActions(['getRequestNumber']),
+			...mapMutations(['saveProcessStage']),
 
+			viewStatus() {
+				this.stepSix = false;
+				this.showStatus = true;
+				this.getRequestNumber(13997013+'-'+6);
+				console.log(this.statusRequest[0].id_conecta);
+				this.process(this.statusRequest[0].id_conecta);
+			},
+
+			process (idConecta) {
+		      console.log(idConecta)
+		      axios.get(this.URL + '/stage/' + idConecta).then((response) => {
+		        let stage = response.data;
+		        console.log(stage);
+		        //console.log(status[0].object);
+		        //this.statusRequest = JSON.parse(status[0].id_conecta);
+		        this.stageRequest = stage;
+		        console.log(this.stageRequest);
+		        console.log(this.stageRequest[0]);
+		        this.saveProcessStage(this.stageRequest[0]);
+		      }).catch(function (error) {
+		        console.log("AXIOS ERROR: ", error);
+		      });
+	        }
 		},
 
 		computed: {
 			...mapState([
 		        "nroSolicitudGlobal",
 		        "rutGlobal",
-		        "globalBusinessName"
+		        "globalBusinessName",
+		        "statusRequest",
+		        "URL"
 		      ]),
 		}
 	}
