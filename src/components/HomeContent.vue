@@ -46,7 +46,7 @@
       </div>
     </main>
 
-    <RequestStatus v-if="showStatus"></RequestStatus>
+    <!-- <RequestStatus v-if="showStatus"></RequestStatus> -->
   </div>
 </template>
 
@@ -95,7 +95,7 @@ export default {
         this.requestNumberIsValid = true;
       }
     },
-    
+
     validationProcess() {
       console.log(this.rut);
       console.log(this.globalRequestNumber);
@@ -115,10 +115,16 @@ export default {
           } else if (this.statusRequest[0].id_conecta == null && this.statusRequest[0].status == 0){
             alert("Su solicitud ha expirado.");
           } else if (this.statusRequest[0].id_conecta !== null && this.statusRequest[0].status == 1) {
+            console.log("Entré al if");
+            //console.log("stage desde homeContent: " + this.processStageRequest[0].ID_ESTADO);
+            this.$router.push({ path: "estado-postulacion" });
             this.processStage(this.statusRequest[0].id_conecta);
             this.getRutGlobal(this.rut);
-            this.homeContent = false;
-            this.showStatus = true;
+            /*if (this.processStageRequest[0].ID_ESTADO !== '') {
+              this.homeContent = false;
+              this.showStatus = true;
+            }*/
+            
           }
       }
     },

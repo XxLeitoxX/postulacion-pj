@@ -51,14 +51,14 @@
 		},
 		methods: {
 			...mapActions(['getRequestNumber']),
-			...mapMutations(['saveProcessStage']),
+			...mapMutations(['saveProcessStage', 'setStageRequest']),
 
 			viewStatus() {
 				this.stepSix = false;
 				this.showStatus = true;
-				this.getRequestNumber(13997013+'-'+6);
-				console.log(this.statusRequest[0].id_conecta);
-				this.process(this.statusRequest[0].id_conecta);
+				this.getRequestNumber(this.rutGlobal);
+				//console.log(this.statusRequest[0].id_conecta);
+				this.process(this.requestDefinitive);
 			},
 
 			process (idConecta) {
@@ -68,9 +68,9 @@
 		        console.log(stage);
 		        //console.log(status[0].object);
 		        //this.statusRequest = JSON.parse(status[0].id_conecta);
-		        this.stageRequest = stage;
-		        console.log(this.stageRequest);
-		        console.log(this.stageRequest[0]);
+		        this.setStageRequest(stage);
+		        //console.log(this.stageRequest);
+		        //console.log(this.stageRequest[0]);
 		        this.saveProcessStage(this.stageRequest[0]);
 		      }).catch(function (error) {
 		        console.log("AXIOS ERROR: ", error);
@@ -84,6 +84,8 @@
 		        "rutGlobal",
 		        "globalBusinessName",
 		        "statusRequest",
+		        "stageRequest",
+		        "requestDefinitive",
 		        "URL"
 		      ]),
 		}

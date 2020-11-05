@@ -1,27 +1,27 @@
 <template>
   <div>
     <main role="main">
-        <!-- <Cabecera /> -->
+        <Cabecera />
       <div class="c-steps-stepper">
         <div class="container">
           <div class="row">
             <div class="col-md-12 col-lg-8 offset-lg-2 stepper-content">
-              <div class="c-steps-numbers__item orange"><span>?</span>
+              <div :class="check1"><span>?</span>
                 <p>Postulación <br> enviada</p>
               </div>
-              <div class="c-steps-numbers__item yellow"><span>?</span>
+              <div :class="check2"><span>?</span>
                 <p>Verificación de <br> antecedentes <br> técnicos</p>
               </div>
-              <div class="c-steps-numbers__item blue"><span>?</span>
+              <div :class="check3"><span>?</span>
                 <p>Evaluación <br> de comisión <br> de socios</p>
               </div>
-              <div class="c-steps-numbers__item green"><span>?</span>
+              <div :class="check4"><span>?</span>
                 <p>Revisión del <br> Directorio</p>
               </div>
-              <div class="c-steps-numbers__item purple"><span>?</span>
+              <div :class="check5"><span>?</span>
                 <p>Notificación <br>del acuerdo</p>
               </div>
-              <div class="c-steps-numbers__item lightorange"><span>?</span>
+              <div :class="check6"><span>?</span>
                 <p>Formalización <br>de la <br>afiliación                          </p>
               </div>
             </div>
@@ -81,29 +81,99 @@ export default {
   },
   data () {
     return {
-     
+      checkClass: '',
+      /*check1: 'c-steps-numbers__item checkFirst',
+      check2: 'c-steps-numbers__item checkSecond',
+      check3: 'c-steps-numbers__item checkThird',
+      check4: 'c-steps-numbers__item checkFourth',
+      check5: 'c-steps-numbers__item checkFifth',
+      check6: 'c-steps-numbers__item checkSixth'*/
     }
   },
   methods: {
-
+    getData(){
+      //console.log(this.processStageRequest[0].ID_ESTADO);
+      
+    }
 
   },
 
   computed: {
-    ...mapState(['globalRequestNumber', 'rutGlobal', 'processStageRequest', 'finalStatus']),
+    ...mapState(['globalRequestNumber', 'rutGlobal', 'processStageRequest', 'finalStatus',
+      'check1', 'check2', 'check3', 'check4', 'check5', 'check6']),
   },
 
    created: function () {
-    
+    //console.log(this.processStageRequest[0].ID_ESTADO);
+    this.getData();
   }
 }
 </script>
 
 <style scoped>
-  /*.c-steps-stepper .container .c-steps-numbers__item.orange span {
-    background: url(/img/icon-check.934cbfc2.svg) center center no-repeat #fd7900;
+  .checkFirst span {
+    background: #fd7900 !important;
     color: #fd7900;
+    overflow: hidden;
+  }
+
+  .checkSecond span {
+    background: #fdaa00 !important;
+    color: #fdaa00;
+    overflow: hidden;
+  }
+
+  .checkThird span {
+    background: #50acff !important;
+    color: #50acff;
+    overflow: hidden;
+  }
+
+  .checkFourth span {
+    background: #71d99a !important;
+    color: #71d99a;
+    overflow: hidden;
+  }
+
+  .checkFifth span {
+    background: #a876c7 !important;
+    color: #a876c7;
+    overflow: hidden;
+  }
+
+  .checkSixth span {
+    background: #efa169 !important;
+    color: #efa169;
+    overflow: hidden;
+  }
+
+  .blue span {
+    background: url(../assets/img/icon-check.svg) center center no-repeat #50acff !important;
+    color: #50acff;
     text-indent: -9999px;
     overflow: hidden;
-  }*/
+  }
+
+  .green span {
+    background: url(../assets/img/icon-check.svg) center center no-repeat #71d99a !important;
+    color: #71d99a;
+    text-indent: -9999px;
+    overflow: hidden;
+  }
+
+  .purple span {
+    background: url(../assets/img/icon-check.svg) center center no-repeat #a876c7 !important;
+    color: #a876c7;
+    text-indent: -9999px;
+    overflow: hidden;
+  }
+
+  .lightorange span {
+    background: url(../assets/img/icon-check.svg) center center no-repeat #efa169 !important;
+    color: #efa169;
+    text-indent: -9999px;
+    overflow: hidden;
+  }
+
+
 </style>

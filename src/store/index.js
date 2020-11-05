@@ -65,13 +65,20 @@ export default new Vuex.Store({
 	statusRequest: '',
 	processStageRequest: [],
 	stageRequest: '',
+	requestDefinitive: '',
 	finalStatus: '',
+	check1: 'c-steps-numbers__item checkFirst',
+	check2: 'c-steps-numbers__item checkSecond',
+	check3: 'c-steps-numbers__item checkThird',
+	check4: 'c-steps-numbers__item checkFourth',
+	check5: 'c-steps-numbers__item checkFifth',
+	check6: 'c-steps-numbers__item checkSixth',
 	showStepOne: true,
 	showStepTwo: false,
 	showStepThree: false,
 	showStepFour: false,
 	showStepFive: false,
-	showStepSix: false,
+	showStepSix: true,
 	tab1: 'form-tab tab01 active',
 	tab2: 'form-tab tab02',
 	tab3: 'form-tab tab03',
@@ -589,6 +596,11 @@ export default new Vuex.Store({
     	console.log(state.completedForm);
     },
 
+    setStageRequest(state, newStage) {
+    	state.stageRequest = newStage;
+    	console.log(state.stageRequest);
+    },
+
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
 	},
@@ -637,6 +649,7 @@ export default new Vuex.Store({
 		console.log("Status Request: " + newStatusRequest);
 		state.statusRequestGlobal.push(newStatusRequest);
 		console.log("Status Request: " + state.statusRequestGlobal[0].id_conecta);
+		state.requestDefinitive = state.statusRequestGlobal[0].id_conecta;
 	},
 
 	saveProcessStage(state, newProcess) {
@@ -659,6 +672,58 @@ export default new Vuex.Store({
 		} else if (state.processStageRequest[0].ID_ESTADO == 8) {
 			state.finalStatus = "Corrección de antecedentes";
 		}
+
+		//Checks logic
+		if (state.processStageRequest[0].ID_ESTADO == 3) {
+	        state.check1 = "c-steps-numbers__item orange";
+	        state.check2 = 'c-steps-numbers__item checkSecond'
+	        state.check3 = 'c-steps-numbers__item checkThird'
+	        state.check4 = 'c-steps-numbers__item checkFourth'
+	        state.check5 = 'c-steps-numbers__item checkFifth'
+	        state.check6 = 'c-steps-numbers__item checkSixth'
+	    }
+	      if (state.processStageRequest[0].ID_ESTADO == 11) {
+	        state.check2 = "c-steps-numbers__item yellow";
+	        state.check1 = "c-steps-numbers__item orange";
+	        state.check3 = 'c-steps-numbers__item checkThird'
+	        state.check4 = 'c-steps-numbers__item checkFourth'
+	        state.check5 = 'c-steps-numbers__item checkFifth'
+	        state.check6 = 'c-steps-numbers__item checkSixth'
+	      }
+	      if (state.processStageRequest[0].ID_ESTADO == 5 || state.processStageRequest[0].ID_ESTADO == 6
+	        || state.processStageRequest[0].ID_ESTADO == 8) {
+	        console.log("Soy blue");
+	        state.check3 = "c-steps-numbers__item blue";
+	        state.check1 = "c-steps-numbers__item orange";
+	        state.check2 = 'c-steps-numbers__item yellow'
+	        state.check4 = 'c-steps-numbers__item checkFourth'
+	        state.check5 = 'c-steps-numbers__item checkFifth'
+	        state.check6 = 'c-steps-numbers__item checkSixth'
+	      }
+	      if (state.processStageRequest[0].ID_ESTADO == 9 || state.processStageRequest[0].ID_ESTADO == 6) {
+	        state.check4 = "c-steps-numbers__item green";
+	        state.check1 = "c-steps-numbers__item orange";
+	        state.check2 = 'c-steps-numbers__item yellow'
+	        state.check3 = 'c-steps-numbers__item blue';
+	        state.check5 = 'c-steps-numbers__item checkFifth'
+	        state.check6 = 'c-steps-numbers__item checkSixth'
+	      }
+	      if (state.processStageRequest[0].ID_ESTADO == 9) {
+	        state.check5 = "c-steps-numbers__item purple";
+	        state.check1 = "c-steps-numbers__item orange";
+	        state.check2 = 'c-steps-numbers__item yellow'
+	        state.check3 = 'c-steps-numbers__item blue';
+	        state.check4 = "c-steps-numbers__item green";
+	        state.check6 = 'c-steps-numbers__item checkSixth'
+	      }
+	      if (state.processStageRequest[0].ID_ESTADO == 9 && state.processStageRequest[0].ID_ESTADO == 1) {
+	        state.check6 = 'c-steps-numbers__item lightorange'
+	        state.check1 = "c-steps-numbers__item orange";
+	        state.check2 = 'c-steps-numbers__item yellow'
+	        state.check3 = 'c-steps-numbers__item blue';
+	        state.check4 = "c-steps-numbers__item green";
+	        state.check5 = 'c-steps-numbers__item purple'
+	      }
 	},
 
 	tipoSocSendDoc(state, tipo) {
@@ -1024,13 +1089,15 @@ export default new Vuex.Store({
 	        state.statusRequest = status;
 	        console.log(state.statusRequest);
 	        console.log(state.statusRequest[0].id_conecta);
+	        state.requestDefinitive = state.statusRequest[0].id_conecta;
+	        console.log(state.requestDefinitive);
 	        commit('saveStatusRequest', state.statusRequest[0]);
 	      }).catch(function (error) {
 	        console.log("AXIOS ERROR: ", error);
 	      });
       },
 
-      processStage: async function ({state, commit}, idConecta) {
+      processStage({state, commit}, idConecta) {
 	      console.log(idConecta)
 	      axios.get(state.URL + '/stage/' + idConecta).then((response) => {
 	        let stage = response.data;
