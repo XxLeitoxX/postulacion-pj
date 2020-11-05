@@ -650,9 +650,9 @@ export default new Vuex.Store({
 			state.finalStatus = "Verificación de Antecedentes";
 		} else if (state.processStageRequest[0].ID_ESTADO == 13) {
 			state.finalStatus = "Verificación de Antecedentes";
-		} else if (state.processStageRequest[0].ID_ESTADO == 4) {
-			state.finalStatus = "Evaluación de comisión de socios";
 		} else if (state.processStageRequest[0].ID_ESTADO == 5) {
+			state.finalStatus = "Evaluación de comisión de socios";
+		} else if (state.processStageRequest[0].ID_ESTADO == 9) {
 			state.finalStatus = "Revisión del Directorio";
 		} else if (state.processStageRequest[0].ID_ESTADO == 6) {
 			state.finalStatus = "El Área Socios se contactará telefónicamente con usted";
