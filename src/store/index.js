@@ -29,7 +29,7 @@ export default new Vuex.Store({
 	selectedTotalEmployees: '',
 	range: [],
 	selectedRange: '',
-	localhost: 'http://localhost:8080',
+	localhost: 'http://localhost:8080', 
 	URL: 'http://postulacionqa.cchc.cl',
 	rutIsValid: '',
 	telIsValid: '',
