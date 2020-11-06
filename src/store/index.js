@@ -30,7 +30,7 @@ export default new Vuex.Store({
 	range: [],
 	selectedRange: '',
 	localhost: 'http://localhost:8080',
-	URL: 'http://postulacionqa.cchc.isc.cl',
+	URL: 'http://postulacionqa.cchc.cl',
 	rutIsValid: '',
 	telIsValid: '',
 	emailIsValid: '',
