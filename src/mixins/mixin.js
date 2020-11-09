@@ -27,7 +27,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel") {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -46,6 +46,8 @@ export default {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
           file = '';
+          alert("Formato de archivo incorrecto");
+          this.dropzoneOptions.autoQueue = false;
         }
         
       },
@@ -61,7 +63,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel") {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -95,7 +97,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel") {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -113,7 +115,7 @@ export default {
         } else {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
-          file = '';
+          this.dropzoneOptions.autoQueue = false;
         }
         
       },
@@ -129,7 +131,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel") {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -157,7 +159,7 @@ export default {
           files.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || files.type == "image/jpeg" || files.type == "image/png" || 
           files.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-          || files.type == "application/vnd.ms-excel") {
+          || files.type == "application/vnd.ms-excel" && files.size <= 10000000) {
           console.log(
             "if you want to change the upload time or add data to the formData you can do it here."
           );
@@ -171,7 +173,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-          || file.type == "application/vnd.ms-excel") {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
           console.log("File Upload Progress", progress);
           this.tempAttachments.map(attachment => {
             if (attachment.title === file.name) {
@@ -187,7 +189,7 @@ export default {
             file[i].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
             || file[i].type == "image/jpeg" || file[i].type == "image/png" || 
             file[i].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-            || file[i].type == "application/vnd.ms-excel") {
+            || file[i].type == "application/vnd.ms-excel" && file[i].size <= 10000000) {
             console.log("File uploaded successfully");
             console.log("Response is ->", response);
             console.log("file is ->", file[i]);
@@ -218,7 +220,7 @@ export default {
             file[i].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
             || file[i].type == "image/jpeg" || file[i].type == "image/png" || 
             file[i].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-            || file[i].type == "application/vnd.ms-excel") {
+            || file[i].type == "application/vnd.ms-excel" && file[i].size <= 10000000) {
             console.log("File uploaded successfully");
             console.log("Response is ->", response);
             console.log("file is ->", file[i]);
@@ -250,7 +252,7 @@ export default {
             file[i].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
             || file[i].type == "image/jpeg" || file[i].type == "image/png" || 
             file[i].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-            || file[i].type == "application/vnd.ms-excel") {
+            || file[i].type == "application/vnd.ms-excel" && file[i].size <= 10000000) {
             console.log("File uploaded successfully");
             console.log("Response is ->", response);
             console.log("file is ->", file[i]);
@@ -282,7 +284,7 @@ export default {
             file[i].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
             || file[i].type == "image/jpeg" || file[i].type == "image/png" || 
             file[i].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-            || file[i].type == "application/vnd.ms-excel") {
+            || file[i].type == "application/vnd.ms-excel" && file[i].size <= 10000000) {
             console.log("File uploaded successfully");
             console.log("Response is ->", response);
             console.log("file is ->", file[i]);

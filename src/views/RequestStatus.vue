@@ -42,7 +42,7 @@
                 </div>
                 <div class="estado-data">
                   <div class="box-data"><span>Postulante</span>
-                    <p>{{}}</p>
+                    <p>{{globalBusinessName}}</p>
                   </div>
                   <div class="box-data"><span>RUT</span>
                     <p>{{rutGlobal}}</p>
@@ -99,7 +99,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['globalRequestNumber', 'rutGlobal', 'processStageRequest', 'finalStatus',
+    ...mapState(['globalRequestNumber', 'rutGlobal', 'processStageRequest', 'globalBusinessName', 'finalStatus',
       'check1', 'check2', 'check3', 'check4', 'check5', 'check6']),
   },
 
