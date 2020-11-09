@@ -63,6 +63,7 @@ export default new Vuex.Store({
 	nroSolicitudGlobal: '',
 	statusRequestGlobal: [],
 	statusRequest: '',
+	status: '',
 	processStageRequest: [],
 	stageRequest: '',
 	requestDefinitive: '',
@@ -618,6 +619,46 @@ export default new Vuex.Store({
 		state.emailRecoveryCodeGlobal = correoConX;
 	  },
 
+    setGlobalBusinessName(state, newName) {
+    	state.globalBusinessName = newName;
+    	console.log(state.globalBusinessName);
+    },
+
+    setFinalStatus(state, newFinalStatus) {
+    	state.finalStatus = newFinalStatus;
+    	console.log(state.finalStatus);
+    },
+
+    setCheck1(state, newCheck1) {
+    	state.check1 = newCheck1;
+    	console.log(state.check1);
+    },
+
+    setCheck2(state, newCheck2) {
+    	state.check2 = newCheck2;
+    	console.log(state.check2);
+    },
+
+    setCheck3(state, newCheck3) {
+    	state.check3 = newCheck3;
+    	console.log(state.check3);
+    },
+
+    setCheck4(state, newCheck4) {
+    	state.check4 = newCheck4;
+    	console.log(state.check4);
+    },
+
+    setCheck5(state, newCheck5) {
+    	state.check5 = newCheck5;
+    	console.log(state.check5);
+    },
+
+    setCheck6(state, newCheck6) {
+    	state.check6 = newCheck6;
+    	console.log(state.check6);
+    },
+
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
 	},
@@ -1100,16 +1141,19 @@ export default new Vuex.Store({
 	      console.log(number)
 	      let requestNumber = number;
 	      axios.get(state.URL + '/status/' + requestNumber).then((response) => {
-	        let status = response.data;
-	        console.log(status);
+	        let data = response.data;
+	        console.log(data[0].id_conecta);
+	        console.log("data: " + data);
 	        //console.log(status[0].object);
 	        //this.statusRequest = JSON.parse(status[0].id_conecta);
-	        state.statusRequest = status;
+	        state.statusRequest = data[0].id_conecta;
+	        state.status = data[0].status;
+	        console.log(data[0].status);
 	        console.log(state.statusRequest);
-	        console.log(state.statusRequest[0].id_conecta);
-	        state.requestDefinitive = state.statusRequest[0].id_conecta;
-	        console.log(state.requestDefinitive);
-	        commit('saveStatusRequest', state.statusRequest[0]);
+	        //console.log(state.statusRequest[0].id_conecta);
+	        //state.requestDefinitive = state.statusRequest[0].id_conecta;
+	        //console.log(state.requestDefinitive);
+	        commit('saveStatusRequest', state.statusRequest);
 	      }).catch(function (error) {
 	        console.log("AXIOS ERROR: ", error);
 	      });

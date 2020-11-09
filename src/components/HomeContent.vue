@@ -84,7 +84,7 @@ export default {
     },
     
     ...mapMutations(['focus', 'blur', 'rutValidation', 'setRutIsValid', 'saveRequestNumber', 
-        'getRutGlobal', 'saveStatusRequest', 'saveProcessStage']),
+        'getRutGlobal', 'saveStatusRequest', 'saveProcessStage', 'setGlobalBusinessName']),
 
     ...mapActions(['processStage', 'getRequestNumber']),
 
@@ -110,16 +110,17 @@ export default {
           this.requestNumberIsValid = false;
           alert("El número de solicitud es inválido.");
       } else {
-          if (this.statusRequest[0].id_conecta == null && this.statusRequest[0].status == 1) {
+          if (this.statusRequest == null && this.status == 1) {
             this.$router.push({ path: "pasos/" + this.globalRequestNumber });
-          } else if (this.statusRequest[0].id_conecta == null && this.statusRequest[0].status == 0){
+          } else if (this.statusRequest == null && this.status == 0){
             alert("Su solicitud ha expirado.");
-          } else if (this.statusRequest[0].id_conecta !== null && this.statusRequest[0].status == 1) {
+          } else if (this.statusRequest !== null && this.status == 1) {
             console.log("Entré al if");
             //console.log("stage desde homeContent: " + this.processStageRequest[0].ID_ESTADO);
             this.$router.push({ path: "estado-postulacion" });
-            this.processStage(this.statusRequest[0].id_conecta);
+            this.processStage(this.statusRequest);
             this.getRutGlobal(this.rut);
+            this.getCandidate(this.globalRequestNumber);
             /*if (this.processStageRequest[0].ID_ESTADO !== '') {
               this.homeContent = false;
               this.showStatus = true;
@@ -128,11 +129,29 @@ export default {
           }
       }
     },
+
+    getCandidate (number) {
+      console.log(number)
+      let requestNumber = number;
+      axios.get(this.URL + '/paso1/' + requestNumber).then((response) => {
+        let data = response.data;
+        console.log(data);
+        console.log(data[0].object);
+        let candidate = JSON.parse(data[0].object);
+        console.log(candidate);
+        console.log(candidate[1].stepOne.businessName);
+        let businessName = candidate[1].stepOne.businessName;
+        this.setGlobalBusinessName(businessName);
+
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
   },
 
   computed: {
-    ...mapState(['rutIsValid', 'URL', 'globalRequestNumber', 'rutGlobal', 'statusRequestGlobal', 
-      'processStageRequest', 'statusRequest', 'stageRequest']),
+    ...mapState(['rutIsValid', 'URL', 'globalRequestNumber', 'rutGlobal', 'globalBusinessName', 
+      'statusRequestGlobal', 'processStageRequest', 'statusRequest', 'status', 'stageRequest']),
   },
 
 
