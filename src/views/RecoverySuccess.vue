@@ -8,7 +8,7 @@
               <div class="c-form-info__validacion recovery">
                 <div class="info">
                   <h2>CÓDIGO ENVIADO</h2>
-                  <p>El código ha sido enviado a tu correo {{ correoConX }} y debería llegar en unos minutos.</p>
+                  <p>El código ha sido enviado a tu correo {{ emailRecoveryCodeGlobal }} y debería llegar en unos minutos.</p>
                   <p class="u-mb50">Recuerda la carpeta de SPAM.</p><a class="btn-blue" @click="home">INGRESAR<i class="fa fa-angle-right"></i></a><a class="recovery" @click="recoveryCode">Solicitar envío de código nuevamente</a>
                 </div>
               </div>
@@ -30,7 +30,8 @@ export default {
   },
   data () {
     return {
-     correoConX: ''
+     correoConX: '',
+     emailGlobal: ''
     }
   },
   methods: {
@@ -43,8 +44,9 @@ export default {
       this.$router.push({ name: "Home" });
     },
 
-    modificarCorreo(email) {
-      let emailArr = email.split('@');
+    /*modificarCorreo(email) {
+      console.log(email);
+      let emailArr = this.email.split('@');
       let letras = emailArr[0];
       let arrletras = letras.split('');
       for (let index = 3; index < arrletras.length; index++) {
@@ -52,16 +54,19 @@ export default {
       }
       let letrasConX = arrletras.join('');
       this.correoConX = letrasConX + '@'+ emailArr[1];
-      
-    }
+      //console.log(this.correoConX);
+    }*/
  
   },
 
+
   created: function () {
 
-      this.modificarCorreo(this.emailRecoveryCodeGlobal);
+      //console.log(this.emailRecoveryCodeGlobal);
+      //this.modificarCorreo(this.emailRecoveryCodeGlobal);
 
   },
+
 
   computed: {
     ...mapState(['emailRecoveryCodeGlobal'])

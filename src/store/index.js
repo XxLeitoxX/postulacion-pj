@@ -151,7 +151,10 @@ export default new Vuex.Store({
 
     getterRange(state) {
     	return state.selectedTotalEmployees;
-    },
+	},
+	getterEmailRecovery(state) {
+		return state.emailRecoveryCodeGlobal;
+	  },
   },
 
   mutations: {
@@ -599,7 +602,21 @@ export default new Vuex.Store({
     setStageRequest(state, newStage) {
     	state.stageRequest = newStage;
     	console.log(state.stageRequest);
-    },
+	},
+	
+	setEmailRecovery(state, email) {
+
+	  let emailArr = email.split('@');
+      let letras = emailArr[0];
+      let arrletras = letras.split('');
+      for (let index = 3; index < arrletras.length; index++) {
+            arrletras[index] = "x"; 
+      }
+      let letrasConX = arrletras.join('');
+	  let correoConX = letrasConX + '@'+ emailArr[1];
+	  
+		state.emailRecoveryCodeGlobal = correoConX;
+	  },
 
 	emailForSendSolicitud(state, email) {
 		state.emailGlobal = email
@@ -619,6 +636,7 @@ export default new Vuex.Store({
 	},
 
 	emailRecoveryCode(state, email) {
+		console.log(email);
 		state.emailRecoveryCodeGlobal = email;
 	},
 
