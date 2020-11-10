@@ -605,6 +605,7 @@
         "setStepThreeValue",
         "saveCompletedForm",
         "getRutParnersGlobal",
+        "getRutParnerGlobal",
         "setVueDropzoneFileTwo"
       ]),
 
@@ -877,6 +878,7 @@
         this.saveCompletedForm([this.stepTwoObject, 2]);
         this.savePostStepTwo();
         this.getRutParnersGlobal(this.partners);
+        this.getRutParnerGlobal(this.inputsPartner[0].rutPerson);
         console.log(this.completedForm);
         this.stepTwoObject = [];
       },
