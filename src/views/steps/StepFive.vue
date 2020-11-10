@@ -253,7 +253,8 @@ export default {
           parallelUploads: 20,
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
-          dictCancelUpload: 'Cancelar subida'
+          dictCancelUpload: 'Cancelar subida',
+          acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
         },
 
         dropzoneOptions4: {
@@ -274,7 +275,8 @@ export default {
           parallelUploads: 20,
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
-          dictCancelUpload: 'Cancelar subida'
+          dictCancelUpload: 'Cancelar subida',
+          acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
         },
         tabCount: 0,
         sendPostulation: '',
@@ -309,6 +311,7 @@ export default {
 
         if (this.sendPostulation == true) {
           this.saveStepFive();
+          this.sendBigObject();
           this.setStepSixValue(true);
           this.setStepFiveValue(false);
         } else {
@@ -336,6 +339,17 @@ export default {
         let stepFiveObject = this.completedForm;
         let data = JSON.stringify(stepFiveObject);
         axios.post(this.URL + '/guardarParcial', data).then((response) => {
+          console.log(response.data);
+        }).catch(function (error) {
+          console.log("AXIOS ERROR: ", error);
+        });
+      },
+
+      sendBigObject: function () {
+          
+        let bigObject = this.completedForm[0].nroSolicitud;
+        let data = JSON.stringify(bigObject); 
+        axios.post(this.URL + '/guardarObjeto/' + data).then((response) => {
           console.log(response.data);
         }).catch(function (error) {
           console.log("AXIOS ERROR: ", error);

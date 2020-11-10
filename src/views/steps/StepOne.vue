@@ -660,7 +660,8 @@ export default {
         parallelUploads: 20,
         addRemoveLinks: true,
         dictRemoveFile: 'Eliminar archivo',
-        dictCancelUpload: 'Cancelar subida'
+        dictCancelUpload: 'Cancelar subida',
+        acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
       },
 
       stepOneObject: [],
