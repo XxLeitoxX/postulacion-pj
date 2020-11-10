@@ -642,7 +642,7 @@ export default {
         // The Url Where Dropped or Selected files will be sent
         url: `https://httpbin.org/post`,
         // File Size allowed in MB
-        maxFilesize: 102400000,
+        maxFilesize: 10000000,
         // Authentication Headers like Access_Token of your application
         headers: {
           Authorization: `Access Token`,

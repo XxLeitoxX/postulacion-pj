@@ -48,14 +48,16 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['focus', 'blur', 'validation', 'emailRecoveryCode']),
+    ...mapMutations(['focus', 'blur', 'validation', 'emailRecoveryCode', 'setEmailRecovery']),
 
     getNumSolicitud(rut) {
 
         axios.get(this.urlBase+'/recuperarNroSolicitud/' + rut).then((response) => {
           this.nroSolicitud = response.data;
           this.email = response.data[0].email;
-          this.emailRecoveryCode(this.email);        
+         //this.emailRecoveryCode(this.email);
+         this.setEmailRecovery(this.email);
+          //localStorage.setItem('correo', this.email)      
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
         });
