@@ -46,11 +46,11 @@ export default {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
           file = '';
-          alert("Formato de archivo incorrecto");
+          /*alert("Formato de archivo incorrecto");
           //this.dropzoneOptions.autoQueue = false;
           if (file.size > 10) {
             alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
-          }
+          }*/
         }
         
       },
@@ -84,10 +84,10 @@ export default {
         } else {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
-          alert("Formato de archivo incorrecto");
+          /*alert("Formato de archivo incorrecto");
           if (file.size > 10) {
             alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
-          }
+          }*/
         }
         
       },
