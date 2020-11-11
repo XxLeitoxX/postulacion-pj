@@ -86,6 +86,7 @@ export default new Vuex.Store({
 	tab4: 'form-tab tab04',
 	rutPatrocinanteGlobal: [],
 	rutPartnersGlobal:[],
+	rutPartnerGlobal: '',
 	/* Step 3 validation*/
 	rutPatrocinanteIsValid: '',
 	rutPatrocinante2IsValid: '',
@@ -692,6 +693,10 @@ export default new Vuex.Store({
 
 	getRutParnersGlobal(state, parners) {
 		state.rutPartnersGlobal = parners;
+	},
+
+	getRutParnerGlobal(state, parner) {
+		state.rutPartnerGlobal = parner;
 	},
 
 	getRutGlobal(state, newRut) {

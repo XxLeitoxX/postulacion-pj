@@ -27,7 +27,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -46,8 +46,11 @@ export default {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
           file = '';
-          alert("Formato de archivo incorrecto");
-          this.dropzoneOptions.autoQueue = false;
+          /*alert("Formato de archivo incorrecto");
+          //this.dropzoneOptions.autoQueue = false;
+          if (file.size > 10) {
+            alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
+          }*/
         }
         
       },
@@ -63,7 +66,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -81,7 +84,10 @@ export default {
         } else {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
-          file = '';
+          /*alert("Formato de archivo incorrecto");
+          if (file.size > 10) {
+            alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
+          }*/
         }
         
       },
@@ -97,7 +103,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -115,7 +121,10 @@ export default {
         } else {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
-          this.dropzoneOptions.autoQueue = false;
+          /*alert("Formato de archivo incorrecto");
+          if (file.size > 10) {
+            alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
+          }*/
         }
         
       },
@@ -131,7 +140,7 @@ export default {
           file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
           || file.type == "image/jpeg" || file.type == "image/png" || 
           file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          || file.type == "application/vnd.ms-excel" && file.size <= 10000000) {
+          || file.type == "application/vnd.ms-excel" && file.size <= 10) {
           // Construct your file object to render in the UI
           let attachment = {};
           attachment._id = file.upload.uuid;
@@ -149,7 +158,10 @@ export default {
         } else {
           this.msg = "Formato de archivo incorrecto.";
           console.log(this.msg);
-          file = '';
+          /*alert("Formato de archivo incorrecto");
+          if (file.size > 10) {
+            alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
+          }*/
         }
         
       },
@@ -194,7 +206,7 @@ export default {
             console.log("Response is ->", response);
             console.log("file is ->", file[i]);
             console.log("file sin i ->", file);
-            console.log("ref ->", this.$refs.myVueDropzone);
+            console.log("ref ->", this.$refs.myVueDropzone); //IMPORTANT, check vuedropzone properties
             if (this.$refs.myVueDropzone.id == "dropzone") {
               //this.setVueDropzoneFile(file);
               //this.companyBackgroundUpload();
