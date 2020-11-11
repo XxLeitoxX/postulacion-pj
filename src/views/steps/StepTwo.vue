@@ -172,6 +172,12 @@
               </a>
               <div class="row">
                 <div class="col-md-12 col-lg-6 offset-lg-2">
+                  <div
+                      id="loginrut-error"
+                      class="errorFile"
+                      v-if="dropzoneTwoIsValid === false">
+                        Ingrese un archivo
+                  </div>
                   <h2>Antecendentes financieros de la empresa</h2>
                   <p>A continuación ingrese los documentos que acreditan la información de su empresa. Los documentos requeridos son los siguientes:</p>
                   <ul>
@@ -213,12 +219,6 @@
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
                   /> -->
-                  <div
-                    id="email2st02-errord"
-                    class="errorlogin"
-                    v-if="dropzoneTwoIsValid === false">
-                      Ingrese un archivo
-                  </div>
                 </div>
 
               </div>
@@ -559,7 +559,7 @@
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
-          maxFilesize: 10000000,
+          maxFilesize: 10,
           // Authentication Headers like Access_Token of your application
           headers: {
             Authorization: `Access Token`,
@@ -578,6 +578,8 @@
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
+          dictInvalidFileType: 'No puede subir archivos con este formato.',
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
         },
 
@@ -959,6 +961,13 @@
 
 .border:hover {
   cursor: pointer;
+}
+
+.errorFile {
+  font-size: 100%;
+  color: red;
+  position: relative;
+  left: 100%;
 }
 
 .svg {

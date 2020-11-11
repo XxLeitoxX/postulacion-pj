@@ -119,6 +119,12 @@
               </a>
               <div class="row">
                 <div class="col-md-12 col-lg-6 offset-lg-2">
+                  <div
+                    id="email2st02-errord"
+                    class="errorFile"
+                    v-if="dropzone3IsValid === false">
+                      Ingrese un archivo
+                  </div>
                   <h2>BUENAS PRÁCTICAS</h2>
                   <p class="u-mb50">La Cámara insta a sus socios a comprometerse con las mejores prácticas empresariales y de la industria. Es por ello que pedimos acreditarlas con los siguientes documentos</p>
                   <!-- <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
@@ -146,12 +152,7 @@
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
                   /> -->
-                  <div
-                    id="email2st02-errord"
-                    class="errorlogin"
-                    v-if="dropzone3IsValid === false">
-                      Ingrese un archivo
-                  </div>
+                  
                   <br>
                   <vue-dropzone
                     ref="myVueDropzone4"
@@ -178,7 +179,7 @@
                   /> -->
                   <div
                     id="email2st02-errord"
-                    class="errorlogin"
+                    class="errorFile"
                     v-if="dropzone4IsValid === false">
                       Ingrese un archivo
                   </div>
@@ -239,7 +240,7 @@ export default {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
-          maxFilesize: 10000000,
+          maxFilesize: 10,
           // Authentication Headers like Access_Token of your application
           headers: {
             Authorization: `Access Token`,
@@ -254,6 +255,8 @@ export default {
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
+          dictInvalidFileType: 'No puede subir archivos con este formato.',
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
         },
 
@@ -261,7 +264,7 @@ export default {
           // The Url Where Dropped or Selected files will be sent
           url: `https://httpbin.org/post`,
           // File Size allowed in MB
-          maxFilesize: 10000000,
+          maxFilesize: 10,
           // Authentication Headers like Access_Token of your application
           headers: {
             Authorization: `Access Token`,
@@ -276,6 +279,8 @@ export default {
           addRemoveLinks: true,
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
+          dictInvalidFileType: 'No puede subir archivos con este formato.',
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
         },
         tabCount: 0,
@@ -348,8 +353,9 @@ export default {
       sendBigObject: function () {
           
         let bigObject = this.completedForm[0].nroSolicitud;
-        let data = JSON.stringify(bigObject); 
-        axios.post(this.URL + '/guardarObjeto/' + data).then((response) => {
+        console.log(bigObject);
+        //let data = JSON.stringify(bigObject); 
+        axios.post(this.URL + '/guardarObjeto/' + bigObject).then((response) => {
           console.log(response.data);
         }).catch(function (error) {
           console.log("AXIOS ERROR: ", error);
@@ -410,6 +416,13 @@ export default {
 
 .border:hover {
   cursor: pointer;
+}
+
+.errorFile {
+  font-size: 100%;
+  color: red;
+  position: relative;
+  left: 100%;
 }
 
 .svg3 {
