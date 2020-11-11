@@ -250,7 +250,48 @@ export default {
 
       validateRutExist(rut, ref) {
        
-        if (this.rutPartnersGlobal.length !== 0 || this.rutPartnerGlobal !== '') {
+      if (this.rutPartnerGlobal !== '' && this.rutPartnersGlobal.length == 0) {
+       
+        if (this.rutPartnerGlobal !== rut ) {
+
+              axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
+                this.dataValidaciones = response.data;
+              
+                if (Object.keys(this.dataValidaciones).length !== 0) {
+                  if (this.rutParticipante !== this.rutParticipante2) {
+                  
+                  this.nombreParticipante = this.dataValidaciones.Representante.nombre;
+                  this.estado = this.dataValidaciones.Estado;
+                  this.focus(ref);
+
+                  if (this.dataValidaciones.grupos !== '') {
+                    this.grupos = {
+                    name: this.dataValidaciones.grupos.GRUPO,
+                    perId: this.dataValidaciones.grupos.PER_ID
+                  }
+                  }
+                  
+                } else {
+                  alert("Los participantes deben tener rut distinto");
+                  
+                }
+                } else {
+                  alert("El patrocinante no existe");
+                }
+      
+              }).catch(function (error) {
+              console.log("AXIOS ERROR: ", error);
+              });
+
+            } else {
+              alert("No puede tener el mismo RUT de un Accionista");
+              this.rutParticipante = "";
+            }
+
+      } else if (this.rutPartnerGlobal !== '' && this.rutPartnersGlobal.length !== 0) {
+
+          //if (this.rutPartnerGlobal !== '' && this.rutPartnersGlobal.length !== 0) {
+          
           for (let i=0; i < this.rutPartnersGlobal[0].length; i++) {
           //console.log(this.rutPartnersGlobal[0][i].rutPerson);
             if (this.rutPartnersGlobal[0][i].rutPerson !== rut ) {
@@ -290,17 +331,56 @@ export default {
             }
         }
 
-        } else {
+        
+
+      } else {
           alert("Debe llenar composición accionaria del paso anterior");
           this.rutParticipante = "";
         }
+        
         
       
       },
 
       validateRutExist2(rut, ref) {
         
-        if (this.rutPartnersGlobal.length !== 0 || this.rutPartnerGlobal !== '') {
+         if (this.rutPartnerGlobal !== '' && this.rutPartnersGlobal.length == 0) {
+
+           if (this.rutPartnerGlobal !== rut ) { 
+
+            axios.get(this.urlBase+'/validatePatrocinantes/' + rut).then((response) => {
+        
+              this.dataValidaciones = response.data;
+              if (Object.keys(this.dataValidaciones).length !== 0
+              ) {
+                if (this.rutParticipante !== this.rutParticipante2) {
+                this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
+                this.focus(ref);
+                this.estado = this.dataValidaciones.Estado;
+                this.estado = this.dataValidaciones.Estado;
+                this.grupos = {
+                  name: this.dataValidaciones.grupos.GRUPO,
+                  perId: this.dataValidaciones.grupos.PER_ID
+                }
+              } else {
+                alert("Los participantes deben tener rut distinto");
+              }
+              } else {
+                alert("El Patrocinante no existe");
+              }
+
+            }).catch(function (error) {
+            console.log("AXIOS ERROR: ", error);
+            });
+
+          } else {
+            alert("No puede tener el mismo RUT de un Accionista");
+            this.rutParticipante2 = "";
+          }
+
+
+         } else if (this.rutPartnersGlobal.length !== 0 || this.rutPartnerGlobal !== '') {
+        
         for (let i=0; i < this.rutPartnersGlobal[0].length; i++) {
 
           if (this.rutPartnersGlobal[0][i].rutPerson !== rut ) { 
@@ -335,9 +415,12 @@ export default {
             this.rutParticipante2 = "";
           }
         }
+
         } else {
+          
           alert("Debe llenar composición accionaria del paso anterior");
           this.rutParticipante2 = "";
+        
         }
       
       },

@@ -553,8 +553,8 @@ export default {
       },
 
       saveContinue() {
-        console.log(this.validateInput());
-        if (this.validateInput()) {
+       
+        if (this.validateInput() && this.comiteValue()) {
             this.save();
             //this.saveCompletedForm(this.data);
             //this.$router.push({ name: "StepFive" });
@@ -611,7 +611,8 @@ export default {
             && this.dataContactoCobranza.apellidoMatContacto !== '' 
             && this.dataContactoCobranza.telContacto !== '' 
             && this.dataContactoCobranza.celContacto !== ''
-            && this.dataContactoCobranza.emailContacto !== '' 
+            && this.dataContactoCobranza.emailContacto !== ''
+            
             ) {
 
           if (this.rutRepresentanteCChCIsValid == true 
@@ -626,6 +627,7 @@ export default {
             && this.telRepreLegalIsValid == true
             && this.celRepreLegalIsValid == true
             && this.emailRepreLegalIsValid == true) {
+              
             return true;
           }
         } else {
@@ -765,6 +767,21 @@ export default {
       });
     },
 
+    comiteValue() {
+      if (this.dataComites.contratista !== false 
+          || this.dataComites.obras !== false 
+          || this.dataComites.concesiones !== false
+          || this.dataComites.inmobiliario !== false 
+          || this.dataComites.vivienda !== false 
+          || this.dataComites.proveedores !== false
+          || this.dataComites.industriales !== false
+          || this.dataComites.especialidades !== false) {
+              return true;
+          } else {
+            return false;
+          }
+    }
+
       /*dateValidation(refs) {
       if (this.dataRepresentante.date == "" || this.dataRepresentante.date == null) {
         this.dateIsValid = false;
@@ -800,6 +817,7 @@ export default {
 
     created: function () {
       //this.llenar();
+      //console.log(this.comiteValue());
     }
 
     

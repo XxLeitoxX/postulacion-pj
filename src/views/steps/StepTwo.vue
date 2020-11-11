@@ -242,7 +242,7 @@
                     <form action="#" id="step04_3">
                       <h2>COMPOSICIÓN ACCIONARIA</h2>
 
-                      <div class="content-repeater" id="repeater"" 
+                      <div class="content-repeater" id="repeater" 
                          >
                          
                          <div class="wrapper-repeater">
