@@ -955,8 +955,8 @@
 .border2 {
   /*background: url(../../assets/img/draganddrop.png) no-repeat !important;*/
   border: 1;
-  height: 194px;
-  width: 652px;
+  /*height: 194px;
+  width: 652px;*/
 }
 
 .border:hover {
@@ -972,6 +972,8 @@
 
 .svg {
   background: url(../../assets/img/draganddrop-text.svg) no-repeat center;
+  margin-left: -4%;
+  height: 10px;
 }
 </style>
 

@@ -410,8 +410,8 @@ export default {
 .border4 {
   /*background: url(../../assets/img/draganddrop.png) no-repeat !important;*/
   border: 1;
-  height: 194px;
-  width: 652px;
+  /*height: 194px;
+  width: 652px;*/
 }
 
 .border:hover {
@@ -427,9 +427,13 @@ export default {
 
 .svg3 {
   background: url(../../assets/img/dropzone01.svg) no-repeat center;
+  margin-left: -4%;
+  height: 10px;
 }
 
 .svg4 {
   background: url(../../assets/img/dropzone02.svg) no-repeat center;
+  margin-left: -4%;
+  height: 10px;
 }
 </style>
