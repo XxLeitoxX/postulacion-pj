@@ -110,7 +110,11 @@ export default new Vuex.Store({
 	celRepreLegalIsValid: '',
 	emailRepreLegalIsValid: '',
 
-	emailRecoveryCodeGlobal: ''
+	emailRecoveryCodeGlobal: '',
+
+	//Variables Persona Natural
+	professions: [],
+	selectedProfession: '',
 
   },
 
@@ -906,6 +910,12 @@ export default new Vuex.Store({
 		
 	},
 
+	//Persona Natural Setters
+	setProfession(state, newProfession) {
+		state.profession = newProfession;
+		console.log(state.profession);
+	},
+
   },
 
   actions: {
@@ -1178,7 +1188,16 @@ export default new Vuex.Store({
 	      }).catch(function (error) {
 	        console.log("AXIOS ERROR: ", error);
 	      });
-      }
+      },
+
+      //APIs consuming Persona Natural
+
+      getProfession: async function({state}) {
+		const data = await fetch(state.URL + '/listarProfesion');
+		//const region = await data.json();
+		state.professions = await data.json();
+		console.log(state.professions);
+	  },
 
 
   },

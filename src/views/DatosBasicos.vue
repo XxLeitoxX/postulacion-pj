@@ -503,7 +503,11 @@ export default {
 
     
     generateUrl() {
-      this.urlMail = `${this.urlBaseMail}/pasos/`; 
+      if (this.tipSelect == "1") {
+        this.urlMail = `${this.urlBaseMail}/pasos/`;
+      } else if (this.tipSelect == "2") {
+        this.urlMail = `${this.urlBaseMail}/persona-natural/`;
+      }
     },
 
     ...mapActions(['getCamaras', 'getTipoSociedad']),
