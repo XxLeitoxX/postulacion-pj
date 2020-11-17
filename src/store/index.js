@@ -43,6 +43,7 @@ export default new Vuex.Store({
 	vueDropzoneFileTwo: [],
 	vueDropzoneFileThree: [],
 	vueDropzoneFileFour: [],
+	vueDropzoneFilePN: [],
 	fileAttacthed: [],
 	//resLimitadaDocsShow: false,
 	resLimitadaDocs: [],
@@ -110,7 +111,17 @@ export default new Vuex.Store({
 	celRepreLegalIsValid: '',
 	emailRepreLegalIsValid: '',
 
-	emailRecoveryCodeGlobal: ''
+	emailRecoveryCodeGlobal: '',
+
+	//Variables Persona Natural
+	professions: [],
+	selectedProfession: '',
+	specialties: [],
+	selectedSpecialty: '',
+	completeObject: [],
+	showFirstStep: true,
+	showSecondStep: false,
+	showThirdStep: false,
 
   },
 
@@ -906,6 +917,68 @@ export default new Vuex.Store({
 		
 	},
 
+	//Persona Natural Setters
+	setProfession(state, newProfession) {
+		state.selectedProfession = newProfession;
+		console.log(state.selectedProfession);
+	},
+
+	setSpecialty(state, newSpecialty) {
+		state.selectedSpecialty = newSpecialty;
+		console.log(state.selectedSpecialty);
+	},
+
+	setVueDropzoneFilePN(state, newFile) {
+    	console.log(newFile);
+      state.vueDropzoneFilePN = newFile;
+    	console.log(state.vueDropzoneFilePN);
+    },
+
+    requestNumberObject(state, number) {
+
+		state.globalRequestNumber = number;
+		state.completeObject.push({
+			nroSolicitud: number,
+		});
+		console.log(state.globalRequestNumber);
+		console.log(state.completeObject);
+	},
+
+	saveCompletedFormPN(state, step) {
+		/*state.completedForm.push(step);
+		console.log(state.completedForm);*/
+		console.log(step);
+		/*var object = [];
+		object.push(step);
+		console.log(object[0]);*/
+		console.log(step[0][0]);
+		console.log(step[0]);
+		console.log(step[1]);
+		console.log(state.completeObject);
+		/*console.log(state.completedForm[0]);
+		console.log(state.completedForm[1]);
+		console.log(state.completedForm[2]);
+		console.log(state.completedForm[3]);
+*/		console.log(state.completeObject.length);
+		if (step[1] == 1) {
+			state.completeObject.splice(1, 1, step[0][0]);
+			console.log("Objeto antes de guardar en DB" + state.completeObject);
+		} else if (step[1] == 2) {
+			state.completeObject.splice(2, 1, step[0][0]);
+			console.log(state.completeObject);
+		}
+	},
+
+	setFirstStepValue(state, newValue) {
+    	state.showFirstStep = newValue;
+    	console.log("First Step boolean: " + state.showFirstStep);
+    },
+
+    setSecondStepValue(state, newValue) {
+    	state.showSecondStep = newValue;
+    	console.log("Second Step boolean: " + state.showSecondStep);
+    },
+
   },
 
   actions: {
@@ -1178,8 +1251,58 @@ export default new Vuex.Store({
 	      }).catch(function (error) {
 	        console.log("AXIOS ERROR: ", error);
 	      });
-      }
+      },
 
+      //APIs consuming Persona Natural
+
+      getProfession: async function({state}) {
+		const data = await fetch(state.URL + '/listarProfesion');
+		//const region = await data.json();
+		state.professions = await data.json();
+		console.log(state.professions);
+	  },
+
+	  getSpecialty: async function({state}) {
+		const data = await fetch(state.URL + '/listarEspecialidad');
+		//const region = await data.json();
+		state.specialties = await data.json();
+		console.log(state.specialties);
+	  },
+
+	  backgroundUploadPN: async function({state}) {
+		console.log(state.vueDropzoneFilePN);
+
+		let formData = new FormData();
+		/*
+		  Iteate over any file sent over appending the files
+		  to the form data.
+		*/
+		  console.log("before for");
+		  console.log(state.vueDropzoneFilePN.length);
+		for( var i = 0; i < state.vueDropzoneFilePN.length; i++ ){
+		  console.log("inside for");
+		  let file = state.vueDropzoneFilePN[i];
+		  console.log(file);
+		  formData.append('files[' + i + ']', file);
+		  console.log(formData);
+		}
+
+		//let fd = new FormData();
+      	//fd.append('file', state.vueDropzoneFilePN)
+		axios.post( state.URL+'/uploadfile',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+	  },
 
   },
   modules: {

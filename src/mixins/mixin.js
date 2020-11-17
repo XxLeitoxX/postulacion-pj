@@ -165,6 +165,44 @@ export default {
         }
         
       },
+
+      // function called for every file dropped or selected
+      fileAddedPN(file) {
+        console.log("File Dropped => ", file);
+        console.log(file.type);
+        
+        //console.log(this.$refs.myVueDropzone2.id);
+        //this.dropzoneOptions.dictDefaultMessage = file;
+        if (file.type == "application/pdf" || 
+          file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+          || file.type == "image/jpeg" || file.type == "image/png" || 
+          file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          || file.type == "application/vnd.ms-excel" && file.size <= 10) {
+          // Construct your file object to render in the UI
+          let attachment = {};
+          attachment._id = file.upload.uuid;
+          attachment.title = file.name;
+          attachment.type = "file";
+          attachment.extension = "." + file.type.split("/")[1];
+          attachment.user = JSON.parse(localStorage.getItem("user"));
+          attachment.content = "File Upload by Select or Drop";
+          attachment.thumb = file.dataURL;
+          attachment.thumb_list = file.dataURL;
+          attachment.isLoading = true;
+          attachment.progress = null;
+          attachment.size = file.size;
+          this.tempAttachments = [...this.tempAttachments, attachment];
+        } else {
+          this.msg = "Formato de archivo incorrecto.";
+          console.log(this.msg);
+          /*alert("Formato de archivo incorrecto");
+          if (file.size > 10) {
+            alert("Subir archivos con un máximo de 10 MB. Intente de nuevo.");
+          }*/
+        }
+        
+      },
+
       // a middle layer function where you can change the XHR request properties
       sendingFiles(files, xhr, formData) {
         if (files.type == "application/pdf" || 
@@ -322,6 +360,38 @@ export default {
         }
       },
 
+      successPN(file, response) {
+        for (var i=0; i<file.length; i++) {
+          if (file[i].type == "application/pdf" || 
+            file[i].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
+            || file[i].type == "image/jpeg" || file[i].type == "image/png" || 
+            file[i].type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+            || file[i].type == "application/vnd.ms-excel" && file[i].size <= 10000000) {
+            console.log("File uploaded successfully");
+            console.log("Response is ->", response);
+            console.log("file is ->", file[i]);
+            console.log("file sin i ->", file);
+            console.log("ref ->", this.$refs.vueDropzonePN);
+
+            if (this.$refs.vueDropzonePN.id == "dropzonePN") {
+              //this.setVueDropzoneFile(file);
+              //this.companyBackgroundUpload();
+              for(var i = 0; i<file.length; i++) {
+
+                console.log("Enviando desde dropzone 4");
+                this.vueDropzoneFilePN.push(file[i]);
+              }
+              console.log(this.vueDropzoneFilePN);
+              this.setVueDropzoneFilePN(this.vueDropzoneFilePN);
+            }
+            
+            //this.test(response);
+          }else {
+            file[i] = ''
+          }
+        }
+      },
+
       removeFile(file, error, xhr) {
         console.log(file)
         console.log("Id del archivo que eliminé: " + file.upload.uuid)
@@ -396,6 +466,22 @@ export default {
       }
         
         console.log(this.vueDropzoneFileFour);
+      },
+
+      removeFilePN(file, error, xhr) {
+        console.log(file)
+        console.log("Id del archivo que eliminé: " + file.upload.uuid)
+      if (this.vueDropzoneFilePN.length > 0) {
+        for(var i=0; i<this.vueDropzoneFilePN.length; i++) {
+          if (file.upload.uuid == this.vueDropzoneFilePN[i].upload.uuid) {
+            this.vueDropzoneFilePN.splice(i, 1);
+            console.log("Borrando desde dropzone Persona Natural");
+          }
+            console.log(this.vueDropzoneFilePN[i]);
+        }
+      }
+        
+        console.log(this.vueDropzoneFilePN);
       }
    },
 
