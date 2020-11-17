@@ -39,6 +39,12 @@ Vue.use(VueRouter)
     component: () => import('@/views/steps/StepAll.vue')
   },
   {
+    path: '/persona-natural/:id',
+    name: 'MainStep',
+    //component: StepNumbers
+    component: () => import('@/views/stepsPersonaNatural/MainStep.vue')
+  },
+  {
     path: '/paso2/:id',
     name: 'StepTwo',
     //component: StepNumbers
