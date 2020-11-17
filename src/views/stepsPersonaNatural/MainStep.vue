@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<FirstStep></FirstStep>
+		<FirstStep v-show="showFirstStep"></FirstStep>
+		<SecondStep v-show="showSecondStep"></SecondStep>
+		<ThirdStep v-show="showThirdStep"></ThirdStep>
 	</div>
 </template>
 
@@ -20,6 +22,17 @@
 			return {
 
 			}
+		},
+		methods: {
+
+		},
+
+		computed: {
+			...mapState([
+				"showFirstStep",
+				"showSecondStep",
+				"showThirdStep",
+		    ]),
 		}
 	}
 </script>
