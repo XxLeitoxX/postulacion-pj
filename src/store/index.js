@@ -122,6 +122,9 @@ export default new Vuex.Store({
 	showFirstStep: true,
 	showSecondStep: false,
 	showThirdStep: false,
+	showSuccessStep: false,
+	globalName: '',
+	globalLastname: '',
 
   },
 
@@ -964,7 +967,7 @@ export default new Vuex.Store({
 			state.completeObject.splice(1, 1, step[0][0]);
 			console.log("Objeto antes de guardar en DB" + state.completeObject);
 		} else if (step[1] == 2) {
-			state.completeObject.splice(2, 1, step[0][0]);
+			state.completeObject.splice(2, 1, step[0]);
 			console.log(state.completeObject);
 		}
 	},
@@ -978,6 +981,26 @@ export default new Vuex.Store({
     	state.showSecondStep = newValue;
     	console.log("Second Step boolean: " + state.showSecondStep);
     },
+
+    setThirdStepValue(state, newValue) {
+    	state.showThirdStep = newValue;
+    	console.log("Third Step boolean: " + state.showThirdStep);
+    },
+
+    setSuccessStepValue(state, newValue) {
+    	state.showSuccessStep = newValue;
+    	console.log("Success Step boolean: " + state.showSuccessStep);
+    },
+
+    getGlobalName(state, newName) {
+		state.globalName = newName;
+		console.log("Business Name: " + state.globalName);
+	},
+
+	getGlobalLastname(state, newName) {
+		state.globalLastname = newName;
+		console.log("Business Name: " + state.globalLastname);
+	},
 
   },
 

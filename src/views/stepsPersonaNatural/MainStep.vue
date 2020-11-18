@@ -3,6 +3,7 @@
 		<FirstStep v-show="showFirstStep"></FirstStep>
 		<SecondStep v-show="showSecondStep"></SecondStep>
 		<ThirdStep v-show="showThirdStep"></ThirdStep>
+		<SuccessStep v-show="showSuccessStep"></SuccessStep>
 	</div>
 </template>
 
@@ -10,13 +11,15 @@
 	import FirstStep from "./FirstStep.vue";
 	import SecondStep from "./SecondStep.vue";
 	import ThirdStep from "./ThirdStep.vue";
+	import SuccessStep from "./SuccessStep.vue";
 	import { mapState } from "vuex";
 	export default {
 		name: "MainStep",
 		components: {
 			FirstStep,
 			SecondStep,
-			ThirdStep
+			ThirdStep,
+			SuccessStep,
 		},
 		data() {
 			return {
@@ -32,6 +35,7 @@
 				"showFirstStep",
 				"showSecondStep",
 				"showThirdStep",
+				"showSuccessStep"
 		    ]),
 		}
 	}
