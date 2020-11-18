@@ -32,7 +32,8 @@
 	                        v-model="name"
 	                        ref="personName"
 	                        @focus="focus($refs.name)"
-	                        @blur="blur([$refs.name, $refs.personName.value])"
+	                        @blur="blur([$refs.name, $refs.personName.value]), 
+	                        	getGlobalName($refs.personName.value)"
 	                        @keyup="nameValidation()"
 	                      />
 	                      <div
@@ -50,7 +51,8 @@
 	                      	v-model="fatherLastName"
 	                      	ref="fatherLastName"
 	                      	@focus="focus($refs.firstLastname)"
-	                        @blur="blur([$refs.firstLastname, $refs.fatherLastName.value])"
+	                        @blur="blur([$refs.firstLastname, $refs.fatherLastName.value]),
+	                        	getGlobalLastname($refs.fatherLastName.value)"
 	                        @keyup="firstLastNameValidation()"
 	                      >
 	                      <div
@@ -708,7 +710,8 @@
 			...mapMutations(['focus', 'blur', 'dateBlur', 'rutValidation', 
 				'collapseClick', 'dateFocus', 'setProfession', 'setSpecialty', 'setVueDropzoneFilePN',
 				'requestNumberObject', 'setRegion', 'setProvince', 'setCommune', 'saveCompletedFormPN',
-				'setRutIsValid', 'setSecondStepValue', 'setFirstStepValue']),
+				'setRutIsValid', 'setSecondStepValue', 'setFirstStepValue', 'getRutGlobal', 
+				'getGlobalName', 'getGlobalLastname']),
 			...mapActions(['getProfession', 'getSpecialty', 'backgroundUploadPN', 
 				'getRegion', 'getProvince', 'getCommune']),
 
@@ -843,6 +846,7 @@
 		        this.requestNumberObject(this.requestNumberValue);
 		        console.log(this.requestNumberValue);
 		      setTimeout(this.getFirstStepRequest(this.requestNumberValue), 3000);
+		      this.getRutGlobal(rut);
 		      }).catch(function (error) {
 		      console.log("AXIOS ERROR: ", error);
 		      });
@@ -975,7 +979,7 @@
 			...mapState(['rutIsValid', 'collapse', 'selectedProfession', 'professions',
 				'selectedSpecialty', 'specialties', 'vueDropzoneFilePN', 'URL', 'completeObject',
 				'regions', 'selectedRegion', 'provinces', 'selectedProvince', 'communes', 
-				'selectedCommune'])
+				'selectedCommune', 'globalName', 'globalLastname'])
 		},
 
 		created: function(){
