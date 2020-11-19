@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Cabecera></Cabecera>
+		<Cabecera v-show="head"></Cabecera>
 		<main role="main" v-if="stepSix">
 			<div class="c-form-steps">
 				<div class="container">
@@ -51,6 +51,7 @@
 				stepSix: true,
 				showStatus: '',
 				idRequest: '',
+				head: true,
 			}
 		},
 		methods: {
@@ -61,6 +62,7 @@
 			viewStatus() {
 				this.stepSix = false;
 				this.showStatus = true;
+				this.head = false;
 				this.request(this.rutGlobal);
 				console.log(this.statusRequest);
 				console.log(this.idRequest);
