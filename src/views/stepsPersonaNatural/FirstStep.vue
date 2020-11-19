@@ -181,8 +181,33 @@
 	                  <h2>Antecedentes</h2>
 	                  <p>A continuación ingrese los documentos que acreditan su información. Los documentos requeridos son los siguientes:</p>
 	                  <ul>
-	                    <li>Memoria o CV de la empresa</li>
-	                    <li>Dependientes de la selección de "Tipo de Sociedad" en fila 14</li>
+	                    <li>
+	                    	Fotocopia de Cédula de Identidad por ambos lados.
+						</li>
+						<li>
+							<b>Tener alguna profesión relacionada con la industria de la construcción, según lo establece la Ley General de Urbanismo y Construcciones, es decir: arquitectos, ingenieros civiles, constructores civiles e ingenieros en construcción.</b>
+						</li>
+						<li>
+							Currículum Profesional que acredite experiencia en el rubro de la construcción.
+						</li>
+						<li>
+							Copia simple de certificado de título.
+						</li>
+						<li>
+							<b>En caso de tener otras profesiones, acreditar experiencia laboral en la industria de la construcción.</b>
+						</li>
+						<li>
+							Currículum Profesional que acredite experiencia en el rubro de la construcción.
+						</li>
+						<li>
+							Copia simple de certificado de título.
+						</li>
+						<li>
+							<b>Que el ejercicio de la profesión lo realice en forma independiente, sin trabajadores a su cargo.</b>
+						</li>
+						<li>
+							<b>Que no sea accionista mayoritario o socio con más del 50% de los derechos sobre el capital social de alguna empresa vinculada directamente a la industria de la construcción que NO sea socia.</b>
+						</li>
 	                  </ul>
 	                  <div class="input">
 	                    <vue-dropzone
@@ -743,7 +768,7 @@
 		      if (this.date == "" || this.date == null) {
 		        console.log("test me");
 		        this.dateIsValid = false;
-		        this.dateBlur(refs);
+		        //this.dateBlur(refs);
 		      } else {
 		        this.dateIsValid = true;
 		      }
@@ -827,6 +852,21 @@
 		      } else {
 		        this.referenceIsValid = true;
 		      }
+		    },
+
+		    comiteValue() {
+		      if (this.dataComites.contratista !== false 
+		          || this.dataComites.obras !== false 
+		          || this.dataComites.concesiones !== false
+		          || this.dataComites.inmobiliario !== false 
+		          || this.dataComites.vivienda !== false 
+		          || this.dataComites.proveedores !== false
+		          || this.dataComites.industriales !== false
+		          || this.dataComites.especialidades !== false) {
+		              return true;
+		          } else {
+		            return false;
+		          }
 		    },
 
 		    show (modalName) {
@@ -926,7 +966,7 @@
 		      this.nameValidation();
 			  this.firstLastNameValidation();
 			  this.secondLastNameValidation();
-			  this.dateValidation();
+			  //this.dateValidation();
 			  this.professionValidation();
 			  this.specialtyValidation();
 			  this.dropZoneValidation();
@@ -942,20 +982,20 @@
 		      if (this.rut == "" 
 		        || this.rutIsValid == false 
 		        || this.dateIsValid == false
-		        || this.nameIsValid == false
-		        || this.firstLastnameIsValid == false
-		        || this.secondLastNameIsValid == false
-		        || this.dateIsValid == false
-		        || this.professionIsValid == false
-		        || this.specialtyIsValid == false
-		        || this.dropzoneIsValid == false
-		        || this.regionIsValid == false
-		        || this.provinceIsValid == false
-		        || this.communeIsValid == false
-		        || this.streetIsValid == false
-		        || this.streetNumberIsValid == false
-		        || this.officeIsValid == false
-		        || this.referenceIsValid == false) {
+		        || this.nameIsValid == ""
+		        || this.fatherLastName == ""
+		        || this.motherLastName == ""
+		        || this.selectedProfession == ""
+		        || this.selectedSpecialty == ""
+		        || this.vueDropzonePN == ""
+		        || this.selectedRegion == ""
+		        || this.selectedProvince == ""
+		        || this.selectedCommune == ""
+		        || this.street == ""
+		        || this.streetNumber == ""
+		        || this.office == ""
+		        || this.reference == ""
+		        || this.comiteValue() == false) {
 		        
 		          this.formIsValid = false;
 		          console.log(this.formIsValid);
