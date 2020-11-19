@@ -41,8 +41,11 @@
                   <p>SOLICITUD Nº {{globalRequestNumber}}</p>
                 </div>
                 <div class="estado-data">
-                  <div class="box-data"><span>Postulante</span>
+                  <div class="box-data" v-if="globalBusinessName !== ''"><span>Postulante</span>
                     <p>{{globalBusinessName}}</p>
+                  </div>
+                  <div class="box-data" v-if="globalBusinessName == ''"><span>Postulante</span>
+                    <p>{{globalName}} {{globalLastname}}</p>
                   </div>
                   <div class="box-data"><span>RUT</span>
                     <p>{{rutGlobal}}</p>
@@ -100,7 +103,7 @@ export default {
 
   computed: {
     ...mapState(['globalRequestNumber', 'rutGlobal', 'processStageRequest', 'globalBusinessName', 'finalStatus',
-      'check1', 'check2', 'check3', 'check4', 'check5', 'check6']),
+      'check1', 'check2', 'check3', 'check4', 'check5', 'check6', 'globalName', 'globalLastname']),
   },
 
    created: function () {
