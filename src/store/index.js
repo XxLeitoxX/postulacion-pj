@@ -119,10 +119,10 @@ export default new Vuex.Store({
 	specialties: [],
 	selectedSpecialty: '',
 	completeObject: [],
-	showFirstStep: false,
+	showFirstStep: true,
 	showSecondStep: false,
 	showThirdStep: false,
-	showSuccessStep: true,
+	showSuccessStep: false,
 	globalName: '',
 	globalLastname: '',
 
