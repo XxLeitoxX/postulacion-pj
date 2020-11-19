@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<Cabecera></Cabecera>
 		<main role="main">
 	      <div class="c-steps-numbers">
 	        <div class="container">
@@ -129,13 +130,14 @@
 </template>
 
 <script>
+	import Cabecera from "@/components/Cabecera.vue";
 	import { mapState, mapMutations, mapActions } from 'vuex';
 	import axios from 'axios'
   	import VueAxios from 'vue-axios'
 	export default {
 		name: "ThirdStep",
 		components: {
-
+			Cabecera,
 		},
 		data() {
 			return {

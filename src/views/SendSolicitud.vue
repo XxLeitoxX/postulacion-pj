@@ -16,9 +16,39 @@
                <div class="info">
                   <h2> <strong>Documentos requeridos para el proceso</strong></h2>
                   <p>Para las siguientes etapas de postulación deberá tener a mano los siguientes datos y documentos en formato digital (jpg, png o pdf).</p>
-                  <ul>
+                  <ul v-if="tipoSocDocs !== ''">
                     <li  v-for="(doc, index) in tipoSocDocs[0]" :key="index">
                       {{ doc }}.
+                    </li>
+                  </ul>
+
+                  <ul v-if="tipoSocDocs == ''">
+                    <li>
+                      Fotocopia de Cédula de Identidad por ambos lados.
+                    </li>
+                    <li>
+                      <b>Tener alguna profesión relacionada con la industria de la construcción, según lo establece la Ley General de Urbanismo y Construcciones, es decir: arquitectos, ingenieros civiles, constructores civiles e ingenieros en construcción.</b>
+                    </li>
+                    <li>
+                      Currículum Profesional que acredite experiencia en el rubro de la construcción.
+                    </li>
+                    <li>
+                      Copia simple de certificado de título.
+                    </li>
+                    <li>
+                      <b>En caso de tener otras profesiones, acreditar experiencia laboral en la industria de la construcción.</b>
+                    </li>
+                    <li>
+                      Currículum Profesional que acredite experiencia en el rubro de la construcción.
+                    </li>
+                    <li>
+                      Copia simple de certificado de título.
+                    </li>
+                    <li>
+                      <b>Que el ejercicio de la profesión lo realice en forma independiente, sin trabajadores a su cargo.</b>
+                    </li>
+                    <li>
+                      <b>Que no sea accionista mayoritario o socio con más del 50% de los derechos sobre el capital social de alguna empresa vinculada directamente a la industria de la construcción que NO sea socia.</b>
                     </li>
                   </ul>
 
