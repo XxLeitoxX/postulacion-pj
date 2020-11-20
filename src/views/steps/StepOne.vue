@@ -3,6 +3,7 @@
     <Cabecera></Cabecera>
     <main role="main">
       <StepNumbers></StepNumbers>
+      {{ $route.params.id }}
       <div class="c-form-steps background">
         <div class="c-form-steps__sections" data-step="01">
           <div class="container">
@@ -15,15 +16,18 @@
                     ser socia de la Cámara Chilena de la Construcción
                   </p>
                   <form action="#" id="step03_1">
-                    <div class="input" ref="rut">
+                    <div class="input active" ref="rut">
                       <label>RUT de la empresa</label> <!-- {{this.getStepOne[2].rut}} -->
                       <input
                         type="text"
+                        disabled
                         name="rutempresa_st03"
                         v-model="rutCompany"
                         ref="rutCompany"
                         @focus="focus($refs.rut)"
-                        @blur="blur([$refs.rut, $refs.rutCompany.value]), getNroSolicitud($refs.rutCompany.value), companyRutValidation($refs.rutCompany.value)"
+                        @blur="blur([$refs.rut, $refs.rutCompany.value]), 
+                          getNroSolicitud($refs.rutCompany.value), 
+                          companyRutValidation($refs.rutCompany.value)"
                         @keyup="rutValidation($refs.rutCompany.value)"
                       />
                       <div class="small-text">
@@ -51,13 +55,13 @@
                         @blur="blur([$refs.fantasy, $refs.fantasyName.value])"
                         @keyup="fantasyValidation()"
                       />
-                      <div
+                      <!-- <div
                         id="nombreempresa_st03-error"
                         class="errorlogin"
                         v-if="fantasyIsValid === false"
                       >
                         Ingrese un nombre
-                      </div>
+                      </div> -->
                     </div>
                     <div class="input" ref="businessName">
                       <label>Razón Social</label>
@@ -217,7 +221,7 @@
                       <div
                         id="phonest02-error"
                         class="formerror"
-                        v-if="telIsValid === false"
+                        v-if="telIsValid === false && this.phoneCompany !== ''"
                       >
                         Ingrese un número válido
                       </div>
@@ -236,7 +240,7 @@
                       <div
                         id="email2st02-error"
                         class="formerror"
-                        v-if="emailIsValid === false">
+                        v-if="emailIsValid === false && this.companyEmail !== ''">
                         Ingrese un email válido
                       </div>
                     </div>
@@ -674,6 +678,7 @@ export default {
       urlBase: this.$store.state.URL,
       datosBasicos: [],
       nroSolicitud: '',
+      route: ''
     };
   },
 
@@ -1088,6 +1093,32 @@ export default {
       }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
       });
+    },
+
+    getRut() {
+      let routeNumber = this.$route.params.id;
+      let number;
+      let rut;
+      console.log(routeNumber);
+      axios.get(this.URL + '/getRut/' + routeNumber).then((response) => {
+        let data = response.data;
+        console.log(data);
+        console.log(data[0].requestNumber);
+        console.log(data[0].rut);
+        number = data[0].requestNumber;
+        rut = data[0].rut;
+        if (routeNumber == number) {
+          console.log("Match requestNumber");
+          this.rutCompany = rut;
+          this.getNroSolicitud(this.rutCompany);
+          this.companyRutValidation(this.rutCompany);
+          this.rutValidation(this.rutCompany);
+        } else {
+        }
+        //console.log(this.tipoSocDocs);
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
     }
 
   },
@@ -1133,6 +1164,7 @@ export default {
     this.getRegion();
     this.getActivity();
     this.getCategory();
+    this.getRut();
     //this.getStepOneRequest();
     //this.getSocietyType();
     console.log(this.completedForm);

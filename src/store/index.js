@@ -121,7 +121,7 @@ export default new Vuex.Store({
 	completeObject: [],
 	showFirstStep: true,
 	showSecondStep: false,
-	showThirdStep: false,
+	showThirdStep: true,
 	showSuccessStep: false,
 	globalName: '',
 	globalLastname: '',
@@ -234,6 +234,7 @@ export default new Vuex.Store({
 		//refs.className = 'active'
 	},
   	focus(state, refs) {
+  		console.log(refs);
   		refs.className = 'input active'
   		console.log(refs);
   		//console.log(refs);

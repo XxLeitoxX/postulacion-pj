@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<FirstStep v-show="showFirstStep"></FirstStep>
-		<SecondStep v-show="showSecondStep"></SecondStep>
+		<!-- <SecondStep v-show="showSecondStep"></SecondStep> -->
 		<ThirdStep v-show="showThirdStep"></ThirdStep>
 		<SuccessStep v-show="showSuccessStep"></SuccessStep>
 	</div>
