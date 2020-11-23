@@ -3,7 +3,7 @@
     <Cabecera></Cabecera>
     <main role="main">
       <StepNumbers></StepNumbers>
-      {{ $route.params.id }}
+      <!-- {{ $route.params.id }} -->
       <div class="c-form-steps background">
         <div class="c-form-steps__sections" data-step="01">
           <div class="container">
@@ -132,13 +132,14 @@
                     <div class="input" ref="giro">
                       <label>Giro</label>
                       <input
+                        maxlength="100"
                         type="text"
                         name="giro_st03"
                         v-model="giro"
                         ref="giroInput"
                         @focus="focus($refs.giro)"
                         @blur="blur([$refs.giro, $refs.giroInput.value])"
-                        @keyup="giroValidation()"
+                        @keyup="giroValidation(), maxlengthGiroValidation($refs.giroInput.value.length)"
                       />
                       <div
                         id="giro_st03-error"
@@ -279,7 +280,9 @@
                       14
                     </li> -->
                     <li v-for="(docs, index) in tipoSocDocs[0]" :key="index">
+
                       {{docs}}
+                      
                     </li>
                   </ul>
                   <!-- <form class="dropzone dropzone-custom custom-drop" action="/file-upload"></form> -->
@@ -414,12 +417,13 @@
                         <label>Calle</label>
                         <input
                           type="text"
+                          maxlength="100"
                           name="callecomercial_st03"
                           v-model="street"
                           ref="streetInput"
                           @focus="focus($refs.street)"
                           @blur="blur([$refs.street, $refs.streetInput.value])"
-                          @keyup="streetValidation()"
+                          @keyup="streetValidation(), maxlengthStreetValidation($refs.streetInput.value.length)"
                         />
                         <div
                           id="email2st02-error"
@@ -432,9 +436,11 @@
                         <label>Número</label>
                         <input
                           type="text"
+                          maxlength="45"
                           name="numerocomercial_st03"
                           v-model="streetNumber"
                           ref="numberInput"
+                          @input="acceptNumber"
                           @focus="focus($refs.number)"
                           @blur="blur([$refs.number, $refs.numberInput.value])"
                           @keyup="streetNumberValidation()"
@@ -451,12 +457,13 @@
                         <label>Oficina</label>
                         <input
                           type="text"
+                          maxlength="10"
                           name="oficinacomercial_st03"
                           v-model="office"
                           ref="officeInput"
                           @focus="focus($refs.office)"
                           @blur="blur([$refs.office, $refs.officeInput.value])"
-                          @keyup="officeValidation()"
+                          @keyup="officeValidation(), maxlengthOfficeValidation($refs.officeInput.value.length)"
                         />
                         <div
                           id="email2st02-error"
@@ -468,20 +475,22 @@
                       </div>
 
                       <div class="input" ref="reference">
-                        <label>Puntos de Referencia</label>
+                        <label>Puntos de Referencia <i>(Opcional)</i></label>
                         <input
                           type="text"
+                          maxlength="100"
                           name="oficinacomercial_st03"
                           v-model="reference"
                           ref="referenceInput"
                           @focus="focus($refs.reference)"
                           @blur="blur([$refs.reference, $refs.referenceInput.value])"
-                          @keyup="referenceValidation()"
+                          @keyup="referenceValidation(), 
+                            maxlengthReferenceValidation($refs.referenceInput.value.length)"
                         />
                         <div
                           id="email2st02-error"
                           class="formerror"
-                          v-if="referenceIsValid === false"
+                          v-if="referenceIsValid === false && this.reference !== ''"
                         >
                           Ingrese un punto de referencia
                         </div>
@@ -667,8 +676,9 @@ export default {
         dictRemoveFile: 'Eliminar archivo',
         dictCancelUpload: 'Cancelar subida',
         dictInvalidFileType: 'No puede subir archivos con este formato.',
-        dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+        dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
         acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
+        dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
       },
 
       stepOneObject: [],
@@ -768,6 +778,13 @@ export default {
       }
     },
 
+    maxlengthGiroValidation(input){
+      console.log(input);
+      if (input > 100) {
+        alert("El máximo de caracteres es 100.");
+      }
+    },
+
     activityValidation() {
       if (this.selectedActivity == "") {
         this.activityIsValid = false;
@@ -787,6 +804,7 @@ export default {
     dropZoneValidation() {
       if (this.vueDropzoneFile == "") {
         this.dropzoneIsValid = false;
+        alert("Debe agregar archivos antes de continuar.");
       } else {
         this.dropzoneIsValid = true;
       }
@@ -824,12 +842,24 @@ export default {
       }
     },
 
+    maxlengthStreetValidation(input){
+      console.log(input);
+      if (input > 100) {
+        alert("El máximo de caracteres es 100.");
+      }
+    },
+
     streetNumberValidation() {
       if (this.streetNumber == "") {
         this.streetNumberIsValid = false;
       } else {
         this.streetNumberIsValid = true;
       }
+    },
+
+    acceptNumber() {
+      var x = this.streetNumber.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+      this.streetNumber = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
     },
 
     officeValidation() {
@@ -840,11 +870,25 @@ export default {
       }
     },
 
+    maxlengthOfficeValidation(input) {
+      console.log(input);
+      if (input > 10) {
+        alert("El máximo de caracteres es 100.");
+      }
+    },
+
     referenceValidation() {
       if (this.reference == "") {
         this.referenceIsValid = false;
       } else {
         this.referenceIsValid = true;
+      }
+    },
+
+    maxlengthReferenceValidation(input) {
+      console.log(input);
+      if (input > 10) {
+        alert("El máximo de caracteres es 100.");
       }
     },
 
@@ -932,7 +976,9 @@ export default {
         this.officeIsValid = true;
       }
 
-      this.referenceValidation();
+      this.dropZoneValidation();
+
+      //this.referenceValidation();
 
       if (this.website == "" || this.websiteIsValid == false) {
         this.setWebsiteIsValid(false);
@@ -956,7 +1002,6 @@ export default {
         || this.street == ""
         || this.streetNumber == ""
         || this.office == ""
-        || this.reference == ""
         || this.website == "") {
         
           this.formIsValid = false;

@@ -258,6 +258,7 @@ export default {
           dictInvalidFileType: 'No puede subir archivos con este formato.',
           dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
+          dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
         },
 
         dropzoneOptions4: {
@@ -280,7 +281,7 @@ export default {
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
           dictInvalidFileType: 'No puede subir archivos con este formato.',
-          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
         },
         tabCount: 0,
@@ -303,11 +304,18 @@ export default {
       },
 
       checkStepFive() {
+        if (this.vueDropzoneFileThree == "" || this.vueDropzoneFileFour == "") {
+          alert("Debe agregar archivos antes de continuar.");
+        }
+
         console.log(this.tab1);
         this.companyBackgroundUploadThree();
         this.companyBackgroundUploadFour();
         console.log(this.vueDropzoneFileThree);
         console.log(this.vueDropzoneFileFour);
+        alert("Debe agregar archivos antes de continuar.");
+        
+
         if (this.tabCount < 4 || this.vueDropzoneFileThree == "" || this.vueDropzoneFileFour == "") {
           this.sendPostulation = false;
         } else {

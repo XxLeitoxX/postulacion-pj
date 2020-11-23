@@ -118,6 +118,7 @@
                       <label>Patrimonio según último balance o capital inicial para empresas < 1 año</label>
                       <input type="text" name="patrimonio_st04" ref="percentage"
                         v-model="firstPercentage"
+                        @input="acceptNumber"
                         @focus="focus($refs.input)"
                         @blur="blur([$refs.input, $refs.percentage.value])"
                         @keyup="firstPercentageValidation($refs.percentage.value)">
@@ -148,6 +149,7 @@
                       <input type="text" name="volumenfacturacion_st04"
                         ref="volumeInput"
                         v-model="volume"
+                        @input="acceptNumberVolume"
                         @focus="focus($refs.volume)"
                         @blur="blur([$refs.volume, $refs.volumeInput.value])"
                         @keyup="volumeValidation()">
@@ -579,8 +581,9 @@
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
           dictInvalidFileType: 'No puede subir archivos con este formato.',
-          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
+          dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
         },
 
         stepTwoObject: [],
@@ -616,6 +619,16 @@
         "getTotalEmployees",
         "getRange",
       ]),
+
+      acceptNumber() {
+        var x = this.streetNumber.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.firstPercentage = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+      },
+
+      acceptNumberVolume() {
+        var x = this.streetNumber.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.volume = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+      },
 
       employeesTotalValidation() {
         if (this.selectedTotalEmployees == "") {
@@ -815,6 +828,7 @@
 
         if (this.vueDropzoneFileTwo == "") {
           this.dropzoneTwoIsValid = false;
+          alert("Debe agregar archivos antes de continuar.");
         } else {
           this.dropzoneTwoIsValid = true;
         }
