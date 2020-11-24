@@ -36,6 +36,7 @@
                       <label>Número total de trabajadores en la empresa</label>
                       <input type="text" name="trabajadores_st04">
                     </div> -->
+                    <label>Número total de trabajadores en la empresa</label>
                     <div class="input u-mb0">
                       <div class="input-select">
                         <select
@@ -44,9 +45,9 @@
                           :value="selectedTotalEmployees"
                           @change="employeesTotalValidation()"
                         >
-                          <option value="" selected disabled>
+                          <!-- <option value="" selected disabled hidden>
                             Número total de trabajadores en la empresa
-                          </option>
+                          </option> -->
                           <option
                             v-for="(employees, key) in totalEmployees"
                             :value="employees.num_Trabajadores_Id"
@@ -82,6 +83,7 @@
                         </select>
                       </div>
                     </div> -->
+                    <label>Rango de facturación según ventas anuales</label>
                     <div class="input u-mb60">
                       <div class="input-select">
                         <select
@@ -90,9 +92,9 @@
                           :value="selectedRange"
                           @change="rangeValidation()"
                         >
-                          <option value="" selected disabled>
+                          <!-- <option value="" selected disabled>
                             Rango de facturación según ventas anuales
-                          </option>
+                          </option> -->
                           <option
                             v-for="(range, key) in range"
                             :value="range.rangoId"
