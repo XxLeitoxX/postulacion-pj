@@ -28,7 +28,7 @@ function emailValidate(email) {
     return isEmail;
 }
 
-function validaURL(str) {
+/*function validaURL(str) {
   var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
     '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
@@ -36,6 +36,22 @@ function validaURL(str) {
     '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
   return !!pattern.test(str);
+}*/
+
+/**
+ * Tiene que recibir:
+ *  - la url a revisar
+ *  - indicar si es obligatorio [1|0]. Si es obligatorio, devuelve
+ *    false si la url esta vacia
+ *  - indicar si validamos que la direccion pueda ser de un servidor
+ *    ftp [1|0]
+ * Devuelve True o False
+ */
+function validaURL(url)
+{
+	var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+    var regexp = new RegExp(expression);
+    return regexp.test(url);
 }
 
 export {validaRut , telValidate, emailValidate, validaURL};
