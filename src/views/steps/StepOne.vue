@@ -205,7 +205,7 @@
                         Ingrese una Categoría
                       </div>
                     </div>
-                    <div class="input" ref="phone">
+                    <div class="input active" ref="phone">
                       <label>Teléfono de la empresa <i>(Opcional)</i></label>
                       <input
                         type="text"
@@ -604,7 +604,7 @@ export default {
       businessName: '',
       date: '',
       giro: '',
-      phoneCompany: '',
+      phoneCompany: '+56',
       companyEmail: '',
       street: '',
       streetNumber: '',

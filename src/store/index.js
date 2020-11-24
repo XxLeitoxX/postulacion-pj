@@ -121,7 +121,7 @@ export default new Vuex.Store({
 	completeObject: [],
 	showFirstStep: true,
 	showSecondStep: false,
-	showThirdStep: true,
+	showThirdStep: false,
 	showSuccessStep: false,
 	globalName: '',
 	globalLastname: '',
