@@ -135,8 +135,8 @@
                         ref="build"
                         v-model="secondPercentage"
                         @input="acceptNumberSecond"
-                        @focus="focus($refs.society)"
-                        @blur="blur([$refs.society, $refs.build.value])"
+                        @focus="focusPercentage($refs.society)"
+                        @blur="blurPercentage([$refs.society, $refs.build.value])"
                         @keyup="secondPercentageValidation()">
                         <div
                           id="porcentaje-error"
@@ -151,8 +151,8 @@
                         ref="volumeInput"
                         v-model="volume"
                         @input="acceptNumberVolume"
-                        @focus="focus($refs.volume)"
-                        @blur="blur([$refs.volume, $refs.volumeInput.value])"
+                        @focus="focusUF($refs.volume)"
+                        @blur="blurUF([$refs.volume, $refs.volumeInput.value])"
                         @keyup="volumeValidation()">
                         <div
                           id="porcentaje-error"
@@ -616,7 +616,11 @@
         "saveCompletedForm",
         "getRutParnersGlobal",
         "getRutParnerGlobal",
-        "setVueDropzoneFileTwo"
+        "setVueDropzoneFileTwo",
+        "focusPercentage",
+        "blurPercentage",
+        "focusUF",
+        "blurUF"
       ]),
 
       ...mapActions([
