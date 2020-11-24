@@ -44,7 +44,7 @@
                           :value="selectedTotalEmployees"
                           @change="employeesTotalValidation()"
                         >
-                          <option value="" selected disabled hidden>
+                          <option value="" selected disabled>
                             Número total de trabajadores en la empresa
                           </option>
                           <option
@@ -90,7 +90,7 @@
                           :value="selectedRange"
                           @change="rangeValidation()"
                         >
-                          <option value="" selected disabled hidden>
+                          <option value="" selected disabled>
                             Rango de facturación según ventas anuales
                           </option>
                           <option
@@ -118,6 +118,7 @@
                       <label>Patrimonio según último balance o capital inicial para empresas < 1 año</label>
                       <input type="text" name="patrimonio_st04" ref="percentage"
                         v-model="firstPercentage"
+                        @input="acceptNumber"
                         @focus="focus($refs.input)"
                         @blur="blur([$refs.input, $refs.percentage.value])"
                         @keyup="firstPercentageValidation($refs.percentage.value)">
@@ -133,6 +134,7 @@
                       <input type="text" name="porcentajesociedad_st04"
                         ref="build"
                         v-model="secondPercentage"
+                        @input="acceptNumberSecond"
                         @focus="focus($refs.society)"
                         @blur="blur([$refs.society, $refs.build.value])"
                         @keyup="secondPercentageValidation()">
@@ -144,10 +146,11 @@
                         </div>
                     </div>
                     <div class="input u-mb30 uf" ref="volume">
-                      <label>Volumen facturado año anterior</label>
+                      <label class="uf">Volumen facturado año anterior</label>
                       <input type="text" name="volumenfacturacion_st04"
                         ref="volumeInput"
                         v-model="volume"
+                        @input="acceptNumberVolume"
                         @focus="focus($refs.volume)"
                         @blur="blur([$refs.volume, $refs.volumeInput.value])"
                         @keyup="volumeValidation()">
@@ -271,6 +274,7 @@
                             <input type="text" name="nombrepersona_st04"
                               v-model="inputsPartner[0].name"
                               ref="nameInput"
+                              maxlength="100"
                               @focus="focus($refs.name)"
                               @blur="blur([$refs.name, $refs.nameInput.value])"
                               @keyup="nameValidation($refs.nameInput.value)">
@@ -287,6 +291,7 @@
                             </label>
                             <input type="text" name="apellido1persona_st04"
                               v-model="inputsPartner[0].fatherLastname"
+                              maxlength="100" 
                               ref="fatherLastnameInput"
                               @focus="focus($refs.lastname)"
                               @blur="blur([$refs.lastname, $refs.fatherLastnameInput.value])"
@@ -305,6 +310,7 @@
                             <input type="text" name="apellido2persona_st04"
                               v-model="inputsPartner[0].motherLastname"
                               ref="motherLastnameInput"
+                              maxlength="100" 
                               @focus="focus($refs.motherLastname)"
                               @blur="blur([$refs.motherLastname, 
                                 $refs.motherLastnameInput.value])"
@@ -323,6 +329,7 @@
                             <input type="text" name="porcentajesociedad_st04"
                               v-model="inputsPartner[0].societyPercentage"
                               ref="societyPercentageInput"
+                              @input="acceptNumberPercentage"
                               @focus="focus($refs.societyPercentage)"
                               @blur="blur([$refs.societyPercentage, $refs.societyPercentageInput.value]), 
                                 percentageValidation($refs.societyPercentageInput.value)"
@@ -435,7 +442,7 @@
                               <label>Porcentaje de la sociedad<i> 
                                 (<i class="contador">{{index+2}}</i> de <i class="total">{{partners.length + 1}}</i>)</i>
                               </label>
-                              <input type="text" name="porcentajesociedad_st04"
+                              <input type="number" name="porcentajesociedad_st04"
                                 v-model="part[index+1].societyPercentage"
                                 ref="societyPercentageInput"
                                 @focus="focus($refs.societyPercentage[index])"
@@ -579,8 +586,9 @@
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
           dictInvalidFileType: 'No puede subir archivos con este formato.',
-          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
+          dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
         },
 
         stepTwoObject: [],
@@ -616,6 +624,26 @@
         "getTotalEmployees",
         "getRange",
       ]),
+
+      acceptNumber() {
+        var x = this.firstPercentage.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.firstPercentage = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+      },
+
+      acceptNumberSecond() {
+        var x = this.secondPercentage.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.secondPercentage = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+      },
+      acceptNumberVolume() {
+        var x = this.volume.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.volume = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+      },
+
+      acceptNumberPercentage() {
+        var x = this.inputsPartner[0].societyPercentage.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.inputsPartner[0].societyPercentage = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+      },
+
 
       employeesTotalValidation() {
         if (this.selectedTotalEmployees == "") {
@@ -773,8 +801,8 @@
           for(var i = 2; i <= this.inputsPartner.length; i++) {
             console.log(this.inputsPartner[0].societyPercentage);
             console.log(i);
-            this.totalPercentage = parseInt(this.inputsPartner[i-1].societyPercentage);
-            this.total = parseInt(this.totalPercentage) + parseInt(this.total);
+            this.totalPercentage = parseFloat(this.inputsPartner[i-1].societyPercentage);
+            this.total = parseFloat(this.totalPercentage) + parseFloat(this.total);
             console.log(this.total);
             if (this.total > 100) {
               this.societyPercentageIsValid = false;
@@ -815,6 +843,7 @@
 
         if (this.vueDropzoneFileTwo == "") {
           this.dropzoneTwoIsValid = false;
+          alert("Debe agregar archivos antes de continuar.");
         } else {
           this.dropzoneTwoIsValid = true;
         }
@@ -974,6 +1003,33 @@
   background: url(../../assets/img/draganddrop-text.svg) no-repeat center;
   margin-left: -4%;
   height: 10px;
+}
+
+.vue-dropzone>.dz-preview .dz-error-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.vue-dropzone>.dz-preview .dz-remove {
+    position: absolute;
+    z-index: 30;
+    color: #fff;
+    margin-left: 15px;
+    margin-bottom: 35px;
+    padding: 10px;
+    top: inherit;
+    bottom: 15px;
+    border: 2px #fff solid;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    opacity: 0;
 }
 </style>
 
