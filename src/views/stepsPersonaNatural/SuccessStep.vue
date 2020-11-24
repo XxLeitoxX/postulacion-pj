@@ -82,7 +82,7 @@
 		      console.log("AXIOS ERROR: ", error);
 		      });
 			},
-
+ 
 			requestIdConecta(number) {
 				console.log(number);
 				let requestNumber = number;

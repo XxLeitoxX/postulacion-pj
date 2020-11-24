@@ -39,9 +39,9 @@
                     </div>
                     <div class="input" ref="nombre">
                       <label>Nombre del Patrocinante 1</label>
-                      <input type="text" name="nombreparticipante_st05" v-model="nombreParticipante" ref="nombreParticipante" @focus="focus($refs.nombre)" @blur="blur([$refs.nombre, $refs.nombreParticipante.value])">
+                      <input type="text" maxlength="100" name="nombreparticipante_st05" v-model="nombreParticipante" ref="nombreParticipante" @focus="focus($refs.nombre)" @blur="blur([$refs.nombre, $refs.nombreParticipante.value])">
                     </div>
-                    <div class="input" ref="telefono">
+                    <div class="input active" ref="telefono">
                       <label>Teléfono </label>
                       <input type="text" name="telefonoparticipante_st05" v-model="telefonoParticipante" ref="telefonoParticipante" @focus="focus($refs.telefono)" @blur="blur([$refs.telefono, $refs.telefonoParticipante.value])" @keyup="telPatrocinanteValidation($refs.telefonoParticipante.value)">
                       <div class="small-text">Use el formato +56 0 0000 0000</div>
@@ -80,9 +80,9 @@
                       </div>
                       <div class="input" ref="nombre2">
                         <label>Nombre del Patrocinante 2</label>
-                        <input type="text" name="nombreparticipante02_st05" v-model="nombreParticipante2" ref="nombreParticipante2" @focus="focus($refs.nombre2)" @blur="blur([$refs.nombre2, $refs.nombreParticipante2.value])">
+                        <input type="text" maxlength="100" name="nombreparticipante02_st05" v-model="nombreParticipante2" ref="nombreParticipante2" @focus="focus($refs.nombre2)" @blur="blur([$refs.nombre2, $refs.nombreParticipante2.value])">
                       </div>
-                      <div class="input" ref="telefono2">
+                      <div class="input active" ref="telefono2">
                         <label>Teléfono </label>
                         <input type="text" name="telefonoparticipante02_st05" v-model="telefonoParticipante2" ref="telefonoParticipante2" @focus="focus($refs.telefono2)" @blur="blur([$refs.telefono2, $refs.telefonoParticipante2.value])" @keyup="telPatrocinante2Validation($refs.telefonoParticipante2.value)">
                         <div class="small-text">Use el formato +56 0 0000 0000</div>
@@ -121,15 +121,15 @@
           <a class="close-modal-text" @click="$modal.hide('help-modal-1')">X</a>
           <h2>¿Quiénes son los patrocinadores?</h2>
           <ul>
-            <li>Socios activos con sus cuotas sociales al día, quienes deben completar y firmar la hoja correspondiente en la Solicitud de inscripción.</li>
-            <li>Para el caso de las empresas, quien firma debe ser el Representante ante la Cámara o Representante Legal, y deben tener sus cuotas al día.</li>
-            <li>El patrocinante y el firmante NO pueden tener relación con el postulante.</li>
-            <li>NO puede patrocinar.</li>
+            <li style="margin-top:15px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>Socios activos con sus cuotas sociales al día, quienes deben completar y firmar la hoja correspondiente en la Solicitud de inscripción.</li>
+            <li style="margin-top:10px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>Para el caso de las empresas, quien firma debe ser el Representante ante la Cámara o Representante Legal, y deben tener sus cuotas al día.</li>
+            <li style="margin-top:10px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>El patrocinante y el firmante NO pueden tener relación con el postulante.</li>
+            <li style="margin-top:10px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>NO puede patrocinar.</li>
           </ul>
-          <p>Integrantes de Mesas Directivas Nacional y de Cámaras Regionales.</p>
-          <p>Directores Nacionales.</p>
-          <p>Consejeros Regionales.</p>
-          <p>Integrantes de las Comisiones de Socios a nivel nacional.		</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Integrantes de Mesas Directivas Nacional y de Cámaras Regionales.</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Directores Nacionales.</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Consejeros Regionales.</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Integrantes de las Comisiones de Socios a nivel nacional.		</p>
       </modal>
       </main>
   </div>
@@ -158,15 +158,16 @@ export default {
         nombreParticipante2: '',
         emailParticipante: '',
         emailParticipante2: '',
-        telefonoParticipante: '',
-        telefonoParticipante2: '',
+        telefonoParticipante: '+56',
+        telefonoParticipante2: '+56',
         dataPatrocinantes: [{}],
         dataValidaciones: [],
         urlBase: this.$store.state.URL,
         grupos: {},
         estado: '', 
         motivo: {},
-        rutPatrocinatnes: []
+        rutPatrocinatnes: [],
+        noExiste: false
       }
     },
     methods:{
@@ -216,9 +217,11 @@ export default {
               telefonoParticipante2: this.telefonoParticipante2,
             } 
           });
+          this.noExiste =true;
         }
         else {
-          alert("Socio no cumple requisitos");
+          alert("Patrocinante no cumple requisitos");
+          this.noExiste = false;
           this.dataPatrocinantes.push({
             patrocinantes: {
               rutParticipante: this.rutParticipante,
@@ -263,7 +266,7 @@ export default {
                   this.nombreParticipante = this.dataValidaciones.Representante.nombre;
                   this.estado = this.dataValidaciones.Estado;
                   this.focus(ref);
-
+                  this.noExiste = true;
                   if (this.dataValidaciones.grupos !== '') {
                     this.grupos = {
                     name: this.dataValidaciones.grupos.GRUPO,
@@ -272,11 +275,12 @@ export default {
                   }
                   
                 } else {
-                  alert("Los participantes deben tener rut distinto");
+                  alert("Los patrocinantes deben tener rut distinto");
                   
                 }
                 } else {
                   alert("El patrocinante no existe");
+                  this.noExiste = false;
                 }
       
               }).catch(function (error) {
@@ -305,7 +309,7 @@ export default {
                   this.nombreParticipante = this.dataValidaciones.Representante.nombre;
                   this.estado = this.dataValidaciones.Estado;
                   this.focus(ref);
-
+                  this.noExiste = true;
                   if (this.dataValidaciones.grupos !== '') {
                     this.grupos = {
                     name: this.dataValidaciones.grupos.GRUPO,
@@ -314,11 +318,12 @@ export default {
                   }
                   
                 } else {
-                  alert("Los participantes deben tener rut distinto");
+                  alert("Los patrocinantes deben tener rut distinto");
                   
                 }
                 } else {
                   alert("El patrocinante no existe");
+                  this.noExiste = false;
                 }
       
               }).catch(function (error) {
@@ -334,7 +339,7 @@ export default {
         
 
       } else {
-          alert("Debe llenar composición accionaria del paso anterior");
+          alert("Debe completar composición accionaria del paso anterior");
           this.rutParticipante = "";
         }
         
@@ -358,15 +363,17 @@ export default {
                 this.focus(ref);
                 this.estado = this.dataValidaciones.Estado;
                 this.estado = this.dataValidaciones.Estado;
+                this.noExiste = true;
                 this.grupos = {
                   name: this.dataValidaciones.grupos.GRUPO,
                   perId: this.dataValidaciones.grupos.PER_ID
                 }
               } else {
-                alert("Los participantes deben tener rut distinto");
+                alert("Los patrocinantes deben tener rut distinto");
               }
               } else {
                 alert("El Patrocinante no existe");
+                this.noExiste = false;
               }
 
             }).catch(function (error) {
@@ -395,15 +402,17 @@ export default {
                 this.focus(ref);
                 this.estado = this.dataValidaciones.Estado;
                 this.estado = this.dataValidaciones.Estado;
+                this.noExiste = true;
                 this.grupos = {
                   name: this.dataValidaciones.grupos.GRUPO,
                   perId: this.dataValidaciones.grupos.PER_ID
                 }
               } else {
-                alert("Los participantes deben tener rut distinto");
+                alert("Los patrocinantes deben tener rut distinto");
               }
               } else {
                 alert("El Patrocinante no existe");
+                this.noExiste = false;
               }
 
             }).catch(function (error) {
@@ -418,7 +427,7 @@ export default {
 
         } else {
           
-          alert("Debe llenar composición accionaria del paso anterior");
+          alert("Debe completar composición accionaria del paso anterior");
           this.rutParticipante2 = "";
         
         }
@@ -447,7 +456,7 @@ export default {
 
       saveContinue() {
         console.log(this.validateInput());
-        if (this.validateInput()) {
+        if (this.validateInput() && this.noExiste) {
           this.save();
           //this.$router.push({ name: "StepFour" });
           console.log({rut1: this.rutParticipante, rut2: this.rutParticipante2});
@@ -456,7 +465,7 @@ export default {
           this.setStepFourValue(true);
           this.setStepThreeValue(false);
         } else {
-          alert("Debe llenar todos los campos");
+          alert("Debe completar todos los campos");
           this.setStepFourValue(false);
         }
       },

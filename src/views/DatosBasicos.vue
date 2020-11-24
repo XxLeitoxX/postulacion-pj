@@ -9,7 +9,7 @@
               <h2>DATOS BÁSICOS DE LA SOLICITUD</h2>
               <form action="#" id="step02">
                 <div class="input" ref="rutInput">
-                  <label>RUT de la empresa</label>
+                  <label>RUT del Postulante</label>
                   <input
                     type="text"
                     name="rutst02"
@@ -23,7 +23,7 @@
                     
                   />
                   <div class="small-text">Sin puntos y con guión (11111111-1)</div>
-                  <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un rut Válido</div>
+                  <div id="rutst02-error" class="formerror" v-if="!rutIsValid">Ingrese un RUT válido</div>
                 </div>
                 <div class="input" ref="emailInput">
                   <label>Correo electrónico</label>
@@ -40,7 +40,7 @@
                     id="email2st02-error"
                     class="formerror"
                     v-if="!emailIsValid"
-                  >Ingrese un email válido</div>
+                  >Por favor, ingrese un correo electrónico válido</div>
                 </div>
                 <div class="input" ref="email_confirmation">
                   <label>Confirme su correo electrónico</label>
@@ -57,19 +57,19 @@
                     id="email2st02-error"
                     class="formerror"
                     v-if="!emailConfirmIsValid"
-                  >Ingrese un email válido</div>
+                  >Por favor, ingrese un correo electrónico válido</div>
                   <div
                     id="email2st02-error"
                     class="formerror"
-                    v-if="!emailConfirmIsValidEqual"
-                  >El email debe ser el mismo</div>
+                    v-if="!emailConfirmIsValidEqual">
+                    El correo electrónico ingresado es distinto al anterior</div>
                   <div
                     id="email2st02-error"
                     class="formerror"
                     v-if="!emailEquals"
-                  >El email debe ser igual</div>
+                  >El correo electrónico ingresado es distinto al anterior</div>
                 </div>
-                <div class="input" ref="phone_number">
+                <div class="input active" ref="phone_number">
                   <label>Teléfono</label>
                   <input
                     type="text"
@@ -264,7 +264,7 @@ export default {
       rut: "",
       email: "",
       emailConfirm: "",
-      tel: "",
+      tel: "+56",
       camaraSelect: "",
       tipSelect: "",
       tipSelectSoc: "",
@@ -345,7 +345,7 @@ export default {
 
       if (this.tipSelect == '1') {
         if (this.tipSelectSoc == "") {
-        this.tipoSolIsValid = false;
+        this.tipoSocIsValid = false;
         this.formIsValid = false;
       } else if (this.rutIsValid && this.telIsValid && this.emailIsValid && this.emailConfirmIsValid) {
         this.tipoSolIsValid = true;
@@ -422,6 +422,8 @@ export default {
     onChangeTipoSoc() {
       if (this.tipSelectSoc !== "") {
         this.tipoSocIsValid = true;
+      } else {
+        this.tipoSocIsValid = false;
       }
       
     },
