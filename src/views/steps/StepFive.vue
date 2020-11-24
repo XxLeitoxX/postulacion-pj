@@ -256,7 +256,7 @@ export default {
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
           dictInvalidFileType: 'No puede subir archivos con este formato.',
-          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
           dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
         },
@@ -443,5 +443,32 @@ export default {
   background: url(../../assets/img/dropzone02.svg) no-repeat center;
   margin-left: -4%;
   height: 10px;
+}
+
+.vue-dropzone>.dz-preview .dz-error-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.vue-dropzone>.dz-preview .dz-remove {
+    position: absolute;
+    z-index: 30;
+    color: #fff;
+    margin-left: 15px;
+    margin-bottom: 35px;
+    padding: 10px;
+    top: inherit;
+    bottom: 15px;
+    border: 2px #fff solid;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    opacity: 0;
 }
 </style>
