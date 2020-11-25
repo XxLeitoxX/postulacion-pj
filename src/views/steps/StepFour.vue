@@ -290,6 +290,7 @@
 
       <modal name="obras-infra" :height="400">
           <a class="close-modal-text" @click="$modal.hide('obras-infra')">X</a>
+          <h2>Obras Infraestructura Pública</h2><br>
           <p>Agrupa a empresas de construcción, de ingeniería y de consultoría relacionadas con los contratos de obras de 
             infraestructura de uso público (carreteras, puentes, obras hidráulicas, arquitectura, concesiones, obras sanitarias, 
             ferroviarias, etc). Su labor está orientada al estudio de las inversiones proyectadas por el MOP y otros mandantes de 
@@ -301,6 +302,7 @@
 
       <modal name="concesiones" :height="400">
           <a class="close-modal-text" @click="$modal.hide('concesiones')">X</a>
+          <h2>Concesiones</h2><br>
           <p>Agrupa a las empresas concesionarias de obras de infraestructura de uso público y de servicios, con el 
             objeto de representar los intereses de las grandes, medianas y pequeñas concesionarias que operan en este 
             ámbito. Sus principales líneas de acción contemplan el perfeccionamiento de la institucionalidad de las 
@@ -312,6 +314,7 @@
 
       <modal name="inmobiliario" :height="400">
           <a class="close-modal-text" @click="$modal.hide('inmobiliario')">X</a>
+          <h2>Inmobiliario</h2><br>
           <p>Agrupa a empresas inmobiliarias, constructoras, instituciones financieras, corredores de propiedades, 
             arquitectos y otros profesionales relacionados con el mercado Inmobiliario. Tiene por finalidad estudiar la 
             oferta y demanda de bienes raíces, mantener el flujo de información sobre necesidades, requerimientos y 
@@ -320,6 +323,7 @@
 
       <modal name="vivienda" :height="400">
           <a class="close-modal-text" @click="$modal.hide('vivienda')">X</a>
+          <h2>Vivienda</h2><br>
           <p>Agrupa a empresas que se dedican a la construcción y venta de viviendas con subsidio otorgados por el Ministerio 
             de Vivienda y Urbanismo (MINVU) y otras instituciones públicas o privadas. Le corresponde el tratamiento de 
             todas las materias vinculadas con la vivienda subsidiada, especialmente: materias relacionadas con la actividad 
@@ -330,12 +334,14 @@
 
       <modal name="proveedores" :height="400">
           <a class="close-modal-text" @click="$modal.hide('proveedores')">X</a>
+          <h2>Proveedores</h2><br>
           <p>Agrupa a empresas distribuidoras y proveedoras de materiales de construcción del país. Desarrolla una labor 
             de promoción, difusión e intercambio de información, y realiza estudios sobre el mercado de la demanda de productos.</p>
       </modal>
 
       <modal name="industriales" :height="400">
           <a class="close-modal-text" @click="$modal.hide('industriales')">X</a>
+          <h2>Industriales</h2><br>
           <p>Agrupa a empresas industriales, en su mayoría dedicadas a la producción y comercialización de bienes y servicios, 
             cuyo principal destinatario es el sector de la construcción. Constituye la instancia para canalizar las inquietudes 
             del sector industrial, obtener información respecto de la coyuntura económica, laboral, de seguridad industrial, 
@@ -345,6 +351,7 @@
 
       <modal name="especialidades" :height="400">
           <a class="close-modal-text" @click="$modal.hide('especialidades')">X</a>
+          <h2>Especialidades</h2><br>
           <p>Agrupa a empresas y profesionales especializados en los diferentes procesos constructivos, 
             principalmente en las áreas de proyectos, confección e instalación. Su labor fundamental es promover 
             el uso de nuevas tecnologías, equipamiento y servicios de la más alta calidad.</p>

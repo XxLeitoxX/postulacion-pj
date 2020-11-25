@@ -12,7 +12,7 @@
                   <form action="#" id="loginform">
                     <div class="input" ref="rutRecovery">
                       <label>RUT DE LA EMPRESA</label>
-                      <input type="text" ref="rutRecoveryInput" v-model="rutRecovery" name="loginrut" @focus="focus($refs.rutRecovery)" @blur="blur([$refs.rutRecovery, $refs.rutRecoveryInput.value])" @keyup="validation($refs.rutRecoveryInput.value)">
+                      <input type="text" ref="rutRecoveryInput" v-model="rutRecovery" name="loginrut" @focus="focus($refs.rutRecovery)" @blur="blur([$refs.rutRecovery, $refs.rutRecoveryInput.value])" @keyup="checkInput($refs.rutRecoveryInput.value)">
                       <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
                       <div id="loginrut-error" class="errorlogin" v-if="rutIsValid === false">Ingrese un rut Válido</div>
                     </div>
@@ -34,6 +34,8 @@ import { mapState, mapMutations } from 'vuex'
 //axios
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import { validaRut } from "./../validation/validation";
+
 export default {
   name: 'RecoveryCode',
   components: {
@@ -44,7 +46,8 @@ export default {
      rutRecovery: '',
      urlBase: this.$store.state.URL,
      nroSolicitud: '',
-     email: ''
+     email: '',
+     rutIsValid: ""
     }
   },
   methods: {
@@ -64,8 +67,20 @@ export default {
       this.nextStep();
     },
 
+    checkInput(rut) {
+      if (rut !== "") {
+        validaRut(rut)
+          ? (this.rutIsValid = true)
+          : (this.rutIsValid = false);
+      }
+    },
+
     nextStep() {
-      this.$router.push({ name: "RecoverySuccess" });
+      if (this.rutIsValid == true) {
+          this.$router.push({ name: "RecoverySuccess" });
+      } else {
+        alert("El rut debe ser válido");
+      }
     }
   },
 
@@ -74,7 +89,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['rutIsValid'])
+   /// ...mapState(['rutIsValid'])
   }
 }
 </script>
