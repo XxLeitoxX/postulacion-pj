@@ -374,7 +374,7 @@ export default {
           : ((this.emailConfirmIsValid = false), (this.formIsValid = false));
       }
 
-      if (this.tel !== "") {
+      if (this.tel !== "+56") {
         telValidate(this.tel)
           ? (this.telIsValid = true)
           : ((this.telIsValid = false), (this.formIsValid = false));
