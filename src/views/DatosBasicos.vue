@@ -9,7 +9,7 @@
               <h2>DATOS BÁSICOS DE LA SOLICITUD</h2>
               <form action="#" id="step02">
                 <div class="input" ref="rutInput">
-                  <label>RUT de la empresa</label>
+                  <label>RUT del Postulante</label>
                   <input
                     type="text"
                     name="rutst02"

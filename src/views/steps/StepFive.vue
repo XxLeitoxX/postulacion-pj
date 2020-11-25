@@ -58,7 +58,7 @@
                           <p>Con el propósito de seguir construyendo una Cultura de Seguridad, mantendré integrada la Prevención de Riesgos en las operaciones habituales que ejecute la empresa a la cual represento, en todos sus centros de trabajo, comprometiéndome a establecer los más altos estándares de seguridad y salud laboral en todo nuestro quehacer y con todos los actores de la cadena de valor, a través de las siguientes conductas empresariales: </p>
                           <ul>
                             <li>Reconocer y gestionar la seguridad y la salud de todos nuestros trabajadores y de quienes participan de sus actividades como valor estratégico.</li>
-                            <li>stablecer una cultura de seguridad y salud en toda la organización, comenzando por los líderes, promoviendo la participación de nuestros trabajadores y fomentando la prevención.</li>
+                            <li>Establecer una cultura de seguridad y salud en toda la organización, comenzando por los líderes, promoviendo la participación de nuestros trabajadores y fomentando la prevención.</li>
                             <li>Anticipar los peligros inherentes en sus actividades, y analizar e implementar soluciones para eliminar o mitigar la exposición al riesgo.</li>
                           </ul>
                           <p>Lo anterior a través de las siguientes prácticas:<br>Definir y comunicar a la organización los objetivos en Seguridad y Salud en el trabajo, en adelante “SST”.<br>Identificar los peligros de SST e implementar un plan de mitigación asociados a ellos, con al menos una revisión anual.<br>Implementar un Sistema de Gestión en Seguridad y Salud en el Trabajo que involucre la participación de ejecutivos mandos medios y trabajadores.<br>Desarrollar un plan anual de capacitación en SST para ejecutivos, mandos medios y trabajadores.<br>Implementar un modelo de reporte de incidentes, realizando gestión sobre los hallazgos de riesgos mayores.<br>Reportar a la Comisión de Seguridad y Salud Laboral de la CChC los accidentes graves y/o fatales que se produzcan en la empresa y obras y afecten a trabajadores propios o de contratistas, facilitando información a la Comisión que permita realizar los aprendizajes de cada caso.</p>
@@ -89,12 +89,12 @@
                         </div>
                         <div class="tab-info">
                           <h3>Declaración de Compromiso Protocolo Sanitario Covid-19 </h3>
-                          <p>Por el presente acto e instrumento vengo en declarar: <br>Nuestro <strong>compromiso con la protección y el cuidado de los trabajadores, sus familias y la comunidad </strong>, mediante la implementación y cumplimiento efectivo en nuestras obras/faenas/centros de trabajo del Protocolo Sanitario elaborado por la Cámara Chilena de la Construcción A.G.-CChC, para mitigar el riesgo de contagio de Covid-19. <br>Nuestro <strong>compromiso con el bienestar de los trabajadores y de sus familias </strong>, mediante la implementación de los <strong>programas sociales </strong>que la CChC ha diseñado para apoyarlos permanentemente y en estas especiales circunstancias, en coherencia con su misión institucional de mejorar la calidad de vida de las personas y comprometidos con el desarrollo sostenible del sector construcción. <br>Ejercer un <strong>liderazgo permanente </strong>, propio y de nuestros equipos ejecutivos, para que se ejecuten las acciones y se produzcan rápida y efectivamente los cambios conductuales que demanda la compleja situación que hoy enfrenta el país. <br>Particularmente en relación con el cumplimiento del Protocolo Sanitario de la CChC y el desafío permanente de seguir construyendo una cultura preventiva, nos comprometemos a cumplir efectivamente con las siguientes prácticas: 
+                          <p>Por el presente acto e instrumento vengo en declarar: <br>Nuestro <strong>compromiso con la protección y el cuidado de los trabajadores, sus familias y la comunidad</strong>, mediante la implementación y cumplimiento efectivo en nuestras obras/faenas/centros de trabajo del Protocolo Sanitario elaborado por la Cámara Chilena de la Construcción A.G.-CChC, para mitigar el riesgo de contagio de Covid-19. <br>Nuestro <strong>compromiso con el bienestar de los trabajadores y de sus familias</strong>, mediante la implementación de los <strong>programas sociales </strong>que la CChC ha diseñado para apoyarlos permanentemente y en estas especiales circunstancias, en coherencia con su misión institucional de mejorar la calidad de vida de las personas y comprometidos con el desarrollo sostenible del sector construcción. <br>Ejercer un <strong>liderazgo permanente</strong>, propio y de nuestros equipos ejecutivos, para que se ejecuten las acciones y se produzcan rápida y efectivamente los cambios conductuales que demanda la compleja situación que hoy enfrenta el país. <br>Particularmente en relación con el cumplimiento del Protocolo Sanitario de la CChC y el desafío permanente de seguir construyendo una cultura preventiva, nos comprometemos a cumplir efectivamente con las siguientes prácticas: 
                             <ul> 
                               <li><strong>Asignar los recursos necesarios </strong>que permitan implementar las medidas sanitarias en todos nuestros centros de trabajo. </li>
                               <li><strong>Mantener informados </strong>a nuestros trabajadores (directos e indirectos) sobre las medidas preventivas definidas por nuestra organización. </li>
                               <li><strong>Visitar nuestras obras, faenas o centros de trabajo </strong>para conocer directamente el estado de implementación del Protocolo Sanitario (liderazgo visible).</li>
-                              <li><strong>Autoevaluar y verificar semanalmente el cumplimiento de las medidas</strong>indicadas en el Protocolo, con las herramientas que la CChC ponga a disposición.</li>
+                              <li><strong>Autoevaluar y verificar semanalmente el cumplimiento de las medidas </strong>indicadas en el Protocolo, con las herramientas que la CChC ponga a disposición.</li>
                             </ul>
                           </p>
                           <div class="md-checkbox">
@@ -129,6 +129,7 @@
                   <p class="u-mb50">La Cámara insta a sus socios a comprometerse con las mejores prácticas empresariales y de la industria. Es por ello que pedimos acreditarlas con los siguientes documentos</p>
                   <!-- <form class="dropzone dropzone-custom small-drop" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span></form>
                   <form class="dropzone dropzone-custom small-drop02" action="/file-upload"><span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span></form> -->
+                  <form>
                   <vue-dropzone
                     ref="myVueDropzone3"
                     :useCustomSlot="true"
@@ -147,13 +148,16 @@
 
                       </div>
                     </div>
+                  <span class="dropzone-tooltip" aria-label="Este certificado se obtiene en la Dirección del Trabajo." data-microtip-position="right" role="tooltip">?</span>
                   </vue-dropzone>
+                  </form>
                  <!--  <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
                   /> -->
                   
                   <br>
+                  <div>
                   <vue-dropzone
                     ref="myVueDropzone4"
                     :useCustomSlot="true"
@@ -172,7 +176,10 @@
 
                       </div>
                     </div>
+                    
                   </vue-dropzone>
+                  <span class="dropzone-tooltip2" aria-label="Este certificado se obtiene en la mutualidad correspondiente." data-microtip-position="right" role="tooltip">?</span>
+                  </div>
                   <!-- <AttachmentList
                     :tempAttachments="getTempAttachments"
                     :attachments="getAttachments"
@@ -220,6 +227,8 @@
   import axios from 'axios'
   import VueAxios from 'vue-axios'
 
+  import VueSweetalert2 from 'vue-sweetalert2';
+
 export default {
   name: 'StepFive',
   mixins: [mixin],
@@ -256,7 +265,7 @@ export default {
           dictRemoveFile: 'Eliminar archivo',
           dictCancelUpload: 'Cancelar subida',
           dictInvalidFileType: 'No puede subir archivos con este formato.',
-          dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+          dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
           acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
           dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
         },
@@ -417,7 +426,7 @@ export default {
 
 .border4 {
   /*background: url(../../assets/img/draganddrop.png) no-repeat !important;*/
-  border: 1;
+  /*border: 1px !important;*/
   /*height: 194px;
   width: 652px;*/
 }
@@ -443,5 +452,47 @@ export default {
   background: url(../../assets/img/dropzone02.svg) no-repeat center;
   margin-left: -4%;
   height: 10px;
+}
+
+.vue-dropzone>.dz-preview .dz-error-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.vue-dropzone>.dz-preview .dz-remove {
+    position: absolute;
+    z-index: 30;
+    color: #fff;
+    margin-left: 15px;
+    margin-bottom: 35px;
+    padding: 10px;
+    top: inherit;
+    bottom: 15px;
+    border: 2px solid;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    opacity: 0;
+}
+
+.dropzone-tooltip2 {
+    cursor: pointer!important;
+    background: #185bc1;
+    color: #fff;
+    height: 22px;
+    width: 22px;
+    position: absolute!important;
+    right: -40px;
+     top: 80%; 
+    transform: translateY(-50%);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
 }
 </style>

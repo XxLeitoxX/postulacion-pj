@@ -121,7 +121,7 @@ export default new Vuex.Store({
 	completeObject: [],
 	showFirstStep: true,
 	showSecondStep: false,
-	showThirdStep: true,
+	showThirdStep: false,
 	showSuccessStep: false,
 	globalName: '',
 	globalLastname: '',
@@ -246,6 +246,44 @@ export default new Vuex.Store({
   			refs[0].className = 'input'
   		} else {
   			refs[0].className = 'input active'
+  		}
+  		console.log(refs);
+  		console.log(refs[1]);
+  		//state.active = ''
+  	},
+
+  	focusPercentage(state, refs) {
+  		console.log(refs);
+  		refs.className = 'input u-mb60 percent active'
+  		console.log(refs);
+  		//console.log(refs);
+  	},
+
+  	blurPercentage(state, refs) {
+  		if (refs[1] == '') {
+
+  			refs[0].className = 'input u-mb60 percent'
+  		} else {
+  			refs[0].className = 'input u-mb60 percent active'
+  		}
+  		console.log(refs);
+  		console.log(refs[1]);
+  		//state.active = ''
+  	},
+
+  	focusUF(state, refs) {
+  		console.log(refs);
+  		refs.className = 'input u-mb30 uf active'
+  		console.log(refs);
+  		//console.log(refs);
+  	},
+
+  	blurUF(state, refs) {
+  		if (refs[1] == '') {
+
+  			refs[0].className = 'input u-mb30 uf'
+  		} else {
+  			refs[0].className = 'input u-mb30 uf active'
   		}
   		console.log(refs);
   		console.log(refs[1]);

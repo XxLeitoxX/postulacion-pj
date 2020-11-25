@@ -21,7 +21,7 @@
                 <p>Tengo un proceso iniciado y me gustaría retomarlo o quiero ver el estado de mi postulación</p>
                 <form action="#" id="loginform">
                   <div class="input" ref="rut">
-                    <label>RUT DE LA EMPRESA</label>
+                    <label>RUT DEL POSTULANTE</label>
                     <input type="text" name="loginrut" ref="rutInput" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutInput.value]), getRequestNumber($refs.rutInput.value)" 
                       v-model="rut" @keyup="rutValidation($refs.rutInput.value)" />
                     <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>

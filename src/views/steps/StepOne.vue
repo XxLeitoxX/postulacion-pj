@@ -205,7 +205,7 @@
                         Ingrese una Categoría
                       </div>
                     </div>
-                    <div class="input" ref="phone">
+                    <div class="input active" ref="phone">
                       <label>Teléfono de la empresa <i>(Opcional)</i></label>
                       <input
                         type="text"
@@ -604,7 +604,7 @@ export default {
       businessName: '',
       date: '',
       giro: '',
-      phoneCompany: '',
+      phoneCompany: '+56',
       companyEmail: '',
       street: '',
       streetNumber: '',
@@ -1302,5 +1302,32 @@ export default {
 
 .pointer {
   cursor: pointer !important;
+}
+
+.vue-dropzone>.dz-preview .dz-error-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.vue-dropzone>.dz-preview .dz-remove {
+    position: absolute;
+    z-index: 30;
+    color: #fff;
+    margin-left: 15px;
+    margin-bottom: 35px;
+    padding: 10px;
+    top: inherit;
+    bottom: 15px;
+    border: 2px #fff solid;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    opacity: 0;
 }
 </style>
