@@ -328,7 +328,7 @@
                             <label>Porcentaje de la sociedad<i> 
                               (<i class="contador">1</i> de <i class="total">{{partners.length + 1}}</i>)</i>
                             </label>
-                            <input type="text" name="porcentajesociedad_st04"
+                            <input type="number" name="porcentajesociedad_st04"
                               v-model="inputsPartner[0].societyPercentage"
                               ref="societyPercentageInput"
                               @input="acceptNumberPercentage"
@@ -457,10 +457,15 @@
                                     Ingrese un porcentaje
                                 </div>
                             </div>
-                            <a class="input-remover pointer" @click="deletePartner(index)" v-if="partners.length >= 1" 
-                              id="repeater-rmv-btn">
-                              Eliminar socio<span>x</span>
-                            </a>
+                            
+                            <div>
+                              
+                              <button class="btn btn-default btn-sm pointer" @click="deletePartner(index)"  
+                                >
+                                <span class="glyphicon glyphicon-remove"></span> Eliminar socio 
+
+                              </button>
+                            </div>
                             <hr>
                           </div>
                         </template>
@@ -646,8 +651,14 @@
       },
 
       acceptNumberPercentage() {
-        var x = this.inputsPartner[0].societyPercentage.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-        this.inputsPartner[0].societyPercentage = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+        /*var x = this.inputsPartner[0].societyPercentage.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.inputsPartner[0].societyPercentage = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');*/
+
+        Number.isFloat = Number.isFloat || function(value) {
+        return typeof value === 'number' && 
+          isFinite(value) &&
+          Math.floor(value) !== value;
+        }
       },
 
 
