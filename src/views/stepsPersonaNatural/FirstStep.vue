@@ -78,9 +78,10 @@
 	                        	Ingrese un apellido
 	                      	</div>
 	                    </div>
-	                    <div class="input" ref="rut">
+	                    <div class="input active" ref="rut">
 	                      <label>RUT de la persona</label>
 	                      <input type="text" 
+	                      	disabled 
 	                      	name="rutempresa_st03"
 	                      	v-model="rut"
 	                      	ref="rutInput"
@@ -122,6 +123,49 @@
 	                        Ingrese una fecha
 	                      </div>
 	                    </div>
+
+	                    <div class="input active" ref="phone">
+	                      <label>Teléfono de la empresa <i>(Opcional)</i></label>
+	                      <input
+	                        type="text"
+	                        name="telefonoempresa_st03"
+	                        v-model="phone"
+	                        ref="phoneCompany"
+	                        @focus="focus($refs.phone)"
+	                        @blur="blur([$refs.phone, $refs.phoneCompany.value])"
+	                        @keyup="phoneNumberValidation($refs.phoneCompany.value)"
+	                      />
+	                      <div class="small-text">
+	                        Use el formato +56 0 0000 0000
+	                      </div>
+	                      <div
+	                        id="phonest02-error"
+	                        class="formerror"
+	                        v-if="telIsValid === false && this.phone !== ''"
+	                      >
+	                        Ingrese un número válido
+	                      </div>
+	                    </div>
+
+	                    <div class="input" ref="email">
+	                      <label>Email de la empresa <i>(Opcional)</i></label>
+	                      <input
+	                        type="text"
+	                        name="emailempresa_st03"
+	                        v-model="email"
+	                        ref="emailCompany"
+	                        @focus="focus($refs.email)"
+	                        @blur="blur([$refs.email, $refs.emailCompany.value])"
+	                        @keyup="emailValidation($refs.emailCompany.value)"
+	                      />
+	                      <div
+	                        id="email2st02-error"
+	                        class="formerror"
+	                        v-if="emailIsValid === false">
+	                        Ingrese un email válido
+	                      </div>
+	                    </div>
+
 	                    <div class="input">
 	                      <div class="input-select">
 	                        <select
@@ -178,6 +222,12 @@
 	            	</a>
 	              <div class="row">
 	                <div class="col-md-12 col-lg-6 offset-lg-2">
+	                	<div
+	                      id="loginrut-error"
+	                      class="errorFile"
+	                      v-if="dropzoneIsValid === false">
+	                        Ingrese un archivo
+	                  </div>
 	                  <h2>Antecedentes</h2>
 	                  <p>A continuación ingrese los documentos que acreditan su información. Los documentos requeridos son los siguientes:</p>
 	                  <ul>
@@ -336,6 +386,7 @@
 	                        <label>Calle</label>
 	                        <input
 	                          type="text"
+	                          maxlength="100"
 	                          name="callecomercial_st03"
 	                          v-model="street"
 	                          ref="streetInput"
@@ -356,6 +407,8 @@
 	                          type="text"
 	                          name="numerocomercial_st03"
 	                          v-model="streetNumber"
+	                          maxlength="45"
+							  @input="acceptNumber"
 	                          ref="numberInput"
 	                          @focus="focus($refs.number)"
 	                          @blur="blur([$refs.number, $refs.numberInput.value])"
@@ -374,6 +427,7 @@
 	                        <input
 	                          type="text"
 	                          name="oficinacomercial_st03"
+	                          maxlength="10"
 	                          v-model="office"
 	                          ref="officeInput"
 	                          @focus="focus($refs.office)"
@@ -392,12 +446,14 @@
 	                        <label>Punto de Referencia</label>
 	                        <input
 	                          type="text"
+	                          maxlength="100"
 	                          name="oficinacomercial_st03"
 	                          v-model="reference"
 	                          ref="referenceInput"
 	                          @focus="focus($refs.reference)"
 	                          @blur="blur([$refs.reference, $refs.referenceInput.value])"
-	                          @keyup="referenceValidation()"
+	                          @keyup="referenceValidation(), 
+	                          	maxlengthReferenceValidation($refs.referenceInput.value.length)"
 	                        />
 	                        <div
 	                          id="email2st02-error"
@@ -661,6 +717,9 @@
 			        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 			    },
 
+				phone: '+56',
+				email: '',
+
 			    //Vue Dropzone data
 			    tempAttachments: [],
 			    attachments: [],
@@ -688,7 +747,7 @@
 			        dictRemoveFile: 'Eliminar archivo',
 			        dictCancelUpload: 'Cancelar subida',
 			        dictInvalidFileType: 'No puede subir archivos con este formato.',
-			        dictFileTooBig: "El archivo es muy grande ({{filesize}}MiB). Máximo: {{maxFilesize}}MiB.",
+			        dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
 			        acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
 			    },
 
@@ -712,6 +771,8 @@
 				firstLastnameIsValid: '',
 				secondLastNameIsValid: '',
 				dateIsValid: '',
+				telIsValid: '',
+				emailIsValid: '',
 
 				professionIsValid: '',
 				specialtyIsValid: '',
@@ -736,9 +797,12 @@
 				'collapseClick', 'dateFocus', 'setProfession', 'setSpecialty', 'setVueDropzoneFilePN',
 				'requestNumberObject', 'setRegion', 'setProvince', 'setCommune', 'saveCompletedFormPN',
 				'setRutIsValid', 'setSecondStepValue', 'setFirstStepValue', 'getRutGlobal', 
-				'getGlobalName', 'getGlobalLastname']),
+				'getGlobalName', 'getGlobalLastname', 'phoneNumberValidation', 'emailValidation']),
 			...mapActions(['getProfession', 'getSpecialty', 'backgroundUploadPN', 
 				'getRegion', 'getProvince', 'getCommune']),
+			test(value) {
+				console.log(value);
+			},
 
 			nameValidation(){
 				if (this.name == "") {
@@ -793,6 +857,7 @@
 		    dropZoneValidation() {
 		      if (this.vueDropzoneFilePN == "") {
 		        this.dropzoneIsValid = false;
+		        alert("Debe agregar archivos antes de continuar.");
 		      } else {
 		        this.dropzoneIsValid = true;
 		      }
@@ -838,6 +903,11 @@
 		      }
 		    },
 
+		    acceptNumber() {
+		      var x = this.streetNumber.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+		      this.streetNumber = !x[2] ? x[1] :  x[1] + x[2] + (x[3] ? + x[3] : '');
+		    },
+
 		    officeValidation() {
 		      if (this.office == "") {
 		        this.officeIsValid = false;
@@ -851,6 +921,13 @@
 		        this.referenceIsValid = false;
 		      } else {
 		        this.referenceIsValid = true;
+		      }
+		    },
+
+		    maxlengthReferenceValidation(input) {
+		      console.log(input);
+		      if (input > 10) {
+		        alert("El máximo de caracteres es 100.");
 		      }
 		    },
 
@@ -915,6 +992,8 @@
 		    			motherLastName: this.motherLastName,
 		    			rut: this.rut,
 		    			date: this.date,
+		    			phone: this.phone,
+		    			email: this.email,
 		    			profession: this.selectedProfession,
 		    			specialty: this.selectedSpecialty,
 		    			files: this.vueDropzoneFilePN,
@@ -976,7 +1055,7 @@
 			  this.streetValidation();
 			  this.streetNumberValidation();
 			  this.officeValidation();
-			  this.referenceValidation();
+			  //this.referenceValidation();
 
 
 		      if (this.rut == "" 
@@ -994,7 +1073,7 @@
 		        || this.street == ""
 		        || this.streetNumber == ""
 		        || this.office == ""
-		        || this.reference == ""
+		        //|| this.reference == ""
 		        || this.comiteValue() == false) {
 		        
 		          this.formIsValid = false;
@@ -1013,6 +1092,31 @@
 		        this.setSecondStepValue(false);
 		      }
 		    },
+
+		    getRut() {
+		      let routeNumber = this.$route.params.id;
+		      let number;
+		      let rut;
+		      console.log(routeNumber);
+		      axios.get(this.URL + '/getRut/' + routeNumber).then((response) => {
+		        let data = response.data;
+		        console.log(data);
+		        console.log(data[0].requestNumber);
+		        console.log(data[0].rut);
+		        number = data[0].requestNumber;
+		        rut = data[0].rut;
+		        if (routeNumber == number) {
+		          console.log("Match requestNumber");
+		          this.rut = rut;
+		          this.getNroSolicitud(this.rut);
+		          this.rutValidation(this.rut);
+		        } else {
+		        }
+		        //console.log(this.tipoSocDocs);
+		      }).catch(function (error) {
+		        console.log("AXIOS ERROR: ", error);
+		      });
+		    }
 		},
 
 		computed: {
@@ -1026,6 +1130,7 @@
 			this.getProfession();
 			this.getSpecialty();
 			this.getRegion();
+			this.getRut();
 		}
 	}
 </script>

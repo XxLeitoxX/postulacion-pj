@@ -52,7 +52,7 @@
 		},
 		methods: {
 			...mapActions(['getRequestNumber']),
-			...mapMutations(['saveProcessStage', 'setStageRequest', 'setFinalStatus',
+			...mapMutations(['saveProcessStage', 'setStageRequest', 'setFinalStatus', 'saveRequestNumber',
 				'setCheck1', 'setCheck2', 'setCheck3', 'setCheck4', 'setCheck5', 'setCheck6']),
 
 			viewStatus() {
@@ -71,7 +71,7 @@
 		        let requestNumber = data[0].nro_solicitud;
 		        console.log(requestNumber);
 		        console.log(requestNumber);
-		        //commit('saveRequestNumber', state.requestNumber);
+		        this.saveRequestNumber(requestNumber);
 		        this.requestIdConecta(requestNumber);
 		      }).catch(function (error) {
 		      console.log("AXIOS ERROR: ", error);
@@ -212,6 +212,10 @@
 		        "check5",
 		        "check6"
 		      ]),
+		},
+
+		created: function() {
+			console.log(this.nroSolicitudGlobal);
 		}
 	}
 </script>

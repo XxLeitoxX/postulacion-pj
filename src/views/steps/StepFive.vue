@@ -322,7 +322,6 @@ export default {
         this.companyBackgroundUploadFour();
         console.log(this.vueDropzoneFileThree);
         console.log(this.vueDropzoneFileFour);
-        alert("Debe agregar archivos antes de continuar.");
         
 
         if (this.tabCount < 4 || this.vueDropzoneFileThree == "" || this.vueDropzoneFileFour == "") {

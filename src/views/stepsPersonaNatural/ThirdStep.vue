@@ -87,7 +87,7 @@
 	                              <li><strong>Asignar los recursos necesarios</strong>que permitan implementar las medidas sanitarias en todos nuestros centros de trabajo.</li>
 	                              <li><strong>Mantener informados</strong>a nuestros trabajadores (directos e indirectos) sobre las medidas preventivas definidas por nuestra organización.</li>
 	                              <li><strong>Visitar nuestras obras, faenas o centros de trabajo</strong>para conocer directamente el estado de implementación del Protocolo Sanitario (liderazgo visible).</li>
-	                              <li><strong>Autoevaluar y verificar semanalmente el cumplimiento de las medidas</strong>indicadas en el Protocolo, con las herramientas que la CChC ponga a disposición.</li>
+	                              <li><strong>Autoevaluar y verificar semanalmente el cumplimiento de las medidas</strong> indicadas en el Protocolo, con las herramientas que la CChC ponga a disposición.</li>
 	                            </ul>
 	                          </p>
 	                          <div class="md-checkbox">
@@ -113,9 +113,13 @@
 	                    	@click="goSecondStep">
 	                    		<i class="fa fa-angle-left"></i>Anterior
 	                    	</button>
+	                    	<button class="link prev btn-blue u-mt50 u-mr30 small" type="button"
+	                    	>
+	                    		<i class="fa fa-angle-left"></i>Guardar
+	                    	</button>
 	                    	<button class="link btn-red btn-disabled u-mt50 big" id="submitStep05"
 	                    	type="button" @click="ThirdStepValidation">
-	                    		Guardar y continuar<i class="fa fa-angle-right"></i>
+	                    		Enviar Postulación<i class="fa fa-angle-right"></i>
 	                    	</button>
 	                    </form>
 	                  </div>
