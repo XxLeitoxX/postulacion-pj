@@ -11,7 +11,7 @@
                   <p>Ingrese el RUT de la empresa registrada en el sistema para obtener el codigo de seguimiento asociado.</p>
                   <form action="#" id="loginform">
                     <div class="input" ref="rutRecovery">
-                      <label>RUT DE LA EMPRESA</label>
+                      <label>RUT DEL POSTULANTE</label>
                       <input type="text" ref="rutRecoveryInput" v-model="rutRecovery" name="loginrut" @focus="focus($refs.rutRecovery)" @blur="blur([$refs.rutRecovery, $refs.rutRecoveryInput.value])" @keyup="checkInput($refs.rutRecoveryInput.value)">
                       <div class="small-text" style="font-size:11px;">Sin puntos y con guión (11111111-1)</div>
                       <div id="loginrut-error" class="errorlogin" v-if="rutIsValid === false">Ingrese un rut Válido</div>
