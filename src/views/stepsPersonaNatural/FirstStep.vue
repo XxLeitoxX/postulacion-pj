@@ -69,7 +69,8 @@
 	                      	v-model="motherLastName"
 	                      	ref="motherLastName"
 	                      	@focus="focus($refs.secondLastName)"
-	                        @blur="blur([$refs.secondLastName, $refs.motherLastName.value])"
+	                        @blur="blur([$refs.secondLastName, $refs.motherLastName.value]),
+	                        	getGlobalSecondLastName($refs.motherLastName.value)"
 	                        @keyup="secondLastNameValidation()">
 	                        <div
 		                    	class="errorlogin"
@@ -105,7 +106,8 @@
 	                        @focus="dateFocus($refs.date)"
 	                        @change="dateValidation($refs.date)"
 	                        :disabled-date="(date) => date >= new Date()"
-	                        valueType="format">
+	                        valueType="format"
+	                        :format="'DD-MM-YYYY'">
 	                         <i slot="icon-clear" class="mx-icon-clear">
 	                          <font-awesome-icon :icon="['far', 'calendar']" />
 	                        </i> 
@@ -125,7 +127,7 @@
 	                    </div>
 
 	                    <div class="input active" ref="phone">
-	                      <label>Teléfono de la empresa <i>(Opcional)</i></label>
+	                      <label>Teléfono de la empresa</label>
 	                      <input
 	                        type="text"
 	                        name="telefonoempresa_st03"
@@ -141,14 +143,14 @@
 	                      <div
 	                        id="phonest02-error"
 	                        class="formerror"
-	                        v-if="telIsValid === false && this.phone !== ''"
+	                        v-if="telIsValid === false"
 	                      >
 	                        Ingrese un número válido
 	                      </div>
 	                    </div>
 
 	                    <div class="input" ref="email">
-	                      <label>Email de la empresa <i>(Opcional)</i></label>
+	                      <label>Email de la empresa</label>
 	                      <input
 	                        type="text"
 	                        name="emailempresa_st03"
@@ -161,7 +163,7 @@
 	                      <div
 	                        id="email2st02-error"
 	                        class="formerror"
-	                        v-if="emailIsValid === false">
+	                        v-if="emailIsValid === false && this.email !== ''">
 	                        Ingrese un email válido
 	                      </div>
 	                    </div>
@@ -443,7 +445,7 @@
 	                        </div>
 	                      </div>
 	                      <div class="input" ref="reference">
-	                        <label>Punto de Referencia</label>
+	                        <label>Punto de Referencia <i>(Opcional)</i></label>
 	                        <input
 	                          type="text"
 	                          maxlength="100"
@@ -603,6 +605,7 @@
 	      <!-- Modales para comites -->
 	      <modal name="contratistas-generales" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('contratistas-generales')">X</a>
+	          <h2>Contratistas Generales</h2><br>
 	          <p>Agrupa empresas de ingeniería y de construcción que evalúan, estudian, diseñan y ejecutan obras de infraestructura 
 	             pública y privada, de edificación no habitacional, y obras industriales en general. Su labor se orienta a búsqueda de 
 	             soluciones para el sector, especialmente en lo que se refiere a las relaciones contractuales de sus socios con mandantes,
@@ -614,6 +617,7 @@
 
 	      <modal name="obras-infra" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('obras-infra')">X</a>
+	          <h2>Obras Infraestructura Pública</h2><br>
 	          <p>Agrupa a empresas de construcción, de ingeniería y de consultoría relacionadas con los contratos de obras de 
 	            infraestructura de uso público (carreteras, puentes, obras hidráulicas, arquitectura, concesiones, obras sanitarias, 
 	            ferroviarias, etc). Su labor está orientada al estudio de las inversiones proyectadas por el MOP y otros mandantes de 
@@ -625,6 +629,7 @@
 
 	      <modal name="concesiones" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('concesiones')">X</a>
+	          <h2>Concesiones</h2><br>
 	          <p>Agrupa a las empresas concesionarias de obras de infraestructura de uso público y de servicios, con el 
 	            objeto de representar los intereses de las grandes, medianas y pequeñas concesionarias que operan en este 
 	            ámbito. Sus principales líneas de acción contemplan el perfeccionamiento de la institucionalidad de las 
@@ -636,6 +641,7 @@
 
 	      <modal name="inmobiliario" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('inmobiliario')">X</a>
+	          <h2>Inmobiliario</h2><br>
 	          <p>Agrupa a empresas inmobiliarias, constructoras, instituciones financieras, corredores de propiedades, 
 	            arquitectos y otros profesionales relacionados con el mercado Inmobiliario. Tiene por finalidad estudiar la 
 	            oferta y demanda de bienes raíces, mantener el flujo de información sobre necesidades, requerimientos y 
@@ -644,6 +650,7 @@
 
 	      <modal name="vivienda" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('vivienda')">X</a>
+	          <h2>Vivienda</h2><br>
 	          <p>Agrupa a empresas que se dedican a la construcción y venta de viviendas con subsidio otorgados por el Ministerio 
 	            de Vivienda y Urbanismo (MINVU) y otras instituciones públicas o privadas. Le corresponde el tratamiento de 
 	            todas las materias vinculadas con la vivienda subsidiada, especialmente: materias relacionadas con la actividad 
@@ -654,12 +661,14 @@
 
 	      <modal name="proveedores" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('proveedores')">X</a>
+	          <h2>Proveedores</h2><br>
 	          <p>Agrupa a empresas distribuidoras y proveedoras de materiales de construcción del país. Desarrolla una labor 
 	            de promoción, difusión e intercambio de información, y realiza estudios sobre el mercado de la demanda de productos.</p>
 	      </modal>
 
 	      <modal name="industriales" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('industriales')">X</a>
+	          <h2>Industriales</h2><br>
 	          <p>Agrupa a empresas industriales, en su mayoría dedicadas a la producción y comercialización de bienes y servicios, 
 	            cuyo principal destinatario es el sector de la construcción. Constituye la instancia para canalizar las inquietudes 
 	            del sector industrial, obtener información respecto de la coyuntura económica, laboral, de seguridad industrial, 
@@ -669,6 +678,7 @@
 
 	      <modal name="especialidades" :height="400">
 	          <a class="close-modal-text" @click="$modal.hide('especialidades')">X</a>
+	          <h2>Especialidades</h2><br>
 	          <p>Agrupa a empresas y profesionales especializados en los diferentes procesos constructivos, 
 	            principalmente en las áreas de proyectos, confección e instalación. Su labor fundamental es promover 
 	            el uso de nuevas tecnologías, equipamiento y servicios de la más alta calidad.</p>
@@ -708,6 +718,7 @@
 				motherLastName: '',
 				rut: '',
 				date: '',
+				format: 'DD-MM-YYYY',
 				lang: {
 			        formatLocale: {
 			          firstDayOfWeek: 0,
@@ -771,8 +782,6 @@
 				firstLastnameIsValid: '',
 				secondLastNameIsValid: '',
 				dateIsValid: '',
-				telIsValid: '',
-				emailIsValid: '',
 
 				professionIsValid: '',
 				specialtyIsValid: '',
@@ -797,7 +806,7 @@
 				'collapseClick', 'dateFocus', 'setProfession', 'setSpecialty', 'setVueDropzoneFilePN',
 				'requestNumberObject', 'setRegion', 'setProvince', 'setCommune', 'saveCompletedFormPN',
 				'setRutIsValid', 'setSecondStepValue', 'setFirstStepValue', 'getRutGlobal', 
-				'getGlobalName', 'getGlobalLastname', 'phoneNumberValidation', 'emailValidation']),
+				'getGlobalName', 'getGlobalLastname', 'getGlobalSecondLastName', 'phoneNumberValidation', 'emailValidation']),
 			...mapActions(['getProfession', 'getSpecialty', 'backgroundUploadPN', 
 				'getRegion', 'getProvince', 'getCommune']),
 			test(value) {
@@ -1042,6 +1051,8 @@
 		        this.setRutIsValid(true);
 		      }
 
+
+
 		      this.nameValidation();
 			  this.firstLastNameValidation();
 			  this.secondLastNameValidation();
@@ -1061,6 +1072,10 @@
 		      if (this.rut == "" 
 		        || this.rutIsValid == false 
 		        || this.dateIsValid == false
+		        || this.phone == ""
+		        || this.telIsValid == false
+		        || this.emailIsValid == false
+		        || this.email == ""
 		        || this.nameIsValid == ""
 		        || this.fatherLastName == ""
 		        || this.motherLastName == ""
@@ -1120,10 +1135,10 @@
 		},
 
 		computed: {
-			...mapState(['rutIsValid', 'collapse', 'selectedProfession', 'professions',
-				'selectedSpecialty', 'specialties', 'vueDropzoneFilePN', 'URL', 'completeObject',
+			...mapState(['rutIsValid', 'telIsValid', 'emailIsValid', 'collapse', 'selectedProfession', 
+				'professions', 'selectedSpecialty', 'specialties', 'vueDropzoneFilePN', 'URL', 'completeObject',
 				'regions', 'selectedRegion', 'provinces', 'selectedProvince', 'communes', 
-				'selectedCommune', 'globalName', 'globalLastname'])
+				'selectedCommune', 'globalName', 'globalLastname', 'globalSecondLastName'])
 		},
 
 		created: function(){
@@ -1186,5 +1201,32 @@
 	    top: 10px;
 	    right: 20px;
 	    color: #fff;
+	}
+
+	.vue-dropzone>.dz-preview .dz-error-message {
+	    margin-left: auto;
+	    margin-right: auto;
+	    margin-top: 25px;
+	    left: 0;
+	    width: 100%;
+	    text-align: center;
+	}
+
+	.vue-dropzone>.dz-preview .dz-remove {
+	    position: absolute;
+	    z-index: 30;
+	    color: #fff;
+	    margin-left: 15px;
+	    margin-bottom: 35px;
+	    padding: 10px;
+	    top: inherit;
+	    bottom: 15px;
+	    border: 2px #fff solid;
+	    text-decoration: none;
+	    text-transform: uppercase;
+	    font-size: .8rem;
+	    font-weight: 800;
+	    letter-spacing: 1.1px;
+	    opacity: 0;
 	}
 </style>

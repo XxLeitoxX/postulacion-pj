@@ -51,7 +51,7 @@
 	                          <p>Con el propósito de seguir construyendo una Cultura de Seguridad, mantendré integrada la Prevención de Riesgos en las operaciones habituales que ejecute la empresa a la cual represento, en todos sus centros de trabajo, comprometiéndome a establecer los más altos estándares de seguridad y salud laboral en todo nuestro quehacer y con todos los actores de la cadena de valor, a través de las siguientes conductas empresariales:</p>
 	                          <ul>
 	                            <li>Reconocer y gestionar la seguridad y la salud de todos nuestros trabajadores y de quienes participan de sus actividades como valor estratégico.</li>
-	                            <li>stablecer una cultura de seguridad y salud en toda la organización, comenzando por los líderes, promoviendo la participación de nuestros trabajadores y fomentando la prevención.</li>
+	                            <li>Establecer una cultura de seguridad y salud en toda la organización, comenzando por los líderes, promoviendo la participación de nuestros trabajadores y fomentando la prevención.</li>
 	                            <li>Anticipar los peligros inherentes en sus actividades, y analizar e implementar soluciones para eliminar o mitigar la exposición al riesgo.</li>
 	                          </ul>
 	                          <p>Lo anterior a través de las siguientes prácticas:<br>Definir y comunicar a la organización los objetivos en Seguridad y Salud en el trabajo, en adelante “SST”.<br>Identificar los peligros de SST e implementar un plan de mitigación asociados a ellos, con al menos una revisión anual.<br>Implementar un Sistema de Gestión en Seguridad y Salud en el Trabajo que involucre la participación de ejecutivos mandos medios y trabajadores.<br>Desarrollar un plan anual de capacitación en SST para ejecutivos, mandos medios y trabajadores.<br>Implementar un modelo de reporte de incidentes, realizando gestión sobre los hallazgos de riesgos mayores.<br>Reportar a la Comisión de Seguridad y Salud Laboral de la CChC los accidentes graves y/o fatales que se produzcan en la empresa y obras y afecten a trabajadores propios o de contratistas, facilitando información a la Comisión que permita realizar los aprendizajes de cada caso.</p>
@@ -76,6 +76,7 @@
 	                          </div>
 	                        </div>
 	                      </div>
+	                      
 	                      <div :class="tab4" ref="tab4">
 	                        <div class="tab-number bg">
 	                          <p>4</p>
@@ -97,6 +98,46 @@
 	                          </div>
 	                        </div>
 	                      </div>
+
+	                      <div :class="tab4" ref="tab4">
+	                        <div class="tab-number bg">
+	                          <p>5</p>
+	                        </div>
+	                        <div class="tab-info">
+
+	                          <p>"Declaro que: 
+									 No tengo trabajadores bajo vínculo de subordinación y dependencia, a los cuales extenderles los beneficios de los proyectos sociales de la Cámara Chilena de la Construcción, 
+									 No tengo participación en la propiedad de empresas no socias de la CChC vinculadas al sector de la construcción. 
+									 No soy funcionario público ni ejerzo funciones en el sector público"
+									</p>
+	                          <div class="md-checkbox">
+	                            <input id="tab04" type="checkbox"
+	                            	@click="activeClass($refs.tab4), tabValidation()">
+	                            <label for="tab04">Acepto y me comprometo</label>
+	                          </div>
+	                        </div>
+	                      </div>
+	                      <!-- <div class="form-tab tab04">
+	                      	
+		                      <div :class="tab5" ref="tab5">
+		                        <div class="tab-number bg">
+		                          <p>5</p>
+		                        </div>
+		                        <div class="tab-info" style="margin-left:50px;">
+
+		                           <p>"Declaro que: 
+									 No tengo trabajadores bajo vínculo de subordinación y dependencia, a los cuales extenderles los beneficios de los proyectos sociales de la Cámara Chilena de la Construcción, 
+									 No tengo participación en la propiedad de empresas no socias de la CChC vinculadas al sector de la construcción. 
+									 No soy funcionario público ni ejerzo funciones en el sector público"
+									</p>
+		                          <div class="md-checkbox">
+		                            <input id="tab05" type="checkbox"
+		                            	@click="activeClass($refs.tab5), tabValidation()">
+		                            <label for="tab04">Acepto y me comprometo</label>
+		                          </div>
+		                        </div>
+		                      </div>
+	                      </div> -->
 	                    </div>
 	                  </form>
 	                </div>
@@ -107,20 +148,21 @@
 	            <div class="container">
 	              <div class="c-form-steps__content step-data">
 	                <div class="row">
-	                  <div class="col-md-12 col-lg-6 offset-lg-2">
+	                  <div class="col-lg-12 offset-lg-2">
 	                    <form action="#" id="step04_3">
 	                    	<button class="link prev btn-blue u-mt50 u-mr30 small" type="button"
 	                    	@click="goSecondStep">
 	                    		<i class="fa fa-angle-left"></i>Anterior
 	                    	</button>
-	                    	<button class="link prev btn-blue u-mt50 u-mr30 small" type="button"
+	                    	<button class="link btn-blue u-mt50 big u-mr20" type="button"
 	                    	>
 	                    		<i class="fa fa-angle-left"></i>Guardar
 	                    	</button>
-	                    	<button class="link btn-red btn-disabled u-mt50 big" id="submitStep05"
-	                    	type="button" @click="ThirdStepValidation">
-	                    		Enviar Postulación<i class="fa fa-angle-right"></i>
-	                    	</button>
+	                    	
+	                    	<button class="btn-grey link btn-red u-mt50 big" type="button" 
+		                       @click="ThirdStepValidation">
+		                        ENVIAR POSTULACIÓN<i class="fa fa-angle-right"></i>
+		                    </button>
 	                    </form>
 	                  </div>
 	                </div>
@@ -215,6 +257,7 @@
 	        "tab2",
 	        "tab3",
 	        "tab4",
+	        "tab5",
 	        "URL",
 	        "globalRequestNumber",
 	        "rutGlobal",

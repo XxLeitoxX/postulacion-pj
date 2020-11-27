@@ -110,7 +110,7 @@
                         @focus="dateFocus($refs.date)"
                         @change="dateValidation($refs.date)"
                         :disabled-date="(date) => date >= new Date()"
-                        valueType="format">
+                        valueType="format" :format="'DD-MM-YYYY'">
                          <i slot="icon-clear" class="mx-icon-clear">
                           <font-awesome-icon :icon="['far', 'calendar']" />
                         </i> 
@@ -631,6 +631,7 @@ export default {
 
       //DatePicker data
       date: '',
+
       /*options: {
         format: "DD/MM/YYYY",
         useCurrent: false,
