@@ -374,7 +374,7 @@ export default {
           : ((this.emailConfirmIsValid = false), (this.formIsValid = false));
       }
 
-      if (this.tel !== "+56") {
+      if (this.tel !== "") {
         telValidate(this.tel)
           ? (this.telIsValid = true)
           : ((this.telIsValid = false), (this.formIsValid = false));
@@ -431,7 +431,8 @@ export default {
    
     sendSolicitudPostulacion() {
      this.validation();
-      if (this.validation() !== false && this.checkEmail() !== false && this.rutExistente !== false) {
+     console.log(this.validation(), this.checkEmail(), this.rutExistente, this.rutIsValid);
+      if (this.validation() !== false && this.checkEmail() !== false && this.rutExistente !== false && this.rutExistente !==undefined && this.rutIsValid !== false) {
         this.generateUrl();
         this.saveSolicitudPostulacion();
         this.postPostulacion();

@@ -8,7 +8,7 @@
               <div class="row">
                 <div class="col-md-12 col-lg-7 offset-lg-2 recovery-form">
                   <h2>RECUPERAR CÓDIGO DE SEGUIMIENTO</h2>
-                  <p>Ingrese el RUT de la empresa registrada en el sistema para obtener el codigo de seguimiento asociado.</p>
+                  <p>Ingrese el RUT del postulante registrada en el sistema para obtener el codigo de seguimiento asociado.</p>
                   <form action="#" id="loginform">
                     <div class="input" ref="rutRecovery">
                       <label>RUT DEL POSTULANTE</label>

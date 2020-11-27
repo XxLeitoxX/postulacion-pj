@@ -85,6 +85,7 @@ export default new Vuex.Store({
 	tab2: 'form-tab tab02',
 	tab3: 'form-tab tab03',
 	tab4: 'form-tab tab04',
+	tab5: 'form-tab tab04',
 	rutPatrocinanteGlobal: [],
 	rutPartnersGlobal:[],
 	rutPartnerGlobal: '',
@@ -125,6 +126,7 @@ export default new Vuex.Store({
 	showSuccessStep: false,
 	globalName: '',
 	globalLastname: '',
+	globalSecondLastName: '',
 
   },
 
@@ -1038,7 +1040,12 @@ export default new Vuex.Store({
 
 	getGlobalLastname(state, newName) {
 		state.globalLastname = newName;
-		console.log("Business Name: " + state.globalLastname);
+		console.log("Lastname: " + state.globalLastname);
+	},
+
+	getGlobalSecondLastName(state, newName) {
+		state.globalSecondLastName = newName;
+		console.log("Second Lastname: " + state.globalSecondLastName);
 	},
 
   },

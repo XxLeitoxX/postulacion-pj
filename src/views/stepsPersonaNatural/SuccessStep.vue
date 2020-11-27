@@ -14,7 +14,7 @@
 				        </div>
 				        <div class="success-data">
 				          <div class="box-data"><span>Postulante</span>
-				            <p>{{this.globalName}} {{this.globalLastname}}</p>
+				            <p>{{this.globalName}} {{this.globalLastname}} {{this.globalSecondLastName}}</p>
 				          </div>
 				          <div class="box-data"><span>RUT</span>
 				            <p>{{this.rutGlobal}}</p>
@@ -206,6 +206,7 @@
 		        "rutGlobal",
 		        "globalName",
 		        "globalLastname",
+		        "globalSecondLastName",
 		        "statusRequest",
 		        "stageRequest",
 		        "requestDefinitive",
@@ -218,6 +219,9 @@
 		        "check5",
 		        "check6"
 		      ]),
+		},
+
+		created: function() {
 		}
 	}
 </script>
