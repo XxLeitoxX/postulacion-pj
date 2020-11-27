@@ -33,7 +33,7 @@
 	                      	@blur="blur([$refs.rut, $refs.rutParticipante.value]), 
 	                      	validateRutExist(rutParticipante, $refs.nombre)" 
 	                      	@keyup="rutPatrocinanteValidation($refs.rutParticipante.value)">
-	                      <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal">?</span>
+	                      <div class="small-text">Sin puntos y con guión (11111111-1)</div><span data-modal="step03_1" data-type="modal" @click="show">?</span>
 	                    </div>
 	                    <div class="input" ref="nombre">
 	                      <label>Nombre del Patrocinante 1</label>
@@ -61,7 +61,7 @@
 	                      </div>
 	                    </div> -->
 
-	                    <div class="input" ref="telefono">
+	                    <div class="input active" ref="telefono">
 	                      <label>Teléfono </label>
 	                      <input type="text" name="telefonoparticipante_st05" v-model="telefonoParticipante" ref="telefonoParticipante" @focus="focus($refs.telefono)" @blur="blur([$refs.telefono, $refs.telefonoParticipante.value])" @keyup="telPatrocinanteValidation($refs.telefonoParticipante.value)">
 	                      <div class="small-text">Use el formato +56 0 0000 0000</div>
@@ -130,7 +130,7 @@
 	                          <div class="small-text">Use el formato +56 0 0000 0000</div>
 	                        </div>
 	                      </div> -->
-	                      <div class="input" ref="telefono2">
+	                      <div class="input active" ref="telefono2">
 	                        <label>Teléfono </label>
 	                        <input type="text" name="telefonoparticipante02_st05" v-model="telefonoParticipante2" ref="telefonoParticipante2" @focus="focus($refs.telefono2)" @blur="blur([$refs.telefono2, $refs.telefonoParticipante2.value])" @keyup="telPatrocinante2Validation($refs.telefonoParticipante2.value)">
 	                        <div class="small-text">Use el formato +56 0 0000 0000</div>
@@ -189,36 +189,22 @@
 	          </div>
 	        </div>
 	      </div>
-	      <div class="c-lightbox-text" data-modal="step03_1">
-	        <div class="c-lightbox-text__content"><a class="close-modal-text" href="#">X</a>
-	          <h2>¿Quiénes son los patrocinadores?</h2>
-	          <ul>
-	            <li>Socios activos con sus cuotas sociales al día, quienes deben completar y firmar la hoja correspondiente en la Solicitud de inscripción.</li>
-	            <li>Para el caso de las empresas, quien firma debe ser el Representante ante la Cámara o Representante Legal, y deben tener sus cuotas al día.</li>
-	            <li>El patrocinante y el firmante NO pueden tener relación con el postulante.</li>
-	            <li>NO puede patrocinar.</li>
-	          </ul>
-	          <p>Integrantes de Mesas Directivas Nacional y de Cámaras Regionales.</p>
-	          <p>Directores Nacionales.</p>
-	          <p>Consejeros Regionales.</p>
-	          <p>Integrantes de las Comisiones de Socios a nivel nacional.</p>
-	        </div>
-	      </div>
+	      
 	      <modal name="help-modal-1" :height="400">
         
-	          <a class="close-modal-text" @click="$modal.hide('help-modal-1')">X</a>
-	          <h2>¿Quiénes son los patrocinadores?</h2>
-	          <ul>
-	            <li>Socios activos con sus cuotas sociales al día, quienes deben completar y firmar la hoja correspondiente en la Solicitud de inscripción.</li>
-	            <li>Para el caso de las empresas, quien firma debe ser el Representante ante la Cámara o Representante Legal, y deben tener sus cuotas al día.</li>
-	            <li>El patrocinante y el firmante NO pueden tener relación con el postulante.</li>
-	            <li>NO puede patrocinar.</li>
-	          </ul>
-	          <p>Integrantes de Mesas Directivas Nacional y de Cámaras Regionales.</p>
-	          <p>Directores Nacionales.</p>
-	          <p>Consejeros Regionales.</p>
-	          <p>Integrantes de las Comisiones de Socios a nivel nacional.		</p>
-	      </modal>
+          <a class="close-modal-text" @click="$modal.hide('help-modal-1')">X</a>
+          <h2>¿Quiénes son los patrocinadores?</h2>
+          <ul>
+            <li style="margin-top:15px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>Socios activos con sus cuotas sociales al día, quienes deben completar y firmar la hoja correspondiente en la Solicitud de inscripción.</li>
+            <li style="margin-top:10px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>Para el caso de las empresas, quien firma debe ser el Representante ante la Cámara o Representante Legal, y deben tener sus cuotas al día.</li>
+            <li style="margin-top:10px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>El patrocinante y el firmante NO pueden tener relación con el postulante.</li>
+            <li style="margin-top:10px;margin-bottom:10px;"><span style="color:white; margin-right:10px;">&diams;</span>NO puede patrocinar.</li>
+          </ul>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Integrantes de Mesas Directivas Nacional y de Cámaras Regionales.</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Directores Nacionales.</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Consejeros Regionales.</p>
+          <p style="font-size:16px;margin-top:15px;margin-bottom:10px;">Integrantes de las Comisiones de Socios a nivel nacional.		</p>
+      </modal>
 	    </main>
 	</div>
 </template>
@@ -241,8 +227,8 @@
 		        nombreParticipante2: '',
 		        emailParticipante: '',
 		        emailParticipante2: '',
-		        telefonoParticipante: '',
-		        telefonoParticipante2: '',
+		        telefonoParticipante: '+56',
+		        telefonoParticipante2: '+56',
 		        dataPatrocinantes: [{}],
 		        dataValidaciones: [],
 		        urlBase: this.$store.state.URL,
