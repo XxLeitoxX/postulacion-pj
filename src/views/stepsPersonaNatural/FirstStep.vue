@@ -127,7 +127,7 @@
 	                    </div>
 
 	                    <div class="input active" ref="phone">
-	                      <label>Teléfono de la empresa</label>
+	                      <label>Teléfono</label>
 	                      <input
 	                        type="text"
 	                        name="telefonoempresa_st03"
@@ -150,7 +150,7 @@
 	                    </div>
 
 	                    <div class="input" ref="email">
-	                      <label>Email de la empresa</label>
+	                      <label>Email</label>
 	                      <input
 	                        type="text"
 	                        name="emailempresa_st03"
