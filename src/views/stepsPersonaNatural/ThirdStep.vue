@@ -78,7 +78,7 @@
 	                      </div>
 	                      
 	                      <div :class="tab4" ref="tab4">
-	                        <div class="tab-number bg">
+	                        <div class="tab-number">
 	                          <p>4</p>
 	                        </div>
 	                        <div class="tab-info">
@@ -99,45 +99,24 @@
 	                        </div>
 	                      </div>
 
-	                      <div :class="tab4" ref="tab4">
-	                        <div class="tab-number bg">
+	                      <div :class="tab5" ref="tab5">
+	                        <div class="tab-number">
 	                          <p>5</p>
 	                        </div>
-	                        <div class="tab-info">
+	                        <div :class="tabInfo">
 
-	                          <p>"Declaro que: 
+	                          <p><strong>"Declaro que: 
 									 No tengo trabajadores bajo vínculo de subordinación y dependencia, a los cuales extenderles los beneficios de los proyectos sociales de la Cámara Chilena de la Construcción, 
-									 No tengo participación en la propiedad de empresas no socias de la CChC vinculadas al sector de la construcción. 
-									 No soy funcionario público ni ejerzo funciones en el sector público"
-									</p>
+									 <p>No tengo participación en la propiedad de empresas no socias de la CChC vinculadas al sector de la construcción. 
+									 No soy funcionario público ni ejerzo funciones en el sector público"</p>
+									</strong></p>
 	                          <div class="md-checkbox">
-	                            <input id="tab04" type="checkbox"
-	                            	@click="activeClass($refs.tab4), tabValidation()">
-	                            <label for="tab04">Acepto y me comprometo</label>
+	                            <input id="tab05" type="checkbox"
+	                            	@click="activeClass($refs.tab5), tabValidation()">
+	                            <label for="tab05">Acepto y me comprometo</label>
 	                          </div>
 	                        </div>
 	                      </div>
-	                      <!-- <div class="form-tab tab04">
-	                      	
-		                      <div :class="tab5" ref="tab5">
-		                        <div class="tab-number bg">
-		                          <p>5</p>
-		                        </div>
-		                        <div class="tab-info" style="margin-left:50px;">
-
-		                           <p>"Declaro que: 
-									 No tengo trabajadores bajo vínculo de subordinación y dependencia, a los cuales extenderles los beneficios de los proyectos sociales de la Cámara Chilena de la Construcción, 
-									 No tengo participación en la propiedad de empresas no socias de la CChC vinculadas al sector de la construcción. 
-									 No soy funcionario público ni ejerzo funciones en el sector público"
-									</p>
-		                          <div class="md-checkbox">
-		                            <input id="tab05" type="checkbox"
-		                            	@click="activeClass($refs.tab5), tabValidation()">
-		                            <label for="tab04">Acepto y me comprometo</label>
-		                          </div>
-		                        </div>
-		                      </div>
-	                      </div> -->
 	                    </div>
 	                  </form>
 	                </div>
@@ -154,7 +133,8 @@
 	                    	@click="goSecondStep">
 	                    		<i class="fa fa-angle-left"></i>Anterior
 	                    	</button>
-	                    	<button class="link btn-blue u-mt50 big u-mr20" type="button"
+	                    	<button class="link btn-blue u-mt50 big u-mr20" 
+	                    		type="button" @click="saveThirdStep"
 	                    	>
 	                    		<i class="fa fa-angle-left"></i>Guardar
 	                    	</button>
@@ -189,6 +169,7 @@
 			return {
 				sendPostulation: '',
 				tabCount: 0,
+				thirdStepObject: []
 			}
 		},
 
@@ -209,7 +190,7 @@
 
 			ThirdStepValidation() {
 		        console.log(this.tab1);
-		        if (this.tabCount < 4) {
+		        if (this.tabCount < 5) {
 		          this.sendPostulation = false;
 		        } else {
 		          this.sendPostulation = true;
@@ -247,6 +228,25 @@
 		          console.log("AXIOS ERROR: ", error);
 		        });
 		    },
+
+		    saveThirdStep() {
+		    	this.thirdStepObject.push({
+		    		tabs: {
+		    			tabs: this.tabCount,
+			    		tab1: this.tab1,
+			    		tab2: this.tab2,
+			    		tab3: this.tab3,
+			    		tab4: this.tab4,
+			    		tab5: this.tab5,
+		    		}
+		    	});
+
+		    	console.log(this.thirdStepObject);
+		        this.saveCompletedFormPN([this.thirdStepObject, 3]);
+		        this.savePostThirdStep();
+		        console.log(this.completeObject);
+		        this.thirdStepObject = [];
+		    }
 		},
 
 		computed: {
@@ -258,6 +258,7 @@
 	        "tab3",
 	        "tab4",
 	        "tab5",
+	        "tabInfo",
 	        "URL",
 	        "globalRequestNumber",
 	        "rutGlobal",
@@ -266,3 +267,11 @@
 	    },
 	}
 </script>
+<style>
+	.height {
+		max-height: 50px !important;
+	}
+	.height2 {
+		max-height: 2500px !important;
+	}
+</style>
