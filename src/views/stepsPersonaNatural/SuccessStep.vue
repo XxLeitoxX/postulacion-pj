@@ -23,7 +23,10 @@
 				            <p>Pendiente</p>
 				          </div>
 				        </div>
-				        <p>Puedes consultar el estado de tu solicitud en el siguiente link:</p><a class="btn-blue" @click="viewStatus">CONSULTAR ESTADO<i>?</i></a>
+				        <p>Puedes consultar el estado de tu solicitud en el siguiente link:</p>
+				        	<a class="btn-blue" @click="viewStatus">
+				        		CONSULTAR ESTADO<i>?</i>
+				        	</a>
 				      </div>
 				    </div>
 				  </div>

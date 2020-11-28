@@ -85,7 +85,8 @@ export default new Vuex.Store({
 	tab2: 'form-tab tab02',
 	tab3: 'form-tab tab03',
 	tab4: 'form-tab tab04',
-	tab5: 'form-tab tab04',
+	tab5: 'form-tab tab05',
+	tabInfo: 'tab-info height',
 	rutPatrocinanteGlobal: [],
 	rutPartnersGlobal:[],
 	rutPartnerGlobal: '',
@@ -122,8 +123,8 @@ export default new Vuex.Store({
 	completeObject: [],
 	showFirstStep: true,
 	showSecondStep: false,
-	showThirdStep: false,
-	showSuccessStep: false,
+	showThirdStep: true,
+	showSuccessStep: true,
 	globalName: '',
 	globalLastname: '',
 	globalSecondLastName: '',
@@ -224,13 +225,22 @@ export default new Vuex.Store({
   		}
 
   		if (refs.className == 'form-tab tab03 active') {
-  			state.tab3 = 'form-tab tab02 success'
+  			state.tab3 = 'form-tab tab03 success'
   			state.tab4 = 'form-tab tab04 active'
   		}
 
   		if (refs.className == 'form-tab tab04 active') {
   			state.tab4 = 'form-tab tab04 success'
+  			state.tab5 = 'form-tab tab05 active'
+  			state.tabInfo = 'tab-info height2'
   		}
+
+  		if (refs.className == 'form-tab tab05 active') {
+  			state.tab5 = 'form-tab tab05 success'
+  			state.tabInfo = 'tab-info height'
+  		}
+
+
   		
 		
 		//refs.className = 'active'
@@ -1009,6 +1019,11 @@ export default new Vuex.Store({
 			console.log("Objeto antes de guardar en DB" + state.completeObject);
 		} else if (step[1] == 2) {
 			state.completeObject.splice(2, 1, step[0]);
+			console.log(state.completeObject);
+		}
+
+		else if (step[1] == 3) {
+			state.completeObject.splice(3, 1, step[0][0]);
 			console.log(state.completeObject);
 		}
 	},
