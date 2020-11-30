@@ -210,11 +210,17 @@
 			          
 		        let thirdStepObject = this.completeObject;
 		        let data = JSON.stringify(thirdStepObject);
-		        axios.post(this.URL + '/guardarParcial', data).then((response) => {
-		          console.log(response.data);
-		        }).catch(function (error) {
-		          console.log("AXIOS ERROR: ", error);
-		        });
+		        console.log("third step Object ready to be sent: " + data);
+		      	console.log("ThirdStep length: " + thirdStepObject.length);
+		      	if (this.completeObject.length > 0) {
+			        axios.post(this.URL + '/guardarParcial', data).then((response) => {
+			          console.log(response.data);
+			        }).catch(function (error) {
+			          console.log("AXIOS ERROR: ", error);
+			        });
+		      	} else {
+		          alert("¡Error al guardar, intente de nuevo!");
+		        }
 	        },
 
 	        sendBigObject: function () {
