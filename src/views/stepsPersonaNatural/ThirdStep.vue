@@ -136,7 +136,7 @@
 	                    	<button class="link btn-blue u-mt50 big u-mr20" 
 	                    		type="button" @click="saveThirdStep"
 	                    	>
-	                    		<i class="fa fa-angle-left"></i>Guardar
+	                    		Guardar
 	                    	</button>
 	                    	
 	                    	<button class="btn-grey link btn-red u-mt50 big" type="button" 
