@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<Cabecera></Cabecera>
 		<main role="main" v-if="stepSix">
 			<div class="c-form-steps">
 				<div class="container">
@@ -35,13 +36,15 @@
 
 <script>
 	import { mapState, mapMutations, mapActions } from 'vuex';
+	import Cabecera from './../../components/Cabecera';
 	import RequestStatus from '@/views/RequestStatus.vue'
 	import axios from 'axios'
 	import VueAxios from 'vue-axios'
 	export default {
 		name: 'StepSixSuccess',
 		components: {
-			RequestStatus
+			RequestStatus,
+			Cabecera
 		},
 		data () {
 			return {

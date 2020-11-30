@@ -759,7 +759,8 @@
 			        dictCancelUpload: 'Cancelar subida',
 			        dictInvalidFileType: 'No puede subir archivos con este formato.',
 			        dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
-			        acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
+			        acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx, .png',
+			        dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
 			    },
 
 			    street: '',
@@ -1036,11 +1037,17 @@
           
 		      let firstStepObject = this.completeObject;
 		      let data = JSON.stringify(firstStepObject);
-		      axios.post(this.URL + '/guardarParcial', data).then((response) => {
-		      console.log(response.data);
-		      }).catch(function (error) {
-		      console.log("AXIOS ERROR: ", error);
-		      });
+		      console.log("first step Object ready to be sent: " + data);
+		      console.log("firstStepObject length: " + firstStepObject.length);
+		      if (this.completeObject.length > 0) {
+			      axios.post(this.URL + '/guardarParcial', data).then((response) => {
+			      console.log(response.data);
+			      }).catch(function (error) {
+			      console.log("AXIOS ERROR: ", error);
+			      });
+		      }	else {
+		          alert("¡Error al guardar, intente de nuevo!");
+		        }
 		    },
 
 		    //First Step Inputs Validation

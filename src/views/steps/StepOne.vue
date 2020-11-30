@@ -678,7 +678,7 @@ export default {
         dictCancelUpload: 'Cancelar subida',
         dictInvalidFileType: 'No puede subir archivos con este formato.',
         dictFileTooBig: "El archivo es muy grande ({{filesize}}MB). Máximo: {{maxFilesize}}MB.",
-        acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx',
+        acceptedFiles: '.jpg, .jpeg, .xls, .xlsx, .pdf, .doc, .docx, .png',
         dictCancelUploadConfirmation: '¿Está seguro que desea cancelar esta subida?'
       },
 
@@ -1080,15 +1080,21 @@ export default {
           
       let stepOneObject = this.completedForm;
       let data = JSON.stringify(stepOneObject);
-      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
-      console.log(response.data);
-      }).catch(function (error) {
-      console.log("AXIOS ERROR: ", error);
-      });
-      /*this.completedForm.pop();
-      console.log(this.completedForm);*/
-      /*this.setCompletedForm('')
-      console.log(this.completedForm);*/
+      console.log("Step one Object ready to be sent: " + data);
+      console.log("stepOneObject length: " + stepOneObject.length);
+      if (this.completedForm.length > 0) {
+        axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+        console.log(response.data);
+        }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+        });
+        /*this.completedForm.pop();
+        console.log(this.completedForm);*/
+        /*this.setCompletedForm('')
+        console.log(this.completedForm);*/
+      } else {
+        alert("¡Error al guardar, intente de nuevo!");
+      }
     },
 
     getStepOneRequest (number) {

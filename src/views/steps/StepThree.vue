@@ -480,11 +480,17 @@ export default {
           
       let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);
-      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
-      console.log(response.data);
-      }).catch(function (error) {
-      console.log("AXIOS ERROR: ", error);
-      });
+      console.log("Step three Object ready to be sent: " + data);
+      console.log("objPatrocinante length: " + objPatrocinante.length);
+      if (this.completedForm.length > 0) {
+        axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+        console.log(response.data);
+        }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+        });
+      } else {
+          alert("¡Error al guardar, intente de nuevo!");
+        }
     },
 
       show () {
