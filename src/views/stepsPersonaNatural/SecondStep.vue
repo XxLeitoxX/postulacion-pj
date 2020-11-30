@@ -429,13 +429,20 @@
 		    
 		    savePostStepThree: function () {
 		          
-		      let objPatrocinante = this.completedForm;
+		      let objPatrocinante = this.completeObject;
 		      let data = JSON.stringify(objPatrocinante);
-		      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
-		      console.log(response.data);
-		      }).catch(function (error) {
-		      console.log("AXIOS ERROR: ", error);
-		      });
+		      console.log("second step Object ready to be sent: " + data);
+		      console.log("SecondStep length: " + objPatrocinante.length);
+		      if (this.completeObject.length > 0) {
+			      axios.post(this.urlBase + '/guardarParcial', data).then((response) => {
+			      console.log(response.data);
+			      }).catch(function (error) {
+			      console.log("AXIOS ERROR: ", error);
+			      });
+
+		      } else {
+		          alert("¡Error al guardar, intente de nuevo!");
+		        }
 		    },
 
 		      show () {
