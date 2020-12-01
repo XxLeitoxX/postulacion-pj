@@ -1029,6 +1029,16 @@ export default {
 
     saveStepOne () {
       this.companyBackgroundUpload();
+      /*for(var i = 0; i < this.vueDropzoneFile.length; i++) {
+        console.log("Dropzone file before saving in object" + this.vueDropzoneFile);
+      }*/
+      var dropzoneArray = [];
+      for (const key in this.vueDropzoneFile) {
+        console.log("key", key);
+        console.log("value", this.vueDropzoneFile[key].name);
+        dropzoneArray.push(this.vueDropzoneFile[key].name);
+      }
+      console.log("Dropzone file array before saving in object" + dropzoneArray);
       this.stepOneObject.push({
         stepOne: {
           rut: this.rutCompany,
@@ -1040,7 +1050,7 @@ export default {
           category: this.selectedCategory,
           phoneCompany: this.phoneCompany,
           companyEmail: this.companyEmail,
-          files: this.vueDropzoneFile,
+          files: dropzoneArray,
           region: this.selectedRegion,
           province: this.selectedProvince,
           commune: this.selectedCommune,

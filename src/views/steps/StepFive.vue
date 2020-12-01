@@ -342,10 +342,26 @@ export default {
       },
 
       saveStepFive() {
+        var dropzoneArrayThree = [];
+        for (const key in this.vueDropzoneFileThree) {
+          console.log("key", key);
+          console.log("value", this.vueDropzoneFileThree[key].name);
+          dropzoneArrayThree.push(this.vueDropzoneFileThree[key].name);
+        }
+        console.log("Dropzone file array before saving in object" + dropzoneArrayThree);
+
+        var dropzoneArrayFour = [];
+        for (const key in this.vueDropzoneFileFour) {
+          console.log("key", key);
+          console.log("value", this.vueDropzoneFileFour[key].name);
+          dropzoneArrayFour.push(this.vueDropzoneFileFour[key].name);
+        }
+        console.log("Dropzone file array before saving in object" + dropzoneArrayFour);
+
         this.stepFiveObject.push({
           stepFive: {
-            stepFiveFirstDropzone: this.vueDropzoneFileThree,
-            stepFiveSecondDropzone: this.vueDropzoneFileFour,
+            stepFiveFirstDropzone: dropzoneArrayThree,
+            stepFiveSecondDropzone: dropzoneArrayFour,
           }
           
         });

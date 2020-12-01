@@ -910,6 +910,13 @@
       saveSteptwo() {
         //this.addPartner();
         this.companyBackgroundUploadTwo();
+        var dropzoneArrayTwo = [];
+        for (const key in this.vueDropzoneFileTwo) {
+          console.log("key", key);
+          console.log("value", this.vueDropzoneFileTwo[key].name);
+          dropzoneArrayTwo.push(this.vueDropzoneFileTwo[key].name);
+        }
+        console.log("Dropzone file array before saving in object" + dropzoneArrayTwo);
         this.stepTwoObject.push({
           stepTwo: {
             totalEmployees: this.selectedTotalEmployees,
@@ -917,7 +924,7 @@
             firstPercentage: this.firstPercentage,
             secondPercentage: this.secondPercentage,
             volume: this.volume,
-            filesStepTwo: this.vueDropzoneFileTwo,
+            filesStepTwo: dropzoneArrayTwo,
             partners: this.sumPartners,
             inputs: this.inputsPartner
           }
