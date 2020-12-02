@@ -374,7 +374,7 @@ export default {
           : ((this.emailConfirmIsValid = false), (this.formIsValid = false));
       }
 
-      if (this.tel !== "") {
+      if (this.tel !== "" && this.tel !=="+56") {
         telValidate(this.tel)
           ? (this.telIsValid = true)
           : ((this.telIsValid = false), (this.formIsValid = false));
@@ -431,8 +431,13 @@ export default {
    
     sendSolicitudPostulacion() {
      this.validation();
-     console.log(this.validation(), this.checkEmail(), this.rutExistente, this.rutIsValid);
-      if (this.validation() !== false && this.checkEmail() !== false && this.rutExistente !== false && this.rutExistente !==undefined && this.rutIsValid !== false) {
+     console.log(this.validation(), this.checkEmail(), this.rutExistente, this.rutIsValid, this.camaraIsValid);
+      if (this.validation() !== false 
+          && this.checkEmail() !== false 
+          && this.rutExistente !== false 
+          && this.rutExistente !==undefined 
+          && this.rutIsValid !== false
+          && this.camaraIsValid !== false) {
         this.generateUrl();
         this.saveSolicitudPostulacion();
         this.postPostulacion();
@@ -442,7 +447,7 @@ export default {
         this.$router.push({ name: "SendSolicitud" });
       } else {
 
-        alert("Coloque datos validos");
+        alert("Ingrese datos válidos");
         
       }
     },
