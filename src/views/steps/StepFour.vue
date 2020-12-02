@@ -370,7 +370,7 @@ import VueAxios from 'vue-axios';
 //Vue Datepicker
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-
+import Swal from 'sweetalert2'
 
 export default {
   name: 'StepFour',
@@ -594,7 +594,26 @@ export default {
       },
 
       deleteSocio(i) {
-        this.inputs.splice(i, 1);
+        Swal.fire({
+          title: '¿Está seguro de eliminar este representante?',
+          //text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Eliminado satisfactoriamente!',
+              '',
+              'success'
+            )
+            this.inputs.splice(i, 1);
+          }
+        })
+        
       },
       
 
