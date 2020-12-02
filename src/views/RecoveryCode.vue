@@ -57,14 +57,17 @@ export default {
 
         axios.get(this.urlBase+'/recuperarNroSolicitud/' + rut).then((response) => {
           this.nroSolicitud = response.data;
-          this.email = response.data[0].email;
-         //this.emailRecoveryCode(this.email);
-         this.setEmailRecovery(this.email);
-          //localStorage.setItem('correo', this.email)      
+          
+           if (Object.keys(this.nroSolicitud).length !== 0) { 
+             this.email = response.data[0].email;
+             this.setEmailRecovery(this.email);
+             this.nextStep();
+           } else {
+             alert("No existe una postulación asociada al rut ingresado")
+           }    
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
         });
-      this.nextStep();
     },
 
     checkInput(rut) {

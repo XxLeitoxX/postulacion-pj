@@ -2,6 +2,7 @@
 	<div>
 		<!-- {{$store.state.showStepOne}} -->
 		<!-- {{showStepOne}} -->
+		<Cabecera></Cabecera>
 		<StepOne v-show="showStepOne"></StepOne> <!-- showStepOne -->
 		<StepTwo v-show="showStepTwo"></StepTwo> <!-- showStepTwo -->
 		<StepThree v-show="showStepThree"></StepThree> <!-- showStepThree -->
@@ -11,6 +12,7 @@
 	</div>
 </template>
 <script>
+	import Cabecera from "@/components/Cabecera.vue";
 	import StepOne from "./StepOne.vue";
 	import StepTwo from "./StepTwo.vue";
 	import StepThree from "./StepThree.vue";
@@ -23,6 +25,7 @@
 	export default {
 		name: "StepAll",
 		components: {
+			Cabecera,
 			StepOne,
 			StepTwo,
 			StepThree,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Cabecera></Cabecera>
+    <!-- <Cabecera></Cabecera> -->
     <main role="main">
       <!-- <StepNumbers></StepNumbers> -->
       <div class="c-steps-numbers">
