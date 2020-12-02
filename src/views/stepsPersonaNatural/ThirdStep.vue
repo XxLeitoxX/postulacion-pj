@@ -160,6 +160,7 @@
 	import { mapState, mapMutations, mapActions } from 'vuex';
 	import axios from 'axios'
   	import VueAxios from 'vue-axios'
+  	import Swal from 'sweetalert2'
 	export default {
 		name: "ThirdStep",
 		components: {
@@ -197,10 +198,30 @@
 		        }
 
 		        if (this.sendPostulation == true) {
-		        	this.savePostThirdStep();
-		         	this.sendBigObject();
-		            this.setSuccessStepValue(true);
-		            this.setThirdStepValue(false);
+		        	Swal.fire({
+			            title: '¿Está seguro que desea enviar su postulación?',
+			            //text: "You won't be able to revert this!",
+			            icon: 'warning',
+			            showCancelButton: true,
+			            confirmButtonColor: '#28a745',
+			            cancelButtonColor: 'btn btn-danger',
+			            confirmButtonText: 'Enviar postulación',
+			            cancelButtonText: 'Cancelar',
+			        }).then((result) => {
+			            if (result.isConfirmed) {
+			              Swal.fire(
+			                'Postulación enviada satisfactoriamente!',
+			                '',
+			                'success'
+			              )
+			              this.savePostThirdStep();
+			         	  this.sendBigObject();
+			              this.setSuccessStepValue(true);
+			              this.setThirdStepValue(false);
+			              //setTimeout(this.setStepSixValue(true), 5000);
+			            }
+			        })
+		        	
 		        } else {
 		          alert("Debe completar el formulario para enviar su postulación.");
 		        }
