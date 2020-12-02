@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Cabecera></Cabecera>
+		<!-- <Cabecera></Cabecera> -->
 		<main role="main" v-if="stepSix">
 			<div class="c-form-steps">
 				<div class="container">

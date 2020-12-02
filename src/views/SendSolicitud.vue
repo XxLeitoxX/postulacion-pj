@@ -15,14 +15,28 @@
               <div class="c-form-info__documentos">
                <div class="info">
                   <h2> <strong>Documentos requeridos para el proceso</strong></h2>
-                  <p>Para las siguientes etapas de postulación deberá tener a mano los siguientes datos y documentos en formato digital (jpg, png o pdf).</p>
-                  <ul v-if="tipoSocDocs !== ''">
-                    <li  v-for="(doc, index) in tipoSocDocs[0]" :key="index">
-                      {{ doc }}.
-                    </li>
-                  </ul>
-
-                  <ul v-if="tipoSocDocs == ''">
+                  <div v-if="tipoSocDocs.length !== 0">
+                     <p>Para las siguientes etapas de postulación deberá tener a mano los siguientes datos y documentos en formato digital (jpg, png o pdf).</p>
+                    <ul>
+                      <li  v-for="(doc, index) in tipoSocDocs[0]" :key="index">
+                        {{ doc }}.
+                      </li>
+                    </ul>
+                      <p>Carpeta Tributaria Especial que emite el SII. Esta contiene información adicional relacionada a los IVA’s e Impuestos a la Renta. Se deben seleccionar los siguientes contenidos:</p>
+                      <ul>
+                        <li>Representante Legal.</li>
+                        <li>Conformación de la Sociedad.</li>
+                        <li>Participación en Sociedad.</li>
+                        <li>Sucursales.</li>
+                        <li>Formulario 29 (12 meses).</li>
+                        <li>Formulario 22 (2 años).</li>
+                        <li> **SE EXIMEN DE ESTOS ANTECEDENTES LAS FUNDACIONES Y CORPORACIONES".</li>
+                      </ul> 
+                  </div>
+                  
+                  <div  v-if="tipoSocDocs.length == 0">
+                    <p>Para las siguientes etapas de postulación deberá tener a mano los siguientes datos y documentos en formato digital (jpg, png o pdf).</p>
+                    <ul>
                     <li>
                       Fotocopia de Cédula de Identidad por ambos lados.
                     </li>
@@ -51,6 +65,19 @@
                       <b>Que no sea accionista mayoritario o socio con más del 50% de los derechos sobre el capital social de alguna empresa vinculada directamente a la industria de la construcción que NO sea socia.</b>
                     </li>
                   </ul>
+                   <p>Carpeta Tributaria Especial que emite el SII. Esta contiene información adicional relacionada a los IVA’s e Impuestos a la Renta. Se deben seleccionar los siguientes contenidos:</p>
+                  <ul>
+                    <li>Representante Legal.</li>
+                    <li>Conformación de la Sociedad.</li>
+                    <li>Participación en Sociedad.</li>
+                    <li>Sucursales.</li>
+                    <li>Formulario 29 (12 meses).</li>
+                    <li>Formulario 22 (2 años).</li>
+                    <li> **SE EXIMEN DE ESTOS ANTECEDENTES LAS FUNDACIONES Y CORPORACIONES".</li>
+                  </ul> 
+                  
+                  </div>
+                  
 
                   <!--<ul>
                     <li>Escritura de constitución</li>
@@ -92,7 +119,7 @@ export default {
   },
 
    created: function () {
-    
+    console.log(this.tipoSocDocs.length);
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 <div>
-<Cabecera></Cabecera>
+<!-- <Cabecera></Cabecera> -->
 <main role="main">
 <!-- <StepNumbers></StepNumbers> -->
 <div class="c-steps-numbers">
@@ -33,7 +33,7 @@
                   <form action="#" id="step06_1">
                     <div class="input"  ref="rut">
                       <label>RUT del representante</label>
-                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value])" @change="validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)" @keyup="rutRepresentanteCChCIsValidation($refs.rutRepresentante.value), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2)">
+                      <input type="text" name="rutrepresentante_st06"  v-model="dataRepresentante.rutRepre" ref="rutRepresentante" @focus="focus($refs.rut)" @blur="blur([$refs.rut, $refs.rutRepresentante.value]), validateRutRepresentanteCchcExist($refs.rutRepresentante.value, $refs.nombre, $refs.apellido, $refs.apellido2), cleanInput()" @keyup="rutRepresentanteCChCIsValidation($refs.rutRepresentante.value)">
                       <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                       <div id="rutst02-error" class="formerror" v-if="rutRepresentanteCChCIsValid === false">Ingrese un rut válido</div>
                     </div>
@@ -90,7 +90,7 @@
                       <p>Será la persona encargada de gestionar el pago de cuotas sociales ante la CChC.</p>
                       <div class="input" ref="rutContacto">
                         <label>RUT del contacto</label>
-                        <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value])" @keyup="validateRutContactoCobranzaExist($refs.rutContactoCob.value, $refs.nombreContacto, $refs.apellidoContacto, $refs.apellidoMaContacto) , rutContactoCobIsValidation($refs.rutContactoCob.value)">
+                        <input type="text" name="rutrepresentante02_st06" v-model="dataContactoCobranza.rutContactoCob" ref="rutContactoCob" @focus="focus($refs.rutContacto)" @blur="blur([$refs.rutContacto, $refs.rutContactoCob.value]), validateRutContactoCobranzaExist($refs.rutContactoCob.value, $refs.nombreContacto, $refs.apellidoContacto, $refs.apellidoMaContacto), validateRutContactoCobranzaExist($refs.rutContactoCob.value, $refs.nombreContacto, $refs.apellidoContacto, $refs.apellidoMaContacto), cleanInput()" @keyup="rutContactoCobIsValidation($refs.rutContactoCob.value)">
                         <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                         <div id="rutst02-error" class="formerror" v-if="rutContactoCobIsValid === false">Ingrese un rut válido</div>
                       </div>
@@ -141,7 +141,7 @@
                             <div v-for="(item, index) in inputs" :key="index">
                               <div class="input" ref="rutRepre2">
                                 <label>RUT del representante<i>	(<i class="contador">{{ index + 1 }}</i> de <i class="total">{{ inputs.length }}</i>)</i></label>
-                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]])" @keyup="rutRepreLegalIsValidation(form.rutRepreLegal[index]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index, $refs.nombreRepre2[index], $refs.apePatRepre2[index], $refs.apeMatRepre2[index])" v-model="form.rutRepreLegal[index]">
+                                  <input type="text" name="rutrepresentante03_st06" ref="rutRepreLeg2" @focus="focus($refs.rutRepre2[index])" @blur="blur([$refs.rutRepre2[index], form.rutRepreLegal[index]]), validateRutRepresentanteLegalFormExist(form.rutRepreLegal[index], index, $refs.nombreRepre2[index], $refs.apePatRepre2[index], $refs.apeMatRepre2[index]), cleanInput(index)" v-model="form.rutRepreLegal[index]" @keyup="rutRepreLegalIsValidation(form.rutRepreLegal[index])">
                                 <div class="small-text">Sin puntos y con guión (11111111-1)</div>
                                 <div id="rutst02-error" class="formerror" v-if="rutRepreLegalIsValid === false">Ingrese un rut válido</div>
                               </div>
@@ -443,8 +443,8 @@ export default {
         nomRepreLegal: [],
         apePatRepreLegal: [],
         apeMatReprelegal: [],
-        telRepreLegal: [],
-        celRepreLegal: [],
+        telRepreLegal: ['+56'],
+        celRepreLegal: ['+56'],
         //dateRepreLegal: [],
         emailRereLegal: [],
       },
@@ -561,7 +561,7 @@ export default {
       },
 
       saveContinue() {
-       
+       console.log(this.validateInput(), this.comiteValue());
         if (this.validateInput() && this.comiteValue()) {
             this.save();
             //this.saveCompletedForm(this.data);
@@ -795,6 +795,7 @@ export default {
     },
 
     comiteValue() {
+      console.log(this.dataComites.contratista);
       if (this.dataComites.contratista !== false 
           || this.dataComites.obras !== false 
           || this.dataComites.concesiones !== false
@@ -805,8 +806,33 @@ export default {
           || this.dataComites.especialidades !== false) {
               return true;
           } else {
+            alert("Debe seleccionar un comite");
             return false;
           }
+
+          
+    },
+
+    cleanInput(index) {
+      if (this.dataRepresentante.rutRepre == '') {
+        this.dataRepresentante.nombreRepre = ''
+        this.dataRepresentante.apellidoRepre = ''
+        this.dataRepresentante.apellidoRepre2 = ''
+      }
+
+      if (this.dataContactoCobranza.rutContactoCob == '') {
+        this.dataContactoCobranza.nombreContactoCob = ''
+        this.dataContactoCobranza.apellidoContacto = ''
+        this.dataContactoCobranza.apellidoMatContacto = ''
+      }
+
+
+      if (this.form.rutRepreLegal[index] == '') {
+      
+        this.form.nomRepreLegal[index] = '';
+        this.form.apePatRepreLegal[index] = '';
+        this.form.apeMatReprelegal[index] = '';
+      }
     }
 
       /*dateValidation(refs) {
