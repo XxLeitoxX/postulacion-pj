@@ -198,11 +198,28 @@
             <div class="container">
               <div class="c-form-steps__content step-data">
                 <div class="row">
-                  <div class="col-md-12 col-lg-6 offset-lg-2">
-                    <button class="btn-grey" type="button" 
+                  <div class="col-md-12 col-lg-12 offset-lg-2">
+                    <!-- <button class="btn-grey" type="button" 
                       id="submitEnd" @click="checkStepFive()">
                         ENVIAR POSTULACIÓN<i class="fa fa-angle-right"></i>
-                    </button>
+                    </button> -->
+                    <form>
+                      
+                    <button class="link prev btn-blue u-mt50 u-mr30 small" type="button"
+                        @click="goFourStep">
+                          <i class="fa fa-angle-left"></i>Anterior
+                        </button>
+                        <button class="link btn-red u-mt50 u-mr20" 
+                          type="button" @click="saveStepFive"
+                        >
+                          Guardar
+                        </button>
+                        
+                        <button class="btn-grey link btn-red u-mt50 big" type="button" 
+                           @click="checkStepFive()">
+                            ENVIAR POSTULACIÓN<i class="fa fa-angle-right"></i>
+                        </button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -228,6 +245,8 @@
   import VueAxios from 'vue-axios'
 
   import VueSweetalert2 from 'vue-sweetalert2';
+
+  import Swal from 'sweetalert2'
 
 export default {
   name: 'StepFive',
@@ -302,7 +321,7 @@ export default {
     },
     methods:{
       ...mapMutations(['focus', 'blur', 'collapseClick', 'rutValidation', 'phoneNumberValidation', 'emailValidation', "saveCompletedForm", "activeClass", "setVueDropzoneFileThree", 
-        "setVueDropzoneFileFour", "setStepSixValue", "setStepFiveValue"]),
+        "setVueDropzoneFileFour", "setStepSixValue", "setStepFiveValue", "setStepFourValue"]),
 
       ...mapActions([
         "companyBackgroundUploadThree", "companyBackgroundUploadFour"
@@ -313,11 +332,15 @@ export default {
         console.log("Count = " + this.tabCount);
       },
 
-      checkStepFive() {
-        if (this.vueDropzoneFileThree == "" || this.vueDropzoneFileFour == "") {
-          alert("Debe agregar archivos antes de continuar.");
-        }
+      goFourStep() {
+        this.setStepFourValue(true);
+        this.setStepFiveValue(false);
+      },
 
+      checkStepFive() {
+        /*if (this.vueDropzoneFileThree == "" || this.vueDropzoneFileFour == "") {
+          alert("Debe agregar archivos antes de continuar.");
+        }*/
         console.log(this.tab1);
         this.companyBackgroundUploadThree();
         this.companyBackgroundUploadFour();
@@ -327,15 +350,36 @@ export default {
 
         if (this.tabCount < 4 || this.vueDropzoneFileThree == "" || this.vueDropzoneFileFour == "") {
           this.sendPostulation = false;
+          alert("Debe agregar archivos antes de continuar.");
         } else {
           this.sendPostulation = true;
         }
 
         if (this.sendPostulation == true) {
-          this.saveStepFive();
-          this.sendBigObject();
-          this.setStepSixValue(true);
-          this.setStepFiveValue(false);
+          Swal.fire({
+            title: '¿Está seguro que desea enviar su postulación?',
+            //text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: 'btn btn-danger',
+            confirmButtonText: 'Enviar postulación',
+            cancelButtonText: 'Cancelar',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Postulación enviada satisfactoriamente!',
+                '',
+                'success'
+              )
+              this.saveStepFive();
+              this.sendBigObject();
+              this.setStepFiveValue(false);
+              this.setStepSixValue(true);
+              //setTimeout(this.setStepSixValue(true), 5000);
+            }
+          })
+          
         } else {
           alert("Debe completar el formulario para enviar su postulación.");
         }
