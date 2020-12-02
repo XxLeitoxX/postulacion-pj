@@ -70,6 +70,7 @@ export default {
       data: '',
       homeContent: true,
       showStatus: '',
+      postType: '',
       //statusRequest: '',
     }
   },
@@ -84,7 +85,8 @@ export default {
     },
     
     ...mapMutations(['focus', 'blur', 'rutValidation', 'setRutIsValid', 'saveRequestNumber', 
-        'getRutGlobal', 'saveStatusRequest', 'saveProcessStage', 'setGlobalBusinessName']),
+        'getRutGlobal', 'saveStatusRequest', 'saveProcessStage', 'setGlobalBusinessName',
+        'getGlobalName', 'getGlobalLastname', 'getGlobalSecondLastName']),
 
     ...mapActions(['processStage', 'getRequestNumber']),
 
@@ -123,7 +125,17 @@ export default {
             this.$router.push({ path: "estado-postulacion" });
             this.processStage(this.statusRequest);
             this.getRutGlobal(this.rut);
-            this.getCandidate(this.globalRequestNumber);
+            this.getPostType(this.globalRequestNumber);
+            /*if (this.postType == 1) {
+              console.log(this.postType);
+              this.getCandidate(this.globalRequestNumber);
+            }*/ 
+
+            /*if (this.postType == 2) {
+                console.log(this.postType);
+                alert("hola");
+                this.getCandidatePN(this.globalRequestNumber);
+            }*/
             /*if (this.processStageRequest[0].ID_ESTADO !== '') {
               this.homeContent = false;
               this.showStatus = true;
@@ -133,8 +145,30 @@ export default {
       }
     },
 
+    getPostType(number) {
+      console.log(number);
+      let requestNumber = number;
+      axios.get(this.URL + '/getPostType/' + requestNumber).then((response) => {
+        let data = response.data;
+        console.log(data);
+        console.log(data[0].tipo_pos);
+        this.postType = data[0].tipo_pos;
+        console.log(this.postType);
+        if (this.postType == 1) {
+          console.log(this.postType);
+          this.getCandidate(this.globalRequestNumber);
+        }
+        if (this.postType == 2) {
+          console.log(this.postType);
+          this.getCandidatePN(this.globalRequestNumber);
+        }
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
     getCandidate (number) {
-      console.log(number)
+      console.log(number);
       let requestNumber = number;
       axios.get(this.URL + '/paso1/' + requestNumber).then((response) => {
         let data = response.data;
@@ -145,6 +179,28 @@ export default {
         console.log(candidate[1].stepOne.businessName);
         let businessName = candidate[1].stepOne.businessName;
         this.setGlobalBusinessName(businessName);
+
+      }).catch(function (error) {
+        console.log("AXIOS ERROR: ", error);
+      });
+    },
+
+    getCandidatePN (number) {
+      console.log(number);
+      let requestNumber = number;
+      axios.get(this.URL + '/paso1/' + requestNumber).then((response) => {
+        let data = response.data;
+        console.log(data);
+        console.log(data[0].object);
+        let candidate = JSON.parse(data[0].object);
+        console.log(candidate);
+        let name = candidate[1].firstStep.name;
+        console.log(name);
+        this.getGlobalName(name);
+        let fatherLastName = candidate[1].firstStep.fatherLastName;
+        this.getGlobalLastname(fatherLastName);
+        let motherLastName = candidate[1].firstStep.motherLastName; 
+        this.getGlobalSecondLastName(motherLastName);
 
       }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
