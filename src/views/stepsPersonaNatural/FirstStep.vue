@@ -995,6 +995,13 @@
 
 		    saveFirstStep() {
 		    	this.backgroundUploadPN();
+		    	var dropzoneArrayPN = [];
+		        for (const key in this.vueDropzoneFilePN) {
+		          console.log("key", key);
+		          console.log("value", this.vueDropzoneFilePN[key].name);
+		          dropzoneArrayPN.push(this.vueDropzoneFilePN[key].name);
+		        }
+		      console.log("Dropzone file array before saving in object" + dropzoneArrayPN);
 		    	this.firstStepObject.push({
 		    		firstStep: {
 		    			name: this.name,
@@ -1006,7 +1013,7 @@
 		    			email: this.email,
 		    			profession: this.selectedProfession,
 		    			specialty: this.selectedSpecialty,
-		    			files: this.vueDropzoneFilePN,
+		    			files: dropzoneArrayPN,
 		    			region: this.selectedRegion,
 		    			province: this.selectedProvince,
 		    			commune: this.selectedCommune,
