@@ -936,7 +936,7 @@
 
 		    maxlengthReferenceValidation(input) {
 		      console.log(input);
-		      if (input > 10) {
+		      if (input > 100) {
 		        alert("El máximo de caracteres es 100.");
 		      }
 		    },

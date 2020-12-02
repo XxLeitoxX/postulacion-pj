@@ -1,7 +1,7 @@
 <template>
   <div>
     <main role="main">
-        <Cabecera />
+        <!-- <Cabecera /> -->
       <div class="c-steps-stepper">
         <div class="container">
           <div class="row">

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Cabecera />
+        <!-- <Cabecera /> -->
         <!-- <StepNumbers /> -->
         <div class="c-steps-numbers">
         <div class="container">

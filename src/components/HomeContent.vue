@@ -109,6 +109,8 @@ export default {
       } else if (this.numeroSolicitud !== this.globalRequestNumber){
           this.requestNumberIsValid = false;
           alert("El número de solicitud es inválido.");
+          console.log("Numero de solicitud: " + this.numeroSolicitud);
+          console.log("globalRequestNumber: " + this.globalRequestNumber);
       } else {
           if (this.statusRequest == null && this.status == 1) {
             this.$router.push({ path: "pasos/" + this.globalRequestNumber });
@@ -116,6 +118,7 @@ export default {
             alert("Su solicitud ha expirado.");
           } else if (this.statusRequest !== null && this.status == 1) {
             console.log("Entré al if");
+            console.log("statusRequest: " + this.statusRequest);
             //console.log("stage desde homeContent: " + this.processStageRequest[0].ID_ESTADO);
             this.$router.push({ path: "estado-postulacion" });
             this.processStage(this.statusRequest);
