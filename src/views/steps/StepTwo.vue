@@ -460,10 +460,11 @@
                             
                             <div>
                               
-                              <button class="btn btn-default btn-sm pointer" @click="deletePartner(index)"  
-                                >
-                                <span class="glyphicon glyphicon-remove"></span> Eliminar socio 
-
+                              
+                              <button class="link prev btn-red u-mt20 u-mr30 small"
+                                type="button"
+                                  @click="deletePartner(index)">
+                                  Eliminar socio 
                               </button>
                             </div>
                             <hr>
@@ -525,6 +526,8 @@
   import VueAxios from 'vue-axios'
 
   import mixin from "@/mixins/mixin.js";
+
+  import Swal from 'sweetalert2'
   export default {
     name: 'StepTwo',
     mixins: [mixin],
@@ -803,11 +806,30 @@
       },
 
       deletePartner(index) {
-        console.log(index);
-        this.partners.splice(index, 1);
-        console.log(this.partners);
-        this.inputsPartner.splice(index+1, 1);
-        console.log(this.inputsPartner);
+        Swal.fire({
+          title: '¿Está seguro de eliminar este accionista?',
+          //text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Eliminado satisfactoriamente!',
+              '',
+              'success'
+            )
+            console.log(index);
+            this.partners.splice(index, 1);
+            console.log(this.partners);
+            this.inputsPartner.splice(index+1, 1);
+            console.log(this.inputsPartner);
+          }
+        })
+        
       },
 
       percentageValidation(percentage) {
@@ -910,6 +932,13 @@
       saveSteptwo() {
         //this.addPartner();
         this.companyBackgroundUploadTwo();
+        var dropzoneArrayTwo = [];
+        for (const key in this.vueDropzoneFileTwo) {
+          console.log("key", key);
+          console.log("value", this.vueDropzoneFileTwo[key].name);
+          dropzoneArrayTwo.push(this.vueDropzoneFileTwo[key].name);
+        }
+        console.log("Dropzone file array before saving in object" + dropzoneArrayTwo);
         this.stepTwoObject.push({
           stepTwo: {
             totalEmployees: this.selectedTotalEmployees,
@@ -917,7 +946,7 @@
             firstPercentage: this.firstPercentage,
             secondPercentage: this.secondPercentage,
             volume: this.volume,
-            filesStepTwo: this.vueDropzoneFileTwo,
+            filesStepTwo: dropzoneArrayTwo,
             partners: this.sumPartners,
             inputs: this.inputsPartner
           }
