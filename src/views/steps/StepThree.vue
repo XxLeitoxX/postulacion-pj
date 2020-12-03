@@ -198,13 +198,14 @@ export default {
             && this.telPatrocinante2IsValid == true
             && this.emailPatrocinanteIsValid == true
             && this.emailPatrocinante2IsValid == true) {
-          
+          console.log(this.estado, this.grupos.name);
           if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA REGIONAL'
               && this.grupos.name !== 'CONSEJO REGIONAL'
               && this.grupos.name !== 'COMISION DE SOCIOS'
               && this.grupos.name !== 'COMISION DE SOCIOS REGIONAL') {
+                console.log("es digno");
             this.dataPatrocinantes.push({
             patrocinantes: {
               rutParticipante: this.rutParticipante,
@@ -265,6 +266,7 @@ export default {
                   
                   this.nombreParticipante = this.dataValidaciones.Representante.nombre;
                   this.estado = this.dataValidaciones.Estado;
+                  console.log(this.nombreParticipante, this.estado);
                   this.focus(ref);
                   this.noExiste = true;
                   if (this.dataValidaciones.grupos !== '') {
@@ -273,7 +275,7 @@ export default {
                     perId: this.dataValidaciones.grupos.PER_ID
                   }
                   }
-                  
+                  console.log(this.grupos);
                 } else {
                   alert("Los patrocinantes deben tener rut distinto");
                   
@@ -362,7 +364,7 @@ export default {
                 this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
                 this.focus(ref);
                 this.estado = this.dataValidaciones.Estado;
-                this.estado = this.dataValidaciones.Estado;
+                //this.estado = this.dataValidaciones.Estado;
                 this.noExiste = true;
                 this.grupos = {
                   name: this.dataValidaciones.grupos.GRUPO,
@@ -437,7 +439,7 @@ export default {
       validateInput() {
         
 
-        //console.log(this.rutPatrocinanteIsValid, this.rutPatrocinante2IsValid, this.telPatrocinanteIsValid, this.telPatrocinante2IsValid, this.emailIsValid);
+        console.log(this.rutPatrocinanteIsValid, this.rutPatrocinante2IsValid, this.telPatrocinanteIsValid, this.telPatrocinante2IsValid, this.emailPatrocinanteIsValid, this.emailPatrocinante2IsValid);
         if (this.rutParticipante !== '' && this.nombreParticipante !== '' && this.emailParticipante !== '' 
             && this.telefonoParticipante !== '' && this.rutParticipante2 !== '' && this.nombreParticipante2 !== ''
             && this.emailParticipante2 !== '' && this.telefonoParticipante2 !== '') {
