@@ -190,10 +190,11 @@
                             <input type="text" name="emailrepresentante03_st06" ref="emailRepreLeg2" @focus="focus($refs.emailRepre2[index])" @blur="blur([$refs.emailRepre2[index], form.emailRereLegal[index]])" @keyup="emailRepreLegalIsValidation(form.emailRereLegal[index])" v-model="form.emailRereLegal[index]">
                             <div id="rutst02-error" class="formerror" v-if="emailRepreLegalIsValid === false">Ingrese un email válido</div>
                           </div>
+                          <button class="link prev btn-red u-mt20 u-mr30 small" type="button" id="repeater-rmv-btn" v-if="inputs.length > 0 && index > 0" @click="deleteSocio(inputs.length - 1)">Eliminar socio<span>x</span></button>
                           </div>
                           <!--</div> -->
                         </div>
-                      </div><a class="input-remover" type="button" id="repeater-rmv-btn" v-if="inputs.length > 1" @click="deleteSocio(inputs.length - 1)">Eliminar socio<span>x</span></a><a class="input-repeater"  @click="addInput()" id="repeater-add-btn">Añadir otro representante legal<span>+</span></a>
+                      </div><a class="input-repeater"  @click="addInput()" id="repeater-add-btn">Añadir otro representante legal<span>+</span></a>
                     </form>
                   </div>
                 </div>
@@ -370,7 +371,7 @@ import VueAxios from 'vue-axios';
 //Vue Datepicker
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
-
+import Swal from 'sweetalert2'
 
 export default {
   name: 'StepFour',
@@ -594,7 +595,26 @@ export default {
       },
 
       deleteSocio(i) {
-        this.inputs.splice(i, 1);
+        Swal.fire({
+          title: '¿Está seguro de eliminar este representante?',
+          //text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Eliminado satisfactoriamente!',
+              '',
+              'success'
+            )
+            this.inputs.splice(i, 1);
+          }
+        })
+        
       },
       
 

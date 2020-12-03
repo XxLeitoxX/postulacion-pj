@@ -110,7 +110,7 @@ export default {
           alert("Debe completar los campos.");
       } else if (this.numeroSolicitud !== this.globalRequestNumber){
           this.requestNumberIsValid = false;
-          alert("El número de solicitud es inválido.");
+          alert("El número de solicitud ingresado no es válido, ingrese con el siguiente formato: 11111");
           console.log("Numero de solicitud: " + this.numeroSolicitud);
           console.log("globalRequestNumber: " + this.globalRequestNumber);
       } else {
