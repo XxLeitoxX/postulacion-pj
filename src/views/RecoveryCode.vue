@@ -59,9 +59,16 @@ export default {
           this.nroSolicitud = response.data;
           
            if (Object.keys(this.nroSolicitud).length !== 0) { 
-             this.email = response.data[0].email;
-             this.setEmailRecovery(this.email);
-             this.nextStep();
+
+             if (this.nroSolicitud[0].status == '0' || this.nroSolicitud[0].status == '2') {
+                alert("No existe una postulación vigente asociada al rut ingresado");
+                this.rutRecovery = '';
+             } else {
+                this.email = response.data[0].email;
+                this.setEmailRecovery(this.email);
+                this.nextStep();
+             }
+             
            } else {
              alert("No existe una postulación asociada al rut ingresado")
            }    

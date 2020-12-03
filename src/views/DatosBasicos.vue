@@ -480,12 +480,15 @@ export default {
     findPostulanteExist(rut) {
         axios.get(this.urlBase+'/buscarPostulante/' + rut).then((response) => {
           this.postulanteExistente = response.data;
+  
           if (Object.keys(this.postulanteExistente).length !== 0) {
-              alert("Ya existe una postulación asociada al Rut ingresado");
-              this.rutExistente = false;
-              this.rut = "";
-          } else {
-             this.rutExistente = true;
+              if (this.postulanteExistente[0].status == '2') {
+                this.rutExistente = true;
+              } else {
+                alert("Ya existe una postulación asociada al Rut ingresado");
+                this.rutExistente = false;
+                this.rut = "";
+              }
           }
         }).catch(function (error) {
         console.log("AXIOS ERROR: ", error);
