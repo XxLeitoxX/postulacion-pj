@@ -164,8 +164,11 @@ export default {
         dataValidaciones: [],
         urlBase: this.$store.state.URL,
         grupos: {},
-        estado: '', 
+        estado: '',
+        estado2: '',
+        grupos2: {}, 
         motivo: {},
+        motivo2: {},
         rutPatrocinatnes: [],
         noExiste: false
       }
@@ -189,8 +192,114 @@ export default {
                        'emailPatrocinanteValidation',
                        'emailPatrocinante2Validation'
                        ]),
+      
+      savePatrocinante1() {
+
+        if (this.rutPatrocinanteIsValid == true
+            && this.telPatrocinanteIsValid == true
+            && this.emailPatrocinanteIsValid == true) {
+              console.log(this.estado, this.grupos.name);
+              if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
+              && this.grupos.name !== 'MESA DIRECTIVA NACIONAL'
+              && this.grupos.name !== 'MESA DIRECTIVA REGIONAL'
+              && this.grupos.name !== 'CONSEJO REGIONAL'
+              && this.grupos.name !== 'COMISION DE SOCIOS'
+              && this.grupos.name !== 'COMISION DE SOCIOS REGIONAL') {
+                this.dataPatrocinantes.push({
+                    patrocinante1: {
+                      rutParticipante: this.rutParticipante,
+                      nombreParticipante: this.nombreParticipante,
+                      emailParticipante: this.emailParticipante,
+                      telefonoParticipante: this.telefonoParticipante,
+                    } 
+                });
+                console.log(this.dataPatrocinantes);
+                this.noExiste = true;
+              } else {
+                alert("Patrocinante 1 no cumple requisitos");
+                this.estado = '';
+                this.grupos.name = '';
+                this.noExiste = false;
+                this.dataPatrocinantes.push({
+                      patrocinante1: {
+                        rutParticipante: this.rutParticipante,
+                        nombreParticipante: this.nombreParticipante,
+                        emailParticipante: this.emailParticipante,
+                        telefonoParticipante: this.telefonoParticipante,
+                        motivo: {
+                          estado: this.dataValidaciones.Estado,
+                          name: this.dataValidaciones.grupos.GRUPO,
+                          perId: this.dataValidaciones.grupos.PER_ID
+                        }
+                      } 
+                });
+                console.log(this.dataPatrocinantes);
+            }
+            this.saveCompletedForm([this.dataPatrocinantes[1], 3]);
+            this.savePostStepThree();
+
+          } else {
+            alert("Los datos ingresados deben ser válidos");
+          }
+      },
+
+      savePatrocinante2() {
+
+        if (this.rutPatrocinante2IsValid == true
+            && this.telPatrocinante2IsValid == true
+            && this.emailPatrocinante2IsValid == true) {
+             
+              if (this.estado2 == 'AL DIA' && this.grupos2.name !== 'DIRECTORIO NACIONAL'
+              && this.grupos2.name !== 'MESA DIRECTIVA NACIONAL'
+              && this.grupos2.name !== 'MESA DIRECTIVA REGIONAL'
+              && this.grupos2.name !== 'CONSEJO REGIONAL'
+              && this.grupos2.name !== 'COMISION DE SOCIOS'
+              && this.grupos2.name !== 'COMISION DE SOCIOS REGIONAL') {
+                this.dataPatrocinantes.push({
+                    patrocinante2: {
+                      rutParticipante: this.rutParticipante2,
+                      nombreParticipante: this.nombreParticipante2,
+                      emailParticipante: this.emailParticipante2,
+                      telefonoParticipante: this.telefonoParticipante2,
+                    } 
+                });
+                
+                this.noExiste = true;
+              } else {
+                alert("Patrocinante 2 no cumple requisitos");
+                this.estado2 = '';
+                this.grupos2.name = '';
+                this.noExiste = false;
+                this.dataPatrocinantes.push({
+                      patrocinante2: {
+                        rutParticipante: this.rutParticipante2,
+                        nombreParticipante: this.nombreParticipante2,
+                        emailParticipante: this.emailParticipante2,
+                        telefonoParticipante: this.telefonoParticipante2,
+                        motivo: {
+                          estado: this.dataValidaciones.Estado,
+                          name: this.dataValidaciones.grupos.GRUPO,
+                          perId: this.dataValidaciones.grupos.PER_ID
+                        }
+                      } 
+                });
+               
+            }
+
+            this.saveCompletedForm([this.dataPatrocinantes[2], 3]);
+            this.savePostStepThree();
+
+          } else {
+            alert("Los datos ingresados deben ser válidos");
+          }
+      },
+
 
       save() {
+        this.savePatrocinante1();
+        this.savePatrocinante2();
+      },
+     /* save() {
 
         if (this.rutPatrocinanteIsValid == true 
             && this.rutPatrocinante2IsValid == true 
@@ -250,7 +359,7 @@ export default {
         alert("Los datos tienen que ser válidos");
       }
       
-      },
+      },*/
 
       validateRutExist(rut, ref) {
        
@@ -363,10 +472,10 @@ export default {
                 if (this.rutParticipante !== this.rutParticipante2) {
                 this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
                 this.focus(ref);
-                this.estado = this.dataValidaciones.Estado;
+                this.estado2 = this.dataValidaciones.Estado;
                 //this.estado = this.dataValidaciones.Estado;
                 this.noExiste = true;
-                this.grupos = {
+                this.grupos2 = {
                   name: this.dataValidaciones.grupos.GRUPO,
                   perId: this.dataValidaciones.grupos.PER_ID
                 }
@@ -402,10 +511,9 @@ export default {
                 if (this.rutParticipante !== this.rutParticipante2) {
                 this.nombreParticipante2 = this.dataValidaciones.Representante.nombre;
                 this.focus(ref);
-                this.estado = this.dataValidaciones.Estado;
-                this.estado = this.dataValidaciones.Estado;
+                this.estado2 = this.dataValidaciones.Estado;
                 this.noExiste = true;
-                this.grupos = {
+                this.grupos2 = {
                   name: this.dataValidaciones.grupos.GRUPO,
                   perId: this.dataValidaciones.grupos.PER_ID
                 }
@@ -457,11 +565,10 @@ export default {
       },
 
       saveContinue() {
-        console.log(this.validateInput());
         if (this.validateInput() && this.noExiste) {
           this.save();
+          console.log(this.dataPatrocinantes);
           //this.$router.push({ name: "StepFour" });
-          console.log({rut1: this.rutParticipante, rut2: this.rutParticipante2});
           this.rutPatrocinatnes.push({rut1: this.rutParticipante, rut2: this.rutParticipante2});
           this.rutPatrocinates(this.rutPatrocinatnes);  
           this.setStepFourValue(true);
@@ -482,6 +589,7 @@ export default {
           
       let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);
+      console.log(data);
       console.log("Step three Object ready to be sent: " + data);
       console.log("objPatrocinante length: " + objPatrocinante.length);
       if (this.completedForm.length > 0) {
