@@ -33,7 +33,7 @@
 	                          <h3>Código de Buenas Prácticas en la Industria de la Construcción</h3>
 	                          <p>Este Código regula el comportamiento ético y las buenas prácticas de los socios de la Cámara Chilena de la Construcción, ya sea en sus relaciones o bien con terceros y es de carácter obligatorio.</p>
 	                          <p>El postulante declara que toma conocimiento de lo antes señalado y se obliga al cumplimiento de las disposiciones contenidas en el Código y sus anexos.</p>
-	                          <p>Conocer<a href="https://www.cchc.cl/uploads/basica/archivos/Descargar-Codigo-de-Buenas-Practicas-en-la-Industria-de-la-Construccion.pdf" target="_blank">aquí:</a></p>
+	                          <p>Conocer <a href="https://www.cchc.cl/uploads/basica/archivos/Descargar-Codigo-de-Buenas-Practicas-en-la-Industria-de-la-Construccion.pdf" target="_blank">aquí:</a></p>
 	                          <div class="md-checkbox">
 	                            <input id="tab01" type="checkbox"
 	                            	@click="activeClass($refs.tab1), tabValidation()">

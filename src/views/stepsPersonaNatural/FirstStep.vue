@@ -460,7 +460,7 @@
 	                        <div
 	                          id="email2st02-error"
 	                          class="formerror"
-	                          v-if="referenceIsValid === false"
+	                          v-if="referenceIsValid === false && this.reference !== ''"
 	                        >
 	                          Ingrese un punto de referencia
 	                        </div>
