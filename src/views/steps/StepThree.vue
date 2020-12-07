@@ -162,6 +162,7 @@ export default {
         telefonoParticipante2: '+56',
         dataPatrocinantes: [{}],
         dataValidaciones: [],
+        dataPatrocinantesNoValidos:[],
         urlBase: this.$store.state.URL,
         grupos: {},
         estado: '',
@@ -170,7 +171,9 @@ export default {
         motivo: {},
         motivo2: {},
         rutPatrocinatnes: [],
-        noExiste: false
+        noExiste: false,
+        cumple: false,
+        cumple2: false
       }
     },
     methods:{
@@ -198,7 +201,7 @@ export default {
         if (this.rutPatrocinanteIsValid == true
             && this.telPatrocinanteIsValid == true
             && this.emailPatrocinanteIsValid == true) {
-              console.log(this.estado, this.grupos.name);
+             
               if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA REGIONAL'
@@ -213,15 +216,18 @@ export default {
                       telefonoParticipante: this.telefonoParticipante,
                     } 
                 });
-                console.log(this.dataPatrocinantes);
-                this.noExiste = true;
+                
+                this.cumple = true;
+                
+                //return this.dataPatrocinantes;
               } else {
                 alert("Patrocinante 1 no cumple requisitos");
                 this.estado = '';
                 this.grupos.name = '';
-                this.noExiste = false;
-                this.dataPatrocinantes.push({
-                      patrocinante1: {
+                this.cumple = false;
+                this.dataPatrocinantesNoValidos.push({
+                      patrocinante1NoCumple: {
+                        nroSolicitud: this.nroSolicitudGlobal,
                         rutParticipante: this.rutParticipante,
                         nombreParticipante: this.nombreParticipante,
                         emailParticipante: this.emailParticipante,
@@ -233,14 +239,17 @@ export default {
                         }
                       } 
                 });
-                console.log(this.dataPatrocinantes);
+                this.savePartrocinanteNoValidos(this.dataPatrocinantesNoValidos);
+                //return this.dataPatrocinantes;
+               
             }
-            this.saveCompletedForm([this.dataPatrocinantes[1], 3]);
-            this.savePostStepThree();
+            this.saveCompletedForm([this.dataPatrocinantes, 3]);
+            
 
           } else {
             alert("Los datos ingresados deben ser válidos");
           }
+
       },
 
       savePatrocinante2() {
@@ -264,14 +273,16 @@ export default {
                     } 
                 });
                 
-                this.noExiste = true;
+                this.cumple2 = true;
+                //return this.dataPatrocinantes;
               } else {
                 alert("Patrocinante 2 no cumple requisitos");
                 this.estado2 = '';
                 this.grupos2.name = '';
-                this.noExiste = false;
-                this.dataPatrocinantes.push({
-                      patrocinante2: {
+                this.cumple2 = false;
+                this.dataPatrocinantesNoValidos.push({
+                      patrocinante2NoCumple: {
+                        nroSolicitud: this.nroSolicitudGlobal,
                         rutParticipante: this.rutParticipante2,
                         nombreParticipante: this.nombreParticipante2,
                         emailParticipante: this.emailParticipante2,
@@ -283,11 +294,12 @@ export default {
                         }
                       } 
                 });
-               
+              
+                this.savePartrocinanteNoValidos(this.dataPatrocinantesNoValidos);
             }
-
-            this.saveCompletedForm([this.dataPatrocinantes[2], 3]);
-            this.savePostStepThree();
+        
+            this.saveCompletedForm([this.dataPatrocinantes, 3]);
+            
 
           } else {
             alert("Los datos ingresados deben ser válidos");
@@ -298,6 +310,18 @@ export default {
       save() {
         this.savePatrocinante1();
         this.savePatrocinante2();
+        this.savePostStepThree();
+      },
+
+      savePartrocinanteNoValidos(data) {
+        let dataJ = JSON.stringify(data);
+       
+        axios.post(this.urlBase + '/guardarNoValidos', dataJ).then((response) => {
+         
+        }).catch(function (error) {
+          console.log("AXIOS ERROR: ", error);
+        });
+
       },
      /* save() {
 
@@ -375,7 +399,7 @@ export default {
                   
                   this.nombreParticipante = this.dataValidaciones.Representante.nombre;
                   this.estado = this.dataValidaciones.Estado;
-                  console.log(this.nombreParticipante, this.estado);
+                  
                   this.focus(ref);
                   this.noExiste = true;
                   if (this.dataValidaciones.grupos !== '') {
@@ -384,7 +408,7 @@ export default {
                     perId: this.dataValidaciones.grupos.PER_ID
                   }
                   }
-                  console.log(this.grupos);
+                 
                 } else {
                   alert("Los patrocinantes deben tener rut distinto");
                   
@@ -545,9 +569,7 @@ export default {
       },
 
       validateInput() {
-        
 
-        console.log(this.rutPatrocinanteIsValid, this.rutPatrocinante2IsValid, this.telPatrocinanteIsValid, this.telPatrocinante2IsValid, this.emailPatrocinanteIsValid, this.emailPatrocinante2IsValid);
         if (this.rutParticipante !== '' && this.nombreParticipante !== '' && this.emailParticipante !== '' 
             && this.telefonoParticipante !== '' && this.rutParticipante2 !== '' && this.nombreParticipante2 !== ''
             && this.emailParticipante2 !== '' && this.telefonoParticipante2 !== '') {
@@ -565,14 +587,18 @@ export default {
       },
 
       saveContinue() {
+
         if (this.validateInput() && this.noExiste) {
           this.save();
-          console.log(this.dataPatrocinantes);
-          //this.$router.push({ name: "StepFour" });
-          this.rutPatrocinatnes.push({rut1: this.rutParticipante, rut2: this.rutParticipante2});
-          this.rutPatrocinates(this.rutPatrocinatnes);  
-          this.setStepFourValue(true);
-          this.setStepThreeValue(false);
+         
+          if (this.cumple && this.cumple2) {
+
+            this.rutPatrocinatnes.push({rut1: this.rutParticipante, rut2: this.rutParticipante2});
+            this.rutPatrocinates(this.rutPatrocinatnes);  
+            this.setStepFourValue(true);
+            this.setStepThreeValue(false);
+          } 
+          
         } else {
           alert("Debe completar todos los campos");
           this.setStepFourValue(false);
@@ -586,10 +612,10 @@ export default {
     },
     
     savePostStepThree: function () {
-          
+     
       let objPatrocinante = this.completedForm;
       let data = JSON.stringify(objPatrocinante);
-      console.log(data);
+     
       console.log("Step three Object ready to be sent: " + data);
       console.log("objPatrocinante length: " + objPatrocinante.length);
       if (this.completedForm.length > 0) {
