@@ -221,7 +221,7 @@ export default {
                 
                 //return this.dataPatrocinantes;
               } else {
-                alert("Patrocinante 1 no cumple requisitos");
+                alert("Patrocinante 1 no cumple los criterios establecidos. Comuníquese con el área de socios o cámara regional respectiva");
                 this.estado = '';
                 this.grupos.name = '';
                 this.cumple = false;
@@ -276,7 +276,7 @@ export default {
                 this.cumple2 = true;
                 //return this.dataPatrocinantes;
               } else {
-                alert("Patrocinante 2 no cumple requisitos");
+                alert("Patrocinante 2 no cumple los criterios establecidos. Comuníquese con el área de socios o cámara regional respectiva");
                 this.estado2 = '';
                 this.grupos2.name = '';
                 this.cumple2 = false;
