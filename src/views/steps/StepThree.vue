@@ -201,7 +201,7 @@ export default {
         if (this.rutPatrocinanteIsValid == true
             && this.telPatrocinanteIsValid == true
             && this.emailPatrocinanteIsValid == true) {
-             
+              
               if (this.estado == 'AL DIA' && this.grupos.name !== 'DIRECTORIO NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA NACIONAL'
               && this.grupos.name !== 'MESA DIRECTIVA REGIONAL'
@@ -219,12 +219,8 @@ export default {
                 
                 this.cumple = true;
                 
-                //return this.dataPatrocinantes;
               } else {
                 alert("Patrocinante 1 no cumple los criterios establecidos. Comuníquese con el área de socios o cámara regional respectiva");
-                this.estado = '';
-                this.grupos.name = '';
-                this.cumple = false;
                 this.dataPatrocinantesNoValidos.push({
                       patrocinante1NoCumple: {
                         nroSolicitud: this.nroSolicitudGlobal,
@@ -233,14 +229,16 @@ export default {
                         emailParticipante: this.emailParticipante,
                         telefonoParticipante: this.telefonoParticipante,
                         motivo: {
-                          estado: this.dataValidaciones.Estado,
-                          name: this.dataValidaciones.grupos.GRUPO,
-                          perId: this.dataValidaciones.grupos.PER_ID
+                          estado: this.estado,
+                          name: this.grupos.name,
+                          perId: this.grupos.perId
                         }
                       } 
                 });
                 this.savePartrocinanteNoValidos(this.dataPatrocinantesNoValidos);
-                //return this.dataPatrocinantes;
+                this.estado = '';
+                this.grupos.name = '';
+                this.cumple = false;
                
             }
             this.saveCompletedForm([this.dataPatrocinantes, 3]);
@@ -277,9 +275,6 @@ export default {
                 //return this.dataPatrocinantes;
               } else {
                 alert("Patrocinante 2 no cumple los criterios establecidos. Comuníquese con el área de socios o cámara regional respectiva");
-                this.estado2 = '';
-                this.grupos2.name = '';
-                this.cumple2 = false;
                 this.dataPatrocinantesNoValidos.push({
                       patrocinante2NoCumple: {
                         nroSolicitud: this.nroSolicitudGlobal,
@@ -288,14 +283,16 @@ export default {
                         emailParticipante: this.emailParticipante2,
                         telefonoParticipante: this.telefonoParticipante2,
                         motivo: {
-                          estado: this.dataValidaciones.Estado,
-                          name: this.dataValidaciones.grupos.GRUPO,
-                          perId: this.dataValidaciones.grupos.PER_ID
+                          estado: this.estado2,
+                          name: this.grupos2.name,
+                          perId: this.grupos2.perId
                         }
                       } 
                 });
-              
                 this.savePartrocinanteNoValidos(this.dataPatrocinantesNoValidos);
+                this.estado2 = '';
+                this.grupos2.name = '';
+                this.cumple2 = false;
             }
         
             this.saveCompletedForm([this.dataPatrocinantes, 3]);
@@ -402,7 +399,8 @@ export default {
                   
                   this.focus(ref);
                   this.noExiste = true;
-                  if (this.dataValidaciones.grupos !== '') {
+                  console.log(this.dataValidaciones.grupos);
+                  if (this.dataValidaciones.grupos !== '' && this.dataValidaciones.grupos !== 'undefined') {
                     this.grupos = {
                     name: this.dataValidaciones.grupos.GRUPO,
                     perId: this.dataValidaciones.grupos.PER_ID
@@ -445,7 +443,7 @@ export default {
                   this.estado = this.dataValidaciones.Estado;
                   this.focus(ref);
                   this.noExiste = true;
-                  if (this.dataValidaciones.grupos !== '') {
+                  if (this.dataValidaciones.grupos !== '' && this.dataValidaciones.grupos !== 'undefined') {
                     this.grupos = {
                     name: this.dataValidaciones.grupos.GRUPO,
                     perId: this.dataValidaciones.grupos.PER_ID
@@ -590,7 +588,6 @@ export default {
 
         if (this.validateInput() && this.noExiste) {
           this.save();
-         
           if (this.cumple && this.cumple2) {
 
             this.rutPatrocinatnes.push({rut1: this.rutParticipante, rut2: this.rutParticipante2});
